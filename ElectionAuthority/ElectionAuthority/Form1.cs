@@ -15,20 +15,27 @@ namespace ElectionAuthority
         private Server server;
         private Configuration configuration;
 
+        private CandidateList candidateList;
+        private List<String> candidateDefaultList;
+
         public Form1()
         {
             InitializeComponent();
             setColumnWidth();            
             logs = new Logs(this.logsListView);
             configuration = new Configuration(this.logs);
-            configuration.loadConfiguration(Constants.PATH_TO_CONFIG);
             server = new Server(this.logs);
+            candidateDefaultList = new List<String>();
+            candidateList = new CandidateList(this.logs);
+                 
         }
 
         private void startElectionAuthorityButton_Click(object sender, EventArgs e)
         {
             this.server.startServer(configuration.ElectionAuthorityPort);
             this.startElectionAuthorityButton.Enabled = false;
+            string path = candidateList.getPathToCandidateList(openFileDialog.FileName);
+            candidateDefaultList = candidateList.loadCanidateList(path);
         }
 
         private void configButton_Click(object sender, EventArgs e)

@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Net.Sockets;
-using System.Net;
 using System.Threading;
+using System.Net;
 
-namespace Voter
+namespace Proxy
 {
     class Client
     {
@@ -24,7 +24,7 @@ namespace Voter
         }
 
 
-        public bool connect(string ip, string port, string target)
+        public bool connect(string ip, string port)
         {
 
             client = new TcpClient();
@@ -44,19 +44,19 @@ namespace Voter
                 client.Connect(new IPEndPoint(ipAddress, dstPort));
             }
             catch { }
-            
+
             if (client.Connected)
             {
                 stream = client.GetStream();
                 clientThread = new Thread(new ThreadStart(displayMessageReceived));
                 clientThread.Start();
-                logs.addLog(Constants.CONNECTION_PASS + target, true, Constants.LOG_INFO, true);
+                logs.addLog(Constants.CONNECTION_PASS, true, Constants.LOG_INFO, true);
                 return true;
             }
             else
             {
                 client = null;
-                logs.addLog(Constants.CONNECTION_FAILED + target, true, Constants.LOG_ERROR, true);
+                logs.addLog(Constants.CONNECTION_FAILED, true, Constants.LOG_ERROR, true);
                 return false;
             }
         }

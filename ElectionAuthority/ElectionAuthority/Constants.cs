@@ -17,9 +17,11 @@ namespace ElectionAuthority
 
         public const string PATH_TO_CONFIG = @"Config\ElectionAuthority.xml";
 
+        public const string CANDIDATE_LIST = "CandidateList.xml";
         public const string SERVER_STARTED_CORRECTLY = "Election Authority started working correctly";
         public const string SERVER_UNABLE_TO_START = "Election Authority unable to start working";
         public const string UNKNOWN = "Unknown";
         public const string DISCONNECTED_NODE = "Someone has been disconnected";
+        public const string CANDIDATE_LIST_SUCCESSFUL = "Candidate list loaded successfully";
     }
 }

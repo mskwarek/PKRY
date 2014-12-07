@@ -39,7 +39,7 @@
             // startElectionAuthorityButton
             // 
             this.startElectionAuthorityButton.Enabled = false;
-            this.startElectionAuthorityButton.Location = new System.Drawing.Point(12, 231);
+            this.startElectionAuthorityButton.Location = new System.Drawing.Point(12, 211);
             this.startElectionAuthorityButton.Name = "startElectionAuthorityButton";
             this.startElectionAuthorityButton.Size = new System.Drawing.Size(123, 35);
             this.startElectionAuthorityButton.TabIndex = 0;
@@ -54,14 +54,14 @@
             this.logsListView.FullRowSelect = true;
             this.logsListView.Location = new System.Drawing.Point(13, 12);
             this.logsListView.Name = "logsListView";
-            this.logsListView.Size = new System.Drawing.Size(293, 169);
+            this.logsListView.Size = new System.Drawing.Size(740, 143);
             this.logsListView.TabIndex = 1;
             this.logsListView.UseCompatibleStateImageBehavior = false;
             this.logsListView.View = System.Windows.Forms.View.Details;
             // 
             // configButton
             // 
-            this.configButton.Location = new System.Drawing.Point(13, 187);
+            this.configButton.Location = new System.Drawing.Point(13, 170);
             this.configButton.Name = "configButton";
             this.configButton.Size = new System.Drawing.Size(122, 35);
             this.configButton.TabIndex = 2;
@@ -77,13 +77,13 @@
             // logColumn
             // 
             this.logColumn.Text = "Logs";
-            this.logColumn.Width = 164;
+            this.logColumn.Width = 734;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(318, 304);
+            this.ClientSize = new System.Drawing.Size(765, 409);
             this.Controls.Add(this.configButton);
             this.Controls.Add(this.logsListView);
             this.Controls.Add(this.startElectionAuthorityButton);
