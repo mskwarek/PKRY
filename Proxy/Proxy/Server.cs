@@ -6,11 +6,10 @@ using System.Net.Sockets;
 using System.Threading;
 using System.Net;
 
-namespace ElectionAuthority
+namespace Proxy
 {
     class Server
     {
-
         private TcpListener serverSocket;
         private Thread serverThread;
         private Dictionary<TcpClient, string> clientSockets;
@@ -152,5 +151,8 @@ namespace ElectionAuthority
                 }
             }
         }
+
+
+
     }
 }

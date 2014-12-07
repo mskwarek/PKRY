@@ -37,7 +37,7 @@ namespace ElectionAuthority
             }
 
             if (time)
-                item.Text = "[" + DateTime.Now.ToString("HH:mm:ss") + "]" + log;
+                item.Text = "[" + DateTime.Now.ToString("HH:mm:ss") + "] " + log;
             else
                 item.Text = log;
 

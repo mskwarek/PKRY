@@ -15,7 +15,8 @@ namespace Voter
         private Logs logs;
         private Configuration configuration;
 
-        private Client electionAuthorityClient; 
+        private Client electionAuthorityClient;
+        private Client proxyClient;
 
         public Form1()
         {
@@ -24,11 +25,12 @@ namespace Voter
             this.logs = new Logs(this.logsListView);
             this.configuration = new Configuration(this.logs);
             this.electionAuthorityClient = new Client(this.logs);
+            this.proxyClient = new Client(this.logs);
         }
 
         private void EAConnectButton_Click(object sender, EventArgs e)
         {
-            this.electionAuthorityClient.connect(this.configuration.ElectionAuthorityIP, this.configuration.ElectionAuthorityPort);
+            this.electionAuthorityClient.connect(this.configuration.ElectionAuthorityIP, this.configuration.ElectionAuthorityPort, Constants.ELECTION_AUTHORITY);
             this.configButton.Enabled = false;
         }
 
@@ -44,6 +46,7 @@ namespace Voter
 
         private void ProxyConnectButton_Click(object sender, EventArgs e)
         {
+            this.proxyClient.connect(configuration.ProxyIP, configuration.ProxyPort, Constants.PROXY);
 
         }
 

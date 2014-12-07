@@ -5,7 +5,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Drawing;
 
-namespace Voter
+namespace Proxy
 {
     class Logs
     {
@@ -49,10 +49,10 @@ namespace Voter
             else
             {
                 logsListView.Invoke(new MethodInvoker(delegate()
-                    {
-                        logsListView.Items.Add(item);
-                        logsListView.Items[logsListView.Items.Count - 1].EnsureVisible();
-                    })
+                {
+                    logsListView.Items.Add(item);
+                    logsListView.Items[logsListView.Items.Count - 1].EnsureVisible();
+                })
                     );
             }
         }
