@@ -65,8 +65,6 @@ namespace ElectionAuthority
                 Console.WriteLine(exp);
                 return false;
             }
-
-
         }
     }
 }
