@@ -30,5 +30,8 @@ namespace Proxy
         public const string SERVER_UNABLE_TO_START = "Proxy unable to start working";
         public const string UNKNOWN = "Unknown";
         public const string DISCONNECTED_NODE = "Someone has been disconnected";
+
+        public const int NUMBER_OF_BITS_SR = 64;
+        public const int NUMBER_OF_CANDIDATES = 10;
     }
 }

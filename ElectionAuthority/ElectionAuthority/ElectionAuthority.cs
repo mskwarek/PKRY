@@ -63,11 +63,11 @@ namespace ElectionAuthority
             serialNumberList = new List<BigInteger>();
             serialNumberList = SerialNumberGenerator.generateListOfSerialNumber(this.numberOfVoters, Constants.NUMBER_OF_BITS_SL);
             logs.addLog(Constants.SERIAL_NUMBER_GEN_SUCCESSFULLY, true, Constants.LOG_INFO);
-            conneectSerialNumberAndPermutation();
+            connectSerialNumberAndPermutation();
         }
 
 
-        private void conneectSerialNumberAndPermutation()
+        private void connectSerialNumberAndPermutation()
         {
             dictionarySLPermuation = new Dictionary<BigInteger, List<BigInteger>>();
             for (int i = 0; i < this.serialNumberList.Count; i++)

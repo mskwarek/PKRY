@@ -15,6 +15,8 @@ namespace Proxy
         private Server server;
         private Client client;
         private Configuration configuration;
+
+        private Proxy proxy;
         
         public Form1()
         {
@@ -35,6 +37,7 @@ namespace Proxy
         {
             configuration.loadConfiguration(openFileDialog.FileName);
             enableButtonsAfterConfiguration();
+            this.proxy = new Proxy(this.logs, this.configuration);
         }
 
         private void connectElectionAuthorityButton_Click(object sender, EventArgs e)
