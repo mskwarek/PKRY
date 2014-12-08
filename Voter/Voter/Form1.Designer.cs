@@ -1,4 +1,6 @@
-﻿namespace Voter
+﻿using System.Collections.Generic;
+using System.Windows.Forms;
+namespace Voter
 {
     partial class Form1
     {
@@ -35,6 +37,9 @@
             this.logColumn = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.configButton = new System.Windows.Forms.Button();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.textBoxes = new List<TextBox>();
+            this.voteButtons = new List<Button[]>();
             this.SuspendLayout();
             // 
             // EAConnectButton
@@ -90,11 +95,20 @@
             this.openFileDialog.FileName = "openFileDialog";
             this.openFileDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.openFileDialog_FileOk);
             // 
+            // panel1
+            // 
+            this.panel1.AutoScroll = true;
+            this.panel1.Location = new System.Drawing.Point(367, 13);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(588, 450);
+            this.panel1.TabIndex = 4;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(749, 478);
+            this.ClientSize = new System.Drawing.Size(988, 478);
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.configButton);
             this.Controls.Add(this.logsListView);
             this.Controls.Add(this.ProxyConnectButton);
@@ -115,6 +129,9 @@
         private System.Windows.Forms.ColumnHeader logColumn;
         private System.Windows.Forms.Button configButton;
         private System.Windows.Forms.OpenFileDialog openFileDialog;
+        private System.Windows.Forms.Panel panel1;
+        private List<TextBox> textBoxes;
+        private List<Button[]> voteButtons;
     }
 }
 
