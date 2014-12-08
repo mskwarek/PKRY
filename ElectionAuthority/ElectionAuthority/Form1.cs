@@ -15,8 +15,7 @@ namespace ElectionAuthority
         private Server server;
         private Configuration configuration;
 
-        private CandidateList candidateList;
-        private List<String> candidateDefaultList;
+        private ElectionAuthority electionAuthority;
 
         public Form1()
         {
@@ -25,17 +24,16 @@ namespace ElectionAuthority
             logs = new Logs(this.logsListView);
             configuration = new Configuration(this.logs);
             server = new Server(this.logs);
-            candidateDefaultList = new List<String>();
-            candidateList = new CandidateList(this.logs);
-                 
         }
 
         private void startElectionAuthorityButton_Click(object sender, EventArgs e)
         {
             this.server.startServer(configuration.ElectionAuthorityPort);
             this.startElectionAuthorityButton.Enabled = false;
-            string path = candidateList.getPathToCandidateList(openFileDialog.FileName);
-            candidateDefaultList = candidateList.loadCanidateList(path);
+            
+            this.electionAuthority.loadCandidateList(openFileDialog.FileName);
+            this.electionAuthority.generatePermutation();
+            this.electionAuthority.generateSerialNumber();
         }
 
         private void configButton_Click(object sender, EventArgs e)
@@ -47,6 +45,7 @@ namespace ElectionAuthority
         {
             configuration.loadConfiguration(openFileDialog.FileName);
             enableButtonAfterConfiguration();
+            electionAuthority = new ElectionAuthority(this.logs, this.configuration);
         }
 
 

@@ -21,8 +21,8 @@ namespace ElectionAuthority
             try
             {
                 xml.Load(path);
+
                 string nodeName = "//Candidates/Candidate";
-                
                 foreach (XmlNode xnode in xml.SelectNodes(nodeName))
                 {
                     string input = xnode.Attributes[Constants.ID].Value;
@@ -34,7 +34,7 @@ namespace ElectionAuthority
             }
             catch (Exception)
             {
-
+                Console.WriteLine("Wyjatek w loadCandidateList");
             }
             return candidate;
         }

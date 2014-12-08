@@ -10,7 +10,15 @@ namespace ElectionAuthority
 {
     class Permutation
     {
-        public static List<BigInteger> generatePermutation(int candidateQuantity)
+        private Logs logs;
+
+        public Permutation(Logs logs)
+        {
+            this.logs = logs;
+        }
+
+
+        public List<BigInteger> generatePermutation(int candidateQuantity)
         {
             List<BigInteger> permutation = new List<BigInteger>();
             for (int i = 1; i <= candidateQuantity; i++)
@@ -20,12 +28,11 @@ namespace ElectionAuthority
             }
             //shuffle BigInt List
             Extentions.Shuffle(permutation);
-
             return permutation;
         }
 
         //we create a permutation matrix in way described on "http://pl.wikipedia.org/wiki/Permutacja"
-        private static int[,] generatePermutationMatrix(List<BigInteger> permutation)
+        private int[,] generatePermutationMatrix(List<BigInteger> permutation)
         {
             int candidateQuantity = permutation.Count;
             //Function allow us to get a reverse permutation. I follow the method shown at: "http://pl.wikipedia.org/wiki/Permutacja"
@@ -53,7 +60,7 @@ namespace ElectionAuthority
             return tab;
         }
 
-        private static int[,] transposeMatrix(int[,] m)
+        private int[,] transposeMatrix(int[,] m)
         {
             int[,] temp = new int[m.GetLength(0), m.GetLength(1)];
             for (int i = 0; i < m.GetLength(0); i++)
@@ -63,11 +70,11 @@ namespace ElectionAuthority
         }
 
         //Find inverse permuatation using a table method
-        public static List<BigInteger> getInversePermutation(List<BigInteger> permutation)
+        public List<BigInteger> getInversePermutation(List<BigInteger> permutation)
         {
-            int[,] tab = Permutation.generatePermutationMatrix(permutation);
+            int[,] tab = generatePermutationMatrix(permutation);
 
-            int[,] tabInv = Permutation.transposeMatrix(tab);
+            int[,] tabInv = transposeMatrix(tab);
             List<BigInteger> inversePermutation = new List<BigInteger>();
 
             for (int i = 0; i < tabInv.GetLength(1); i++)

@@ -14,6 +14,7 @@ namespace ElectionAuthority
         public const string ID = "ID";
         public const string ELECTION_AUTHORITY_PORT = "electionAuthorityPort";
         public const string CONFIGURATION_LOADED_FROM = "Configuration loaded from file: ";
+        public const string NUMBER_OF_VOTERS = "numberOfVoters";
 
         public const string PATH_TO_CONFIG = @"Config\ElectionAuthority.xml";
 
@@ -22,6 +23,14 @@ namespace ElectionAuthority
         public const string SERVER_UNABLE_TO_START = "Election Authority unable to start working";
         public const string UNKNOWN = "Unknown";
         public const string DISCONNECTED_NODE = "Someone has been disconnected";
+
+
         public const string CANDIDATE_LIST_SUCCESSFUL = "Candidate list loaded successfully";
+        public const string PERMUTATION_GEN_SUCCESSFULLY = "Permuration generated successfully";
+        public const string SERIAL_NUMBER_GEN_SUCCESSFULLY = "Serial number list generated successfully";
+        public const string SL_CONNECTED_WITH_PERMUTATION = "Serial numbers connected with permutation";
+
+        public static int NUMBER_OF_BITS_SL = 64;
+
     }
 }

@@ -22,6 +22,13 @@ namespace ElectionAuthority
             get { return electionAuthorityPort; }
         }
 
+        private string numberOfVoters;
+        public string NumberOfVoters
+        {
+            get { return numberOfVoters; }
+        }
+
+
         public Configuration(Logs logs)
         {
             this.logs = logs;
@@ -38,6 +45,8 @@ namespace ElectionAuthority
                 list.Add(voterId);
                 string electionAuthorityPort = xnode.Attributes[Constants.ELECTION_AUTHORITY_PORT].Value;
                 list.Add(electionAuthorityPort);
+                string numberOfVoters = xnode.Attributes[Constants.NUMBER_OF_VOTERS].Value;
+                list.Add(numberOfVoters);
             }
 
             return list;
@@ -55,6 +64,7 @@ namespace ElectionAuthority
 
                 this.electionAuthorityID = conf[0];
                 this.electionAuthorityPort = conf[1];
+                this.numberOfVoters = conf[2];
 
                 string[] filePath = path.Split('\\');
                 logs.addLog(Constants.CONFIGURATION_LOADED_FROM + filePath[filePath.Length - 1], true, Constants.LOG_INFO);
