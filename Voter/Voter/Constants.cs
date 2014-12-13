@@ -12,6 +12,8 @@ namespace Voter
         public const int LOG_MESSAGE = 1;
         public const int LOG_ERROR = 2;
 
+        public const int BALLOTSIZE = 4;
+
         public const string LOCALHOST = "localhost";
         public const string CONNECTION_PASS = "Voter connected successfully to ";
         public const string CONNECTION_FAILED = "Voter could not connect to ";
@@ -26,5 +28,8 @@ namespace Voter
         public const string PROXY_IP = "proxyIP";
         public const string PROXY_PORT = "proxyPort";
         public const string CONFIGURATION_LOADED_FROM = "Configuration loaded from file: ";
+        public const string NUMBEROFVOTERS = "numberOfVoters";
+        public const string VOTE_DONE = "Vote done.";
+        public const string VOTE_ERROR = "Vote error (2nd button for one candidate).";
     }
 }

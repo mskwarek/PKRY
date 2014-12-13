@@ -10,6 +10,10 @@ namespace Proxy
     {
         private Logs logs;
 
+        //+++++++++++++++++CHANGE++++++++++++++++++++
+        public static int ballotSize = 4;
+        public static int candidates = 5;
+
         private string proxyID;
         public string ProxyID
         {
