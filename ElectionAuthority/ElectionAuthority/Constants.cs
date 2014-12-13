@@ -30,7 +30,10 @@ namespace ElectionAuthority
         public const string SERIAL_NUMBER_GEN_SUCCESSFULLY = "Serial number list generated successfully";
         public const string SL_CONNECTED_WITH_PERMUTATION = "Serial numbers connected with permutation";
 
-        public static int NUMBER_OF_BITS_SL = 64;
-
+        public const int NUMBER_OF_BITS_SL = 64;
+        public const int NUMBER_OF_TOKENS = 4;
+        public const string TOKENS_GENERATED_SUCCESSFULLY = "Tokens generated successfully";
+        public const int NUMBER_OF_BITS_TOKEN =32;
+        public const string SL_CONNECTED_WITH_TOKENS = "Serial numbers connected with tokens";
     }
 }

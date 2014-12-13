@@ -32,8 +32,7 @@ namespace ElectionAuthority
             this.startElectionAuthorityButton.Enabled = false;
             
             this.electionAuthority.loadCandidateList(openFileDialog.FileName);
-            this.electionAuthority.generatePermutation();
-            this.electionAuthority.generateSerialNumber();
+            this.electionAuthority.generateDate(); //method generate Serial number (SL), permutations of candidate list and tokens
         }
 
         private void configButton_Click(object sender, EventArgs e)

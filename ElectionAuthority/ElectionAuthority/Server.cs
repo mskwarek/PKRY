@@ -30,9 +30,16 @@ namespace ElectionAuthority
             int runningPort = Convert.ToInt32(port);
             if (serverSocket == null && serverThread == null)
             {
-                this.serverSocket = new TcpListener(IPAddress.Any, runningPort);
-                this.serverThread = new Thread(new ThreadStart(ListenForClients));
-                this.serverThread.Start();
+                try
+                {
+                    this.serverSocket = new TcpListener(IPAddress.Any, runningPort);
+                    this.serverThread = new Thread(new ThreadStart(ListenForClients));
+                    this.serverThread.Start();
+                }
+                catch()
+                {
+                    Console.WriteLine("Exception during starting server -  ElectionAuthority");
+                }
                 logs.addLog(Constants.SERVER_STARTED_CORRECTLY, true, Constants.LOG_INFO, true);
                 return true;
             }
@@ -105,18 +112,26 @@ namespace ElectionAuthority
 
         public void stopServer()
         {
-            foreach (TcpClient clientSocket in clientSockets.Keys.ToList())
+            try
             {
-                clientSocket.GetStream().Close();
-                clientSocket.Close();
-                clientSockets.Remove(clientSocket);
+
+                foreach (TcpClient clientSocket in clientSockets.Keys.ToList())
+                {
+                    clientSocket.GetStream().Close();
+                    clientSocket.Close();
+                    clientSockets.Remove(clientSocket);
+                }
+                if (serverSocket != null)
+                {
+                    serverSocket.Stop();
+                }
+                serverSocket = null;
+                serverThread = null;
             }
-            if (serverSocket != null)
+            catch()
             {
-                serverSocket.Stop();
+                Console.WriteLine("Exception during closing server -  ElectionAuthority");
             }
-            serverSocket = null;
-            serverThread = null;
         }
 
         public void sendMessage(string name, string msg)

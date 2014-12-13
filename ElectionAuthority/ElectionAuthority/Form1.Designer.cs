@@ -31,9 +31,9 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.startElectionAuthorityButton = new System.Windows.Forms.Button();
             this.logsListView = new System.Windows.Forms.ListView();
+            this.logColumn = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.configButton = new System.Windows.Forms.Button();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
-            this.logColumn = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.SuspendLayout();
             // 
             // startElectionAuthorityButton
@@ -59,6 +59,11 @@
             this.logsListView.UseCompatibleStateImageBehavior = false;
             this.logsListView.View = System.Windows.Forms.View.Details;
             // 
+            // logColumn
+            // 
+            this.logColumn.Text = "Logs";
+            this.logColumn.Width = 734;
+            // 
             // configButton
             // 
             this.configButton.Location = new System.Drawing.Point(13, 170);
@@ -74,11 +79,6 @@
             this.openFileDialog.FileName = "openFileDialog";
             this.openFileDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.openFileDialog1_FileOk);
             // 
-            // logColumn
-            // 
-            this.logColumn.Text = "Logs";
-            this.logColumn.Width = 734;
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -88,6 +88,7 @@
             this.Controls.Add(this.logsListView);
             this.Controls.Add(this.startElectionAuthorityButton);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
             this.Name = "Form1";
             this.Text = "Election Authority";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);

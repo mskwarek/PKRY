@@ -49,7 +49,8 @@ namespace ElectionAuthority
             candidateDefaultList = candidateList.loadCanidateList(pathToCandidateList);
         }
 
-        public void generatePermutation()
+        //** Start methods to generate tokens and permutation 
+        private void generatePermutation()
         {
             
             permutationsList = new List<List<BigInteger>>();
@@ -60,18 +61,25 @@ namespace ElectionAuthority
             }
             
             logs.addLog(Constants.PERMUTATION_GEN_SUCCESSFULLY, true, Constants.LOG_INFO);
+            connectSerialNumberAndPermutation();
         }
 
-        public void generateSerialNumber()
+        private void generateSerialNumber()
         {
             serialNumberList = new List<BigInteger>();
             serialNumberList = SerialNumberGenerator.generateListOfSerialNumber(this.numberOfVoters, Constants.NUMBER_OF_BITS_SL);
             logs.addLog(Constants.SERIAL_NUMBER_GEN_SUCCESSFULLY, true, Constants.LOG_INFO);
-            connectSerialNumberAndPermutation();
         }
 
-        public void generateTokens()
+        private void generateTokens()
         {
+            this.tokensList = new List<List<BigInteger>>();
+            for (int i = 0; i < this.numberOfVoters; i++)
+            { // we use the same method like to generate serial number, there is another random generator used inside this method
+                this.tokensList.Add(new List<BigInteger>(SerialNumberGenerator.generateListOfSerialNumber(4,Constants.NUMBER_OF_BITS_TOKEN)));
+            }
+            logs.addLog(Constants.TOKENS_GENERATED_SUCCESSFULLY, true, Constants.LOG_INFO);
+            connectSerialNumberAndTokens();
 
         }
 
@@ -83,7 +91,38 @@ namespace ElectionAuthority
                 dictionarySLPermuation.Add(this.serialNumberList[i], this.permutationsList[i]);
             }
             logs.addLog(Constants.SL_CONNECTED_WITH_PERMUTATION, true, Constants.LOG_INFO);
+            
         }
+
+        private void connectSerialNumberAndTokens()
+        {
+            this.dictionarySLTokens = new Dictionary<BigInteger, List<BigInteger>>();
+            for (int i = 0; i < this.serialNumberList.Count; i++)
+            {
+                this.dictionarySLTokens.Add(this.serialNumberList[i], this.tokensList[i]);
+            }
+            for (int i = 0; i < this.serialNumberList.Count; i++)
+            {
+                Console.WriteLine("klucz");
+                Console.WriteLine(this.dictionarySLTokens.ElementAt(i).Key);
+                Console.WriteLine("tokeny");
+                foreach (BigInteger b in this.dictionarySLTokens.ElementAt(i).Value)
+                {
+                    Console.WriteLine(b);
+                }
+
+            }
+
+            logs.addLog(Constants.SL_CONNECTED_WITH_TOKENS, true, Constants.LOG_INFO);
+        }
+
+        public void generateDate()
+        {
+            generateSerialNumber();
+            generatePermutation();
+            generateTokens();
+        }
+        //** End methods to generate tokens and permutation 
 
 
     }
