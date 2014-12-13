@@ -16,10 +16,16 @@ namespace ElectionAuthority
             get { return electionAuthorityID; }
         }
 
-        private string electionAuthorityPort;
-        public string ElectionAuthorityPort
+        private string electionAuthorityPortClient;
+        public string ElectionAuthorityPortClient
         {
-            get { return electionAuthorityPort; }
+            get { return electionAuthorityPortClient; }
+        }
+
+        private string electionAuthorityPortProxy;
+        public string ElectionAuthorityPortProxy
+        {
+            get { return electionAuthorityPortProxy; }
         }
 
         private string numberOfVoters;
@@ -43,8 +49,10 @@ namespace ElectionAuthority
             {
                 string voterId = xnode.Attributes[Constants.ID].Value;
                 list.Add(voterId);
-                string electionAuthorityPort = xnode.Attributes[Constants.ELECTION_AUTHORITY_PORT].Value;
-                list.Add(electionAuthorityPort);
+                string electionAuthorityPortClient = xnode.Attributes[Constants.ELECTION_AUTHORITY_PORT_CLIENT].Value;
+                list.Add(electionAuthorityPortClient);
+                string electionAuthorityPortProxy = xnode.Attributes[Constants.ELECTION_AUTHORITY_PORT_PROXY].Value;
+                list.Add(electionAuthorityPortProxy);
                 string numberOfVoters = xnode.Attributes[Constants.NUMBER_OF_VOTERS].Value;
                 list.Add(numberOfVoters);
             }
@@ -63,8 +71,9 @@ namespace ElectionAuthority
                 conf = readConfig(xml);
 
                 this.electionAuthorityID = conf[0];
-                this.electionAuthorityPort = conf[1];
-                this.numberOfVoters = conf[2];
+                this.electionAuthorityPortClient = conf[1];
+                this.electionAuthorityPortProxy = conf[2];
+                this.numberOfVoters = conf[3];
 
                 string[] filePath = path.Split('\\');
                 logs.addLog(Constants.CONFIGURATION_LOADED_FROM + filePath[filePath.Length - 1], true, Constants.LOG_INFO);

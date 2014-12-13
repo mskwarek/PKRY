@@ -12,7 +12,8 @@ namespace ElectionAuthority
         public const int LOG_ERROR = 2;
 
         public const string ID = "ID";
-        public const string ELECTION_AUTHORITY_PORT = "electionAuthorityPort";
+        public const string ELECTION_AUTHORITY_PORT_CLIENT = "electionAuthorityPortForClient";
+        public const string ELECTION_AUTHORITY_PORT_PROXY = "electionAuthorityPortForProxy";
         public const string CONFIGURATION_LOADED_FROM = "Configuration loaded from file: ";
         public const string NUMBER_OF_VOTERS = "numberOfVoters";
 
@@ -35,5 +36,6 @@ namespace ElectionAuthority
         public const string TOKENS_GENERATED_SUCCESSFULLY = "Tokens generated successfully";
         public const int NUMBER_OF_BITS_TOKEN =32;
         public const string SL_CONNECTED_WITH_TOKENS = "Serial numbers connected with tokens";
+        public static string SL_TOKENS = "SL_TOKENS";
     }
 }

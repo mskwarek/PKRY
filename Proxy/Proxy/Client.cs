@@ -15,12 +15,13 @@ namespace Proxy
         private NetworkStream stream;
         private Thread clientThread;
         private Logs logs;
+        private ParserEA parserEA;
 
-
-        public Client(Logs logs)
+        public Client(Logs logs, ParserEA parserEA)
         {
             this.encoder = new ASCIIEncoding();
             this.logs = logs;
+            this.parserEA = parserEA;
         }
 
 
@@ -82,8 +83,9 @@ namespace Proxy
                 {
                     break;
                 }
-
-                logs.addLog(encoder.GetString(message, 0, bytesRead), true, Constants.LOG_MESSAGE, true);
+                string strMessage = encoder.GetString(message, 0, bytesRead);
+                this.parserEA.parseMessageFromEA(strMessage);
+                logs.addLog(Constants.RECEIVED_FROM_EA, true, Constants.LOG_MESSAGE, true);
             }
             if (client != null)
             {
@@ -95,9 +97,16 @@ namespace Proxy
         {
             if (client != null)
             {
-                client.GetStream().Close();
-                client.Close();
-                client = null;
+                try
+                {
+                    client.GetStream().Close();
+                    client.Close();
+                    client = null;
+                }
+                catch (Exception)
+                {
+                    Console.WriteLine("Problems with disconnecting from EA");
+                }
                 if (!error)
                 {
                     logs.addLog(Constants.CONNECTION_DISCONNECTED, true, Constants.LOG_INFO, true);

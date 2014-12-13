@@ -33,5 +33,9 @@ namespace Proxy
 
         public const int NUMBER_OF_BITS_SR = 64;
         public const int NUMBER_OF_CANDIDATES = 10;
+
+
+        public const string SL_TOKENS = "SL_TOKENS";
+        public const string RECEIVED_FROM_EA ="Date received from EA";
     }
 }

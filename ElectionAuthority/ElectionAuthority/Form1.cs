@@ -6,13 +6,15 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.Threading;
 
 namespace ElectionAuthority
 {
     public partial class Form1 : Form
     {
         private Logs logs;
-        private Server server;
+        private Server serverClient; // server for clients (voters)
+        private Server serverProxy; // server for proxy
         private Configuration configuration;
 
         private ElectionAuthority electionAuthority;
@@ -23,13 +25,17 @@ namespace ElectionAuthority
             setColumnWidth();            
             logs = new Logs(this.logsListView);
             configuration = new Configuration(this.logs);
-            server = new Server(this.logs);
+            serverClient = new Server(this.logs);
+
+            serverProxy = new Server(this.logs);
         }
 
         private void startElectionAuthorityButton_Click(object sender, EventArgs e)
         {
-            this.server.startServer(configuration.ElectionAuthorityPort);
+            //this.serverClient.startServer(configuration.ElectionAuthorityPortClient);
+            this.serverProxy.startServer(configuration.ElectionAuthorityPortProxy);
             this.startElectionAuthorityButton.Enabled = false;
+            this.sendSLTokensAndTokensButton.Enabled = true;
             
             this.electionAuthority.loadCandidateList(openFileDialog.FileName);
             this.electionAuthority.generateDate(); //method generate Serial number (SL), permutations of candidate list and tokens
@@ -44,7 +50,7 @@ namespace ElectionAuthority
         {
             configuration.loadConfiguration(openFileDialog.FileName);
             enableButtonAfterConfiguration();
-            electionAuthority = new ElectionAuthority(this.logs, this.configuration);
+            electionAuthority = new ElectionAuthority(this.logs, this.configuration, this.serverClient, this.serverProxy);
         }
 
 
@@ -56,12 +62,19 @@ namespace ElectionAuthority
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
-            this.server.stopServer();
+            this.serverClient.stopServer();
+            this.serverProxy.stopServer();
         }
 
         private void setColumnWidth()
         {
             this.logColumn.Width = this.logsListView.Width - 5;
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            this.electionAuthority.sendSLAndTokensToProxy();
+            this.sendSLTokensAndTokensButton.Enabled = false;
         }
     }
 }

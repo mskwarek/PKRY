@@ -14,7 +14,10 @@ namespace Proxy
         private Logs logs;
         private Server server;
         private Client client;
+        
         private Configuration configuration;
+
+        private ParserEA parserEA;
 
         private Proxy proxy;
         
@@ -22,9 +25,13 @@ namespace Proxy
         {
             InitializeComponent();
             this.logs = new Logs(this.logsListView);
-            this.server = new Server(this.logs);
-            this.client = new Client(this.logs);
             this.configuration = new Configuration(this.logs);
+            this.proxy = new Proxy(this.logs, this.configuration);
+            this.parserEA = new ParserEA(this.logs, this.proxy);
+            this.server = new Server(this.logs);
+            this.client = new Client(this.logs, this.parserEA);
+            
+            
 
         }
 
@@ -37,7 +44,7 @@ namespace Proxy
         {
             configuration.loadConfiguration(openFileDialog.FileName);
             enableButtonsAfterConfiguration();
-            this.proxy = new Proxy(this.logs, this.configuration);
+            
         }
 
         private void connectElectionAuthorityButton_Click(object sender, EventArgs e)

@@ -10,7 +10,6 @@ namespace ElectionAuthority
 {
     class Server
     {
-
         private TcpListener serverSocket;
         private Thread serverThread;
         private Dictionary<TcpClient, string> clientSockets;
@@ -28,6 +27,7 @@ namespace ElectionAuthority
         public bool startServer(string port)
         {
             int runningPort = Convert.ToInt32(port);
+            Console.WriteLine(runningPort);
             if (serverSocket == null && serverThread == null)
             {
                 try
@@ -36,7 +36,7 @@ namespace ElectionAuthority
                     this.serverThread = new Thread(new ThreadStart(ListenForClients));
                     this.serverThread.Start();
                 }
-                catch()
+                catch(Exception)
                 {
                     Console.WriteLine("Exception during starting server -  ElectionAuthority");
                 }
@@ -52,7 +52,14 @@ namespace ElectionAuthority
 
         private void ListenForClients()
         {
-            this.serverSocket.Start();
+            try
+            {
+                this.serverSocket.Start();
+            }
+            catch (SocketException)
+            {
+                Console.WriteLine("Troubles to start listening for clients");
+            }
             while (true)
             {
                 try
@@ -102,9 +109,17 @@ namespace ElectionAuthority
             }
             if (serverSocket != null)
             {
-                clientSocket.GetStream().Close();
-                clientSocket.Close();
-                clientSockets.Remove(clientSocket);
+                try
+                {
+                    clientSocket.GetStream().Close();
+                    clientSocket.Close();
+                    clientSockets.Remove(clientSocket);
+                }
+                catch (Exception)
+                {
+                    Console.WriteLine("Troubles with displaying received message");
+                }
+
                 logs.addLog(Constants.DISCONNECTED_NODE, true, Constants.LOG_ERROR, true);
             }
 
@@ -128,7 +143,7 @@ namespace ElectionAuthority
                 serverSocket = null;
                 serverThread = null;
             }
-            catch()
+            catch(Exception)
             {
                 Console.WriteLine("Exception during closing server -  ElectionAuthority");
             }

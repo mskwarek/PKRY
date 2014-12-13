@@ -34,6 +34,7 @@
             this.logColumn = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.configButton = new System.Windows.Forms.Button();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
+            this.sendSLTokensAndTokensButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // startElectionAuthorityButton
@@ -79,11 +80,23 @@
             this.openFileDialog.FileName = "openFileDialog";
             this.openFileDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.openFileDialog1_FileOk);
             // 
+            // sendSLTokensAndTokensButton
+            // 
+            this.sendSLTokensAndTokensButton.Enabled = false;
+            this.sendSLTokensAndTokensButton.Location = new System.Drawing.Point(13, 252);
+            this.sendSLTokensAndTokensButton.Name = "sendSLTokensAndTokensButton";
+            this.sendSLTokensAndTokensButton.Size = new System.Drawing.Size(122, 35);
+            this.sendSLTokensAndTokensButton.TabIndex = 3;
+            this.sendSLTokensAndTokensButton.Text = "Send SL and tokens to PROXY";
+            this.sendSLTokensAndTokensButton.UseVisualStyleBackColor = true;
+            this.sendSLTokensAndTokensButton.Click += new System.EventHandler(this.button1_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(765, 409);
+            this.Controls.Add(this.sendSLTokensAndTokensButton);
             this.Controls.Add(this.configButton);
             this.Controls.Add(this.logsListView);
             this.Controls.Add(this.startElectionAuthorityButton);
@@ -103,6 +116,7 @@
         private System.Windows.Forms.Button configButton;
         private System.Windows.Forms.OpenFileDialog openFileDialog;
         private System.Windows.Forms.ColumnHeader logColumn;
+        private System.Windows.Forms.Button sendSLTokensAndTokensButton;
     }
 }
 

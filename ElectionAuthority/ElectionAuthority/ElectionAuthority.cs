@@ -3,13 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Numerics;
+using System.Net.Sockets;
 
 namespace ElectionAuthority
 {
     class ElectionAuthority
     {
+        ASCIIEncoding encoder;
         private Logs logs;
-        
+        //server for client
+        private Server serverClient;
+
+        //server for proxy
+        private Server serverProxy;
+
         private CandidateList candidateList;
         private List<String> candidateDefaultList;
         private Configuration configuration;
@@ -29,11 +36,17 @@ namespace ElectionAuthority
 
         private int numberOfVoters;
 
-        public ElectionAuthority(Logs logs, Configuration configuration)
+        public ElectionAuthority(Logs logs, Configuration configuration, Server serverClient, Server serverProxy)
         {
+            this.encoder = new ASCIIEncoding();
             this.logs = logs;
             this.configuration = configuration;
-            Console.WriteLine(this.configuration.NumberOfVoters);
+            //server for Clients
+            this.serverClient = serverClient;
+
+            //server for Proxy
+            this.serverProxy = serverProxy;
+
             this.numberOfVoters = Convert.ToInt32(this.configuration.NumberOfVoters);
             permutation = new Permutation(this.logs);
         }
@@ -124,7 +137,12 @@ namespace ElectionAuthority
         }
         //** End methods to generate tokens and permutation 
 
-
+        public void sendSLAndTokensToProxy()
+        {
+            //string[] list = new string
+            string serialNumberAndTokens = Converter.convertDictionaryToString(Constants.SL_TOKENS, this.dictionarySLTokens);
+            this.serverProxy.sendMessage(Constants.UNKNOWN, serialNumberAndTokens);
+        }
     }
 }
 
