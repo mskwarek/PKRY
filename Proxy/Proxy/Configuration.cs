@@ -37,6 +37,13 @@ namespace Proxy
             get { return electionAuthorityPort; }
         }
 
+        private int numOfVoters;
+        public int NumOfVoters
+        {
+            get { return numOfVoters; }
+        }
+
+
         public Configuration(Logs logs)
         {
             this.logs = logs;
@@ -57,6 +64,8 @@ namespace Proxy
                 list.Add(electionAuthorityIP);
                 string electionAuthorityPort = xnode.Attributes[Constants.ELECTION_AUTHORITY_PORT].Value;
                 list.Add(electionAuthorityPort);
+                string numberOfVoters = xnode.Attributes[Constants.NUMBER_OF_VOTERS].Value;
+                list.Add(numberOfVoters);
             }
 
             return list;
@@ -76,6 +85,7 @@ namespace Proxy
                 this.proxyPort = conf[1];
                 this.electionAuthorityIP = conf[2];
                 this.electionAuthorityPort = conf[3];
+                this.numOfVoters = Convert.ToInt32(conf[4]);
 
                 string[] filePath = path.Split('\\');
                 logs.addLog(Constants.CONFIGURATION_LOADED_FROM + filePath[filePath.Length - 1], true, Constants.LOG_INFO);

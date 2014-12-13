@@ -26,8 +26,8 @@ namespace Voter
             setColumnWidth();
             this.logs = new Logs(this.logsListView);
             this.configuration = new Configuration(this.logs);
-            this.electionAuthorityClient = new Client(this.logs);
-            this.proxyClient = new Client(this.logs);
+            this.electionAuthorityClient = new Client(this.configuration.Name, this.logs);
+            this.proxyClient = new Client(this.configuration.Name , this.logs);
         }
 
         private void EAConnectButton_Click(object sender, EventArgs e)

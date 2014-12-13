@@ -27,9 +27,11 @@ namespace Voter
         public const string ELECTION_AUTHORITY_PORT = "electionAuthorityPort";
         public const string PROXY_IP = "proxyIP";
         public const string PROXY_PORT = "proxyPort";
+        public const string NAME = "name";
         public const string CONFIGURATION_LOADED_FROM = "Configuration loaded from file: ";
         public const string NUMBEROFVOTERS = "numberOfVoters";
         public const string VOTE_DONE = "Vote done.";
         public const string VOTE_ERROR = "Vote error (2nd button for one candidate).";
+        
     }
 }

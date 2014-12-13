@@ -32,7 +32,7 @@ namespace ElectionAuthority
 
         private void startElectionAuthorityButton_Click(object sender, EventArgs e)
         {
-            //this.serverClient.startServer(configuration.ElectionAuthorityPortClient);
+            this.serverClient.startServer(configuration.ElectionAuthorityPortClient);
             this.serverProxy.startServer(configuration.ElectionAuthorityPortProxy);
             this.startElectionAuthorityButton.Enabled = false;
             this.sendSLTokensAndTokensButton.Enabled = true;

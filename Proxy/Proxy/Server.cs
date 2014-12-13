@@ -13,6 +13,10 @@ namespace Proxy
         private TcpListener serverSocket;
         private Thread serverThread;
         private Dictionary<TcpClient, string> clientSockets;
+        public Dictionary<TcpClient, string> ClientSockets
+        {
+            get { return clientSockets; }
+        }
         private ASCIIEncoding encoder;
         private Logs logs;
 
@@ -87,7 +91,12 @@ namespace Proxy
                 }
 
                 string signal = encoder.GetString(message, 0, bytesRead);
-                if (!clientSockets[clientSocket].Equals(Constants.UNKNOWN))
+
+                if (clientSockets[clientSocket].Equals(Constants.UNKNOWN))
+                {
+                    updateClientName(clientSocket, signal);
+                }
+                else
                 {
                     logs.addLog(signal, true, Constants.LOG_MESSAGE, true);
                 }
@@ -100,7 +109,8 @@ namespace Proxy
                 logs.addLog(Constants.DISCONNECTED_NODE, true, Constants.LOG_ERROR, true);
             }
 
-        }
+            }
+        
 
         public void stopServer()
         {
@@ -149,6 +159,15 @@ namespace Proxy
                         clientSockets.Remove(client);
                     }
                 }
+            }
+        }
+
+        private void updateClientName(TcpClient client, string signal)
+        {
+            if (signal.Contains("//NAME// "))
+            {
+                string[] tmp = signal.Split(' ');
+                clientSockets[client] = tmp[1];
             }
         }
 

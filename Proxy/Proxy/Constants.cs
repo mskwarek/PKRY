@@ -15,8 +15,9 @@ namespace Proxy
         public const string PROXY_PORT = "proxyPort";
         public const string ELECTION_AUTHORITY_IP = "electionAuthorityIP";
         public const string ELECTION_AUTHORITY_PORT = "electionAuthorityPort";
+        public const string NUMBER_OF_VOTERS = "numberOfVoters";
         public const string CONFIGURATION_LOADED_FROM = "Configuration loaded from file: ";
-
+         
 
         public const string LOCALHOST = "localhost";
         public const string CONNECTION_PASS = "Proxy connected with Election Authority correctly";
@@ -31,11 +32,17 @@ namespace Proxy
         public const string UNKNOWN = "Unknown";
         public const string DISCONNECTED_NODE = "Someone has been disconnected";
 
+        public const string SR_GEN_SUCCESSFULLY = "Serial numers SR generated successfully";
+
+
         public const int NUMBER_OF_BITS_SR = 64;
         public const int NUMBER_OF_CANDIDATES = 10;
 
 
-        public const string SL_TOKENS = "SL_TOKENS";
+        public const string SL_TOKENS = "SL_TOKENS"; //used to recognize message from EA
         public const string RECEIVED_FROM_EA ="Date received from EA";
+        public const string SR_CONNECTED_WITH_SL = "SR connected with serial numbers SL";
+        
+        
     }
 }

@@ -26,9 +26,10 @@ namespace Proxy
             InitializeComponent();
             this.logs = new Logs(this.logsListView);
             this.configuration = new Configuration(this.logs);
-            this.proxy = new Proxy(this.logs, this.configuration);
-            this.parserEA = new ParserEA(this.logs, this.proxy);
             this.server = new Server(this.logs);
+            this.proxy = new Proxy(this.logs, this.configuration, this.server);
+            this.parserEA = new ParserEA(this.logs, this.proxy);
+            
             this.client = new Client(this.logs, this.parserEA);
             
             
@@ -50,6 +51,7 @@ namespace Proxy
         private void connectElectionAuthorityButton_Click(object sender, EventArgs e)
         {
             this.client.connect(configuration.ElectionAuthorityIP, configuration.ElectionAuthorityPort);
+            this.connectElectionAuthorityButton.Enabled = false;
 
         }
 
@@ -62,6 +64,10 @@ namespace Proxy
         private void startProxyButton_Click(object sender, EventArgs e)
         {
             this.server.startServer(configuration.ProxyPort);
+            this.proxy.generateSR();
+
+
+            this.startProxyButton.Enabled = false;
             this.configButton.Enabled = false;
         }
 
@@ -69,6 +75,11 @@ namespace Proxy
         {
             this.startProxyButton.Enabled = true;
             this.connectElectionAuthorityButton.Enabled = true;
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            this.proxy.sendSLAndSR();
         }
         
     }

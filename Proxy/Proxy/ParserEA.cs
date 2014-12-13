@@ -17,7 +17,7 @@ namespace Proxy
             this.proxy = proxy;
         }
 
-        private void parseDictionaryFromEA(string msg)
+        private void parseSLTokensDictionaryFromEA(string msg)
         {
             Dictionary<BigInteger, List<BigInteger>> dict = new Dictionary<BigInteger, List<BigInteger>>();
 
@@ -37,15 +37,7 @@ namespace Proxy
             }
 
             this.proxy.SerialNumberTokens = dict;
-
-            foreach (BigInteger b in this.proxy.SerialNumberTokens.Keys)
-            {
-                Console.WriteLine(b);
-                foreach(BigInteger val in this.proxy.SerialNumberTokens[b])
-                {
-                    Console.WriteLine(val);
-                }
-            }
+            this.proxy.connectSRandSL();
         }
 
         public void parseMessageFromEA(string msg)
@@ -54,7 +46,7 @@ namespace Proxy
             switch (elem[0])
             {
                 case Constants.SL_TOKENS:
-                    parseDictionaryFromEA(msg);
+                    parseSLTokensDictionaryFromEA(msg);
                     break;
 
 

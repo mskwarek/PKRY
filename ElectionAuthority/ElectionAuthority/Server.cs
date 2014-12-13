@@ -102,7 +102,12 @@ namespace ElectionAuthority
                 }
 
                 string signal = encoder.GetString(message, 0, bytesRead);
-                if (!clientSockets[clientSocket].Equals(Constants.UNKNOWN))
+                if (clientSockets[clientSocket].Equals(Constants.UNKNOWN))
+                {
+                    updateClientName(clientSocket, signal);
+
+                }
+                else
                 {
                     logs.addLog(signal, true, Constants.LOG_MESSAGE, true);
                 }
@@ -180,6 +185,16 @@ namespace ElectionAuthority
                         clientSockets.Remove(client);
                     }
                 }
+            }
+        }
+
+
+        private void updateClientName(TcpClient client, string signal)
+        {
+            if (signal.Contains("//NAME// "))
+            {
+                string[] tmp = signal.Split(' ');
+                clientSockets[client] = tmp[1];
             }
         }
     }

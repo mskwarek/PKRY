@@ -35,6 +35,7 @@
             this.startProxyButton = new System.Windows.Forms.Button();
             this.connectElectionAuthorityButton = new System.Windows.Forms.Button();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
+            this.button1 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // logsListView
@@ -91,11 +92,23 @@
             this.openFileDialog.FileName = "openFileDialog";
             this.openFileDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.openFileDialog_FileOk);
             // 
+            // button1
+            // 
+            this.button1.Enabled = false;
+            this.button1.Location = new System.Drawing.Point(13, 378);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(107, 35);
+            this.button1.TabIndex = 4;
+            this.button1.Text = "Send SR and SL to Voter";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(603, 447);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.connectElectionAuthorityButton);
             this.Controls.Add(this.startProxyButton);
             this.Controls.Add(this.configButton);
@@ -116,6 +129,7 @@
         private System.Windows.Forms.Button startProxyButton;
         private System.Windows.Forms.Button connectElectionAuthorityButton;
         private System.Windows.Forms.OpenFileDialog openFileDialog;
+        private System.Windows.Forms.Button button1;
     }
 }
 

@@ -139,7 +139,7 @@ namespace ElectionAuthority
 
         public void sendSLAndTokensToProxy()
         {
-            //string[] list = new string
+            //before sending we have to convert dictionary to string. We use our own conversion to recoginize message in proxy and reparse it to dictionary
             string serialNumberAndTokens = Converter.convertDictionaryToString(Constants.SL_TOKENS, this.dictionarySLTokens);
             this.serverProxy.sendMessage(Constants.UNKNOWN, serialNumberAndTokens);
         }

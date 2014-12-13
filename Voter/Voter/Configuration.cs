@@ -47,6 +47,12 @@ namespace Voter
             get { return numberOfCandidates; }
         }
 
+        private string name;
+        public string Name
+        {
+            get { return name; }
+        }
+
         public Configuration(Logs logs)
         {
             this.logs = logs;
@@ -71,6 +77,8 @@ namespace Voter
                 list.Add(proxyPort);
                 string numberOfVoters = xnode.Attributes[Constants.NUMBEROFVOTERS].Value;
                 list.Add(numberOfVoters);
+                string name = xnode.Attributes[Constants.NAME].Value;
+                list.Add(name);
             }
 
             return list;
@@ -92,6 +100,7 @@ namespace Voter
                 this.proxyIP = voterConf[3];
                 this.proxyPort = voterConf[4];
                 this.numberOfCandidates = Convert.ToInt32(voterConf[5]);
+                this.name = voterConf[5];
 
 
                 string[] filePath = path.Split('\\');

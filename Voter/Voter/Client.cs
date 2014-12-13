@@ -15,12 +15,14 @@ namespace Voter
         private NetworkStream stream;
         private Thread clientThread;
         private Logs logs;
+        private string myName;
 
 
-        public Client(Logs logs)
+        public Client(string name, Logs logs)
         {
             this.encoder = new ASCIIEncoding();
             this.logs = logs;
+            this.myName = name;
         }
 
 
@@ -50,6 +52,7 @@ namespace Voter
                 stream = client.GetStream();
                 clientThread = new Thread(new ThreadStart(displayMessageReceived));
                 clientThread.Start();
+                sendMyName();
                 logs.addLog(Constants.CONNECTION_PASS + target, true, Constants.LOG_INFO, true);
                 return true;
             }
@@ -58,6 +61,15 @@ namespace Voter
                 client = null;
                 logs.addLog(Constants.CONNECTION_FAILED + target, true, Constants.LOG_ERROR, true);
                 return false;
+            }
+        }
+
+        private void sendMyName()
+        {
+            {
+                byte[] buffer = encoder.GetBytes("//NAME// " + myName);
+                stream.Write(buffer, 0, buffer.Length);
+                stream.Flush();
             }
         }
 
