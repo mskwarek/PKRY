@@ -20,9 +20,12 @@ namespace ElectionAuthority
         //serial number SL
         private List<BigInteger> serialNumberList;
 
+        //tokens, one SL has four tokens
+        private List<List<BigInteger>> tokensList;
 
         //map which connect serialNumber and permuataion
         private Dictionary<BigInteger, List<BigInteger>> dictionarySLPermuation;
+        private Dictionary<BigInteger, List<BigInteger>> dictionarySLTokens;
 
         private int numberOfVoters;
 
@@ -32,6 +35,7 @@ namespace ElectionAuthority
             this.configuration = configuration;
             Console.WriteLine(this.configuration.NumberOfVoters);
             this.numberOfVoters = Convert.ToInt32(this.configuration.NumberOfVoters);
+            permutation = new Permutation(this.logs);
         }
 
         public void loadCandidateList(string pathToElectionAuthorityConfig)
@@ -47,7 +51,7 @@ namespace ElectionAuthority
 
         public void generatePermutation()
         {
-            permutation = new Permutation(this.logs);
+            
             permutationsList = new List<List<BigInteger>>();
 
             for (int i = 0; i < this.numberOfVoters; i++)
@@ -66,6 +70,10 @@ namespace ElectionAuthority
             conneectSerialNumberAndPermutation();
         }
 
+        public void generateTokens()
+        {
+
+        }
 
         private void conneectSerialNumberAndPermutation()
         {
@@ -76,6 +84,8 @@ namespace ElectionAuthority
             }
             logs.addLog(Constants.SL_CONNECTED_WITH_PERMUTATION, true, Constants.LOG_INFO);
         }
+
+
     }
 }
 
