@@ -46,7 +46,6 @@ namespace Proxy
             this.configuration = conf;
             this.form = form;
             this.server = new Server(this.logs,this);
-
             this.client = new Client(this.logs, this);
 
 

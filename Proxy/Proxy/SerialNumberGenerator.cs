@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Numerics;
 using System.Security.Cryptography;
+using Org.BouncyCastle.Math;
 
 namespace Proxy
 {
@@ -27,11 +27,11 @@ namespace Proxy
             {
                 if (i == 0)
                 {
-                    listOfSerialNumbers.Add(startValue + 1);
+                    listOfSerialNumbers.Add(startValue.Add(new BigInteger("1")));
                 }
                 else
                 {
-                    listOfSerialNumbers.Add(listOfSerialNumbers[i - 1] + 1);
+                    listOfSerialNumbers.Add(listOfSerialNumbers[i - 1].Add(new BigInteger("1")));
                 }
 
             }
@@ -72,11 +72,11 @@ namespace Proxy
             {
                 if (i == 0)
                 {
-                    listOfSerialNumber.Add(BigInteger.Abs(startValue + 1));
+                    listOfSerialNumber.Add(startValue.Add(new BigInteger("1")));
                 }
-                else
+                else 
                 {
-                    listOfSerialNumber.Add(BigInteger.Abs(listOfSerialNumber[i - 1] + 1));
+                    listOfSerialNumber.Add(listOfSerialNumber[i - 1].Add(new BigInteger("1")));
                 }
 
             }
