@@ -39,8 +39,8 @@ namespace Voter
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.getSLandSRButton = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.textBoxes = new List<TextBox>();
             this.voteButtons = new List<Button[]>();
+            this.textBoxes = new List<TextBox>();
             this.SuspendLayout();
             // 
             // EAConnectButton
