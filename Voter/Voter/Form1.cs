@@ -18,13 +18,20 @@ namespace Voter
 
         private VoterBallot ballot;
         private Voter voter;
+        private List<TextBox> textBoxes;
+        public List<TextBox> TextBoxes
+        {
+            get { return textBoxes; }
+        }
+        private List<Button[]> voteButtons;
         public Form1()
         {
             InitializeComponent();
             setColumnWidth();
             this.logs = new Logs(this.logsListView);
             this.configuration = new Configuration(this.logs);
-            
+            this.textBoxes = new List<TextBox>();
+            this.voteButtons = new List<Button[]>();
 
         }
 
@@ -32,13 +39,13 @@ namespace Voter
         {
             this.voter.ElectionAuthorityClient.connect(this.configuration.ElectionAuthorityIP, this.configuration.ElectionAuthorityPort, Constants.ELECTION_AUTHORITY);
             this.configButton.Enabled = false;
+            
         }
 
         private void voteButton_Click(object sender, EventArgs e)
         {
             Button clickedButton = sender as Button;
             String[] words = clickedButton.Name.Split(';');
-
             if (this.ballot.vote(Convert.ToInt32(words[1]), Convert.ToInt32(words[2])))
             {
                 logs.addLog(Constants.VOTE_DONE, true, Constants.LOG_INFO, true);
@@ -115,7 +122,7 @@ namespace Voter
 
                 for (int j = 0; j < Constants.BALLOTSIZE; j++)
                 {
-                    this.EAConnectButton.Enabled = false;
+                    //this.EAConnectButton.Enabled = false;
                     this.voteButtons[i].ElementAt(j).Location = new System.Drawing.Point(240 + j * 75, 17 + i * 40);
                     this.voteButtons[i].ElementAt(j).Name = "Candidate_nr;" + i + ";" + j;
                     this.voteButtons[i].ElementAt(j).Size = new System.Drawing.Size(70, 40);
@@ -132,8 +139,9 @@ namespace Voter
 
         private void enableButtonsAfterLoadingConfiguration()
         {
-            this.EAConnectButton.Enabled = true;
             this.ProxyConnectButton.Enabled = true;
+            this.EAConnectButton.Enabled = true;
+               
         }
 
         private void getSLandSRButton_Click(object sender, EventArgs e)
@@ -144,7 +152,19 @@ namespace Voter
         public void disableSLAndSRButton()
         {
             this.getSLandSRButton.Enabled = false;
+            this.getCandidateListButton.Enabled = true;
         }
 
+        private void getCandidateListButton_Click(object sender, EventArgs e)
+        {
+            this.voter.requestForCandidatesList();
+        }
+
+
+        public void disableConectionProxyButton()
+        {
+            this.ProxyConnectButton.Enabled = false;
+
+        }
     }
 }

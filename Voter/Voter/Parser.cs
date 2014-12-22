@@ -27,9 +27,27 @@ namespace Voter
                     saveSLAndSR(elem[1]);
                     break;
 
+                case Constants.CONNECTION_SUCCESSFUL:
+                    disableConnectionProxyButton();
+                    break;
+                case Constants.CANDIDATE_LIST_RESPONSE:
+                    saveCandidateList(elem[1]);
+                    break;
+
 
             }
 
+
+        }
+
+        private void saveCandidateList(string list)
+        {
+            this.voter.saveCandidateList(list);
+        }
+
+        private void disableConnectionProxyButton()
+        {
+            this.voter.disableConnectionProxyButton();
 
         }
 

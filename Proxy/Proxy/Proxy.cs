@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Numerics;
 using System.Net.Sockets;
+using System.Windows.Forms;
 
 namespace Proxy
 {
@@ -11,7 +12,7 @@ namespace Proxy
     {
         private Logs logs;
         private Configuration configuration;
-
+        private Form1 form;
         private Server server;
         public Server Server
         {
@@ -39,11 +40,11 @@ namespace Proxy
         private static int numOfSentSLandSR = 0; //number of SL and SR send to voter, incremented when request comes from voter
 
 
-        public Proxy(Logs logs, Configuration conf)
+        public Proxy(Logs logs, Configuration conf, Form1 form)
         {
             this.logs = logs;
             this.configuration = conf;
-
+            this.form = form;
             this.server = new Server(this.logs,this);
 
             this.client = new Client(this.logs, this);
@@ -94,6 +95,14 @@ namespace Proxy
             }
             
 
+        }
+
+        public void disableConnectElectionAuthorityButton()
+        {
+            this.form.Invoke(new MethodInvoker(delegate()
+                {
+                    this.form.disableConnectElectionAuthorityButton();
+                }));
         }
     }
 }

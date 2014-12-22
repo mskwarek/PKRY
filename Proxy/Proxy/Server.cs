@@ -98,8 +98,10 @@ namespace Proxy
                 string signal = encoder.GetString(message, 0, bytesRead);
                 if (clientSockets[clientSocket].Equals(Constants.UNKNOWN))
                 {
-                    updateClientName(clientSocket, signal);
-                    Console.WriteLine("update clients name: " + signal);
+                    updateClientName(clientSocket, signal); //clients as first message send his id
+                    string msg = Constants.CONNECTION_SUCCESSFUL + "&";
+                    sendMessage(clientSockets[clientSocket], msg);
+                    logs.addLog(Constants.VOTER_CONNECTED, true, Constants.LOG_MESSAGE, true);
                 }
                 else
                 {

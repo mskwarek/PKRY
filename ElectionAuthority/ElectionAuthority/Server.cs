@@ -15,13 +15,15 @@ namespace ElectionAuthority
         private Dictionary<TcpClient, string> clientSockets;
         private ASCIIEncoding encoder;
         private Logs logs;
+        private Parser parser;
+             
 
-
-        public Server(Logs logs)
+        public Server(Logs logs, ElectionAuthority electionAuthority)
         {
             clientSockets = new Dictionary<TcpClient, string>();
             this.encoder = new ASCIIEncoding();
             this.logs = logs;
+            this.parser = new Parser(this.logs, electionAuthority);
         }
 
         public bool startServer(string port)
@@ -105,11 +107,12 @@ namespace ElectionAuthority
                 if (clientSockets[clientSocket].Equals(Constants.UNKNOWN))
                 {
                     updateClientName(clientSocket, signal);
-
+                    sendMessage(clientSockets[clientSocket], Constants.PROXY_CONNECTED);
                 }
                 else
                 {
-                    logs.addLog(signal, true, Constants.LOG_MESSAGE, true);
+                    logs.addLog(signal, true, Constants.LOG_MESSAGE, true); //do usuniecia ale narazie widzim co leci w komuniakcji
+                    this.parser.parseMessage(signal);
                 }
             }
             if (serverSocket != null)

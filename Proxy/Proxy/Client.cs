@@ -51,6 +51,7 @@ namespace Proxy
                 stream = client.GetStream();
                 clientThread = new Thread(new ThreadStart(displayMessageReceived));
                 clientThread.Start();
+                sendMyName();
                 logs.addLog(Constants.CONNECTION_PASS, true, Constants.LOG_INFO, true);
                 return true;
             }
@@ -59,6 +60,15 @@ namespace Proxy
                 client = null;
                 logs.addLog(Constants.CONNECTION_FAILED, true, Constants.LOG_ERROR, true);
                 return false;
+            }
+        }
+
+        private void sendMyName()
+        {
+            {
+                byte[] buffer = encoder.GetBytes("//NAME// " + "PROXY");
+                stream.Write(buffer, 0, buffer.Length);
+                stream.Flush();
             }
         }
 
@@ -85,7 +95,6 @@ namespace Proxy
                 }
                 string strMessage = encoder.GetString(message, 0, bytesRead);
                 this.parserEA.parseMessageFromEA(strMessage);
-                logs.addLog(Constants.RECEIVED_FROM_EA, true, Constants.LOG_MESSAGE, true);
             }
             if (client != null)
             {

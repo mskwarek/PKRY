@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Windows.Forms;
+
+
 namespace Voter
 {
     partial class Form1
@@ -39,8 +41,7 @@ namespace Voter
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.getSLandSRButton = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.textBoxes = new List<TextBox>();
-            this.voteButtons = new List<Button[]>();
+            this.getCandidateListButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // EAConnectButton
@@ -115,11 +116,23 @@ namespace Voter
             this.panel1.Size = new System.Drawing.Size(588, 450);
             this.panel1.TabIndex = 4;
             // 
+            // getCandidateListButton
+            // 
+            this.getCandidateListButton.Enabled = false;
+            this.getCandidateListButton.Location = new System.Drawing.Point(13, 399);
+            this.getCandidateListButton.Name = "getCandidateListButton";
+            this.getCandidateListButton.Size = new System.Drawing.Size(162, 23);
+            this.getCandidateListButton.TabIndex = 6;
+            this.getCandidateListButton.Text = "Get candidate list";
+            this.getCandidateListButton.UseVisualStyleBackColor = true;
+            this.getCandidateListButton.Click += new System.EventHandler(this.getCandidateListButton_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(988, 478);
+            this.Controls.Add(this.getCandidateListButton);
             this.Controls.Add(this.getSLandSRButton);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.configButton);
@@ -142,10 +155,9 @@ namespace Voter
         private System.Windows.Forms.ColumnHeader logColumn;
         private System.Windows.Forms.Button configButton;
         private System.Windows.Forms.OpenFileDialog openFileDialog;
-        private List<TextBox> textBoxes;
-        private List<Button[]> voteButtons;
         private Button getSLandSRButton;
         private Panel panel1;
+        private Button getCandidateListButton;
     }
 }
 

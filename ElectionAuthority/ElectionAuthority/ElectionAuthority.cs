@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Numerics;
 using System.Net.Sockets;
+using System.Windows.Forms;
 
 namespace ElectionAuthority
 {
@@ -11,12 +12,17 @@ namespace ElectionAuthority
     {
         ASCIIEncoding encoder;
         private Logs logs;
-        //server for client
-        private Server serverClient;
-
-        //server for proxy
-        private Server serverProxy;
-
+        private Form1 form;
+        private Server serverClient; // server for clients (voters)
+        public Server ServerClient
+        {
+            get { return serverClient; }
+        }
+        private Server serverProxy; // server for proxy
+        public Server ServerProxy
+        {
+            get { return serverProxy; }
+        }
         private CandidateList candidateList;
         private List<String> candidateDefaultList;
         private Configuration configuration;
@@ -36,16 +42,18 @@ namespace ElectionAuthority
 
         private int numberOfVoters;
 
-        public ElectionAuthority(Logs logs, Configuration configuration, Server serverClient, Server serverProxy)
+        public ElectionAuthority(Logs logs, Configuration configuration, Form1 form)
         {
             this.encoder = new ASCIIEncoding();
             this.logs = logs;
             this.configuration = configuration;
+            this.form = form;
             //server for Clients
-            this.serverClient = serverClient;
+            this.serverClient = new Server(this.logs,this);
 
+            
             //server for Proxy
-            this.serverProxy = serverProxy;
+            this.serverProxy = new Server(this.logs,this);
 
             this.numberOfVoters = Convert.ToInt32(this.configuration.NumberOfVoters);
             permutation = new Permutation(this.logs);
@@ -141,7 +149,43 @@ namespace ElectionAuthority
         {
             //before sending we have to convert dictionary to string. We use our own conversion to recoginize message in proxy and reparse it to dictionary
             string serialNumberAndTokens = Converter.convertDictionaryToString(Constants.SL_TOKENS, this.dictionarySLTokens);
-            this.serverProxy.sendMessage(Constants.UNKNOWN, serialNumberAndTokens);
+            this.serverProxy.sendMessage(Constants.PROXY, serialNumberAndTokens);
+        }
+
+        public void disableSendSLTokensAndTokensButton()
+        {
+            this.form.Invoke(new MethodInvoker(delegate()
+                {
+                    this.form.disableSendSLTokensAndTokensButton();
+                }));
+
+        }
+
+        public void getCandidateListPermuated(string name, BigInteger SL)
+        {
+            List<BigInteger> permutation = new List<BigInteger>();
+            permutation = this.dictionarySLPermuation[SL];
+
+            List<String> candidateList = new List<string>();
+
+            for (int i = 0; i < this.candidateDefaultList.Count; i++)
+            {
+                int index = (int)permutation[i];
+                candidateList.Add(candidateDefaultList[index-1]);
+            }
+
+            string candidateListString = Constants.CANDIDATE_LIST_RESPONSE + "&";
+
+            for(int i =0; i<candidateList.Count;i++)
+            {
+                if (i < candidateList.Count - 1)
+                    candidateListString += candidateList[i] + ";";
+                else
+                    candidateListString += candidateList[i];
+            }
+
+            this.serverClient.sendMessage(name, candidateListString);
+
         }
     }
 }

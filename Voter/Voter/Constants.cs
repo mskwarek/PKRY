@@ -37,6 +37,8 @@ namespace Voter
         public const string REQUEST_FOR_SL_AND_SR="REQUEST_FOR_SL_AND_SR";
         public const string SL_AND_SR = "SL_AND_SR";
         public const string SR_AND_SR_RECEIVED = "SL and SR received correctly from Proxy";
-        
+        public const string GET_CANDIDATE_LIST = "GET_CANDIDATE_LIST";
+        public const string CONNECTION_SUCCESSFUL = "CONNECTION_SUCCESSFUL";
+        public const string CANDIDATE_LIST_RESPONSE = "CANDIDATE_LIST_RESPONSE";
     }
 }

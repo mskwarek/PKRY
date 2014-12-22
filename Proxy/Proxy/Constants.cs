@@ -45,7 +45,12 @@ namespace Proxy
 
         public const string REQUEST_FOR_SL_AND_SR = "REQUEST_FOR_SL_AND_SR";
         public const string SL_AND_SR = "SL_AND_SR";
-        public const string ERROR_SEND_SL_AND_SR="Unable to send SL and SR, because they are not ready";  
-        
+        public const string ERROR_SEND_SL_AND_SR="Unable to send SL and SR, because they are not ready";
+        public const string SL_RECEIVED_SUCCESSFULLY = "SL_RECEIVED_SUCCESSFULLY";
+        public const string CONNECTION_SUCCESSFUL = "CONNECTION_SUCCESSFUL";
+        public const string VOTER_CONNECTED = "Voter connected successfully to Proxy";
+        public const string PROXY_CONNECTED = "PROXY_CONNECTED";
+        public const string PROXY_CONNECTED_TO_EA= "Proxy connected successfully to EA";
+        public const string SL_RECEIVED = "Proxy received SL from EA"; 
     }
 }
