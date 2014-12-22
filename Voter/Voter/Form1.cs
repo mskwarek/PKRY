@@ -16,7 +16,6 @@ namespace Voter
         private Configuration configuration;
 
 
-        private VoterBallot ballot;
         private Voter voter;
         private List<TextBox> textBoxes;
         public List<TextBox> TextBoxes
@@ -46,7 +45,7 @@ namespace Voter
         {
             Button clickedButton = sender as Button;
             String[] words = clickedButton.Name.Split(';');
-            if (this.ballot.vote(Convert.ToInt32(words[1]), Convert.ToInt32(words[2])))
+            if (this.voter.VoterBallot.vote(Convert.ToInt32(words[1]), Convert.ToInt32(words[2])))
             {
                 logs.addLog(Constants.VOTE_DONE, true, Constants.LOG_INFO, true);
             }

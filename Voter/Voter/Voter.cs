@@ -10,7 +10,6 @@ namespace Voter
     {
         private Logs logs;
         private Configuration configuration;
-        private List<String> candidateList;
         private Client proxyClient;
         public Client ProxyClient
         {
