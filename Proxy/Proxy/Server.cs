@@ -20,13 +20,18 @@ namespace Proxy
         private ASCIIEncoding encoder;
         private Logs logs;
 
+        private ParserClient parserClient;
+        private Proxy proxy;
 
-        public Server(Logs logs)
+        public Server(Logs logs, Proxy proxy)
         {
             clientSockets = new Dictionary<TcpClient, string>();
             this.encoder = new ASCIIEncoding();
             this.logs = logs;
+            this.parserClient = new ParserClient(this.logs, proxy);
         }
+
+        
 
         public bool startServer(string port)
         {
@@ -91,21 +96,28 @@ namespace Proxy
                 }
 
                 string signal = encoder.GetString(message, 0, bytesRead);
-
                 if (clientSockets[clientSocket].Equals(Constants.UNKNOWN))
                 {
                     updateClientName(clientSocket, signal);
+                    Console.WriteLine("update clients name: " + signal);
                 }
                 else
                 {
+                    this.parserClient.parseMessageFromClient(signal);
                     logs.addLog(signal, true, Constants.LOG_MESSAGE, true);
                 }
             }
             if (serverSocket != null)
             {
-                clientSocket.GetStream().Close();
-                clientSocket.Close();
-                clientSockets.Remove(clientSocket);
+                try
+                {
+                    clientSocket.GetStream().Close();
+                    clientSocket.Close();
+                    clientSockets.Remove(clientSocket);
+                }
+                catch
+                {
+                }
                 logs.addLog(Constants.DISCONNECTED_NODE, true, Constants.LOG_ERROR, true);
             }
 
@@ -130,19 +142,18 @@ namespace Proxy
 
         public void sendMessage(string name, string msg)
         {
+            for (int i = 0; i < clientSockets.Count; i++)
+            {
+                Console.WriteLine("nazwy clientow " + clientSockets.ElementAt(i).Value.ToString()); 
+            }
+
+
             if (serverSocket != null)
             {
                 NetworkStream stream = null;
-                TcpClient client = null;
-                List<TcpClient> clientsList = clientSockets.Keys.ToList();
-                for (int i = 0; i < clientsList.Count; i++)
-                {
-                    if (clientSockets[clientsList[i]].Equals(name))
-                    {
-                        client = clientsList[i];
-                        break;
-                    }
-                }
+                TcpClient client = getTcpClient(name);
+                
+                
 
                 if (client != null)
                 {
@@ -169,6 +180,22 @@ namespace Proxy
                 string[] tmp = signal.Split(' ');
                 clientSockets[client] = tmp[1];
             }
+        }
+
+
+        private TcpClient getTcpClient(string name)
+        {
+            TcpClient client = null;
+            List<TcpClient> clientsList = clientSockets.Keys.ToList();
+            for (int i = 0; i < clientsList.Count; i++)
+            {
+                if (clientSockets[clientsList[i]].Equals(name))
+                {
+                    client = clientsList[i];
+                    return client;
+                }
+            }
+            return null;
         }
 
 

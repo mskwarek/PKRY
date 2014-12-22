@@ -33,5 +33,10 @@ namespace Voter
         public const string VOTE_DONE = "Vote done.";
         public const string VOTE_ERROR = "Vote error (2nd button for one candidate).";
         
+        
+        public const string REQUEST_FOR_SL_AND_SR="REQUEST_FOR_SL_AND_SR";
+        public const string SL_AND_SR = "SL_AND_SR";
+        public const string SR_AND_SR_RECEIVED = "SL and SR received correctly from Proxy";
+        
     }
 }

@@ -17,11 +17,11 @@ namespace Proxy
         private Logs logs;
         private ParserEA parserEA;
 
-        public Client(Logs logs, ParserEA parserEA)
+        public Client(Logs logs, Proxy proxy)
         {
             this.encoder = new ASCIIEncoding();
             this.logs = logs;
-            this.parserEA = parserEA;
+            this.parserEA = new ParserEA(this.logs, proxy);
         }
 
 

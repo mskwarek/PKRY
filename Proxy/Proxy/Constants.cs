@@ -42,7 +42,10 @@ namespace Proxy
         public const string SL_TOKENS = "SL_TOKENS"; //used to recognize message from EA
         public const string RECEIVED_FROM_EA ="Date received from EA";
         public const string SR_CONNECTED_WITH_SL = "SR connected with serial numbers SL";
-        
+
+        public const string REQUEST_FOR_SL_AND_SR = "REQUEST_FOR_SL_AND_SR";
+        public const string SL_AND_SR = "SL_AND_SR";
+        public const string ERROR_SEND_SL_AND_SR="Unable to send SL and SR, because they are not ready";  
         
     }
 }

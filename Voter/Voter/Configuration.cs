@@ -100,7 +100,7 @@ namespace Voter
                 this.proxyIP = voterConf[3];
                 this.proxyPort = voterConf[4];
                 this.numberOfCandidates = Convert.ToInt32(voterConf[5]);
-                this.name = voterConf[5];
+                this.name = voterConf[6];
 
 
                 string[] filePath = path.Split('\\');

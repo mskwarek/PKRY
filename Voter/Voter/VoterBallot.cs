@@ -10,9 +10,18 @@ namespace Voter
     {
         private int NumberOfCandidates;
         private int [,] voted;
-        private BigInteger Sl;
-        private BigInteger Sr;
-
+        private BigInteger sl;
+        public BigInteger SL
+        {
+            set { sl = value; }
+            get { return sl; }
+        }
+        private BigInteger sr;
+        public BigInteger SR
+        {
+            set { sr = value; }
+            get { return sr; }
+        }
         public VoterBallot(int numbOfCand)
         {
             NumberOfCandidates = numbOfCand;

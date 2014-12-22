@@ -15,24 +15,22 @@ namespace Voter
         private Logs logs;
         private Configuration configuration;
 
-        private Client electionAuthorityClient;
-        private Client proxyClient;
 
         private VoterBallot ballot;
-
+        private Voter voter;
         public Form1()
         {
             InitializeComponent();
             setColumnWidth();
             this.logs = new Logs(this.logsListView);
             this.configuration = new Configuration(this.logs);
-            this.electionAuthorityClient = new Client(this.configuration.Name, this.logs);
-            this.proxyClient = new Client(this.configuration.Name , this.logs);
+            
+
         }
 
         private void EAConnectButton_Click(object sender, EventArgs e)
         {
-            this.electionAuthorityClient.connect(this.configuration.ElectionAuthorityIP, this.configuration.ElectionAuthorityPort, Constants.ELECTION_AUTHORITY);
+            this.voter.ElectionAuthorityClient.connect(this.configuration.ElectionAuthorityIP, this.configuration.ElectionAuthorityPort, Constants.ELECTION_AUTHORITY);
             this.configButton.Enabled = false;
         }
 
@@ -61,13 +59,21 @@ namespace Voter
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
-            this.electionAuthorityClient.disconnectFromElectionAuthority();
+            if (this.voter != null)
+            {
+
+                if (this.voter.ElectionAuthorityClient.Connected)
+                    this.voter.ElectionAuthorityClient.disconnect();
+
+                if (this.voter.ProxyClient.Connected)
+                    this.voter.ProxyClient.disconnect();
+            }
         }
 
         private void ProxyConnectButton_Click(object sender, EventArgs e)
         {
-            this.proxyClient.connect(configuration.ProxyIP, configuration.ProxyPort, Constants.PROXY);
-
+            this.voter.ProxyClient.connect(configuration.ProxyIP, configuration.ProxyPort, Constants.PROXY);
+            this.getSLandSRButton.Enabled = true;
         }
 
         private void configButton_Click(object sender, EventArgs e)
@@ -79,8 +85,8 @@ namespace Voter
         {
             configuration.loadConfiguration(openFileDialog.FileName);
             enableButtonsAfterLoadingConfiguration();
-
-            this.ballot = new VoterBallot(configuration.NumberOfCandidates);
+            
+            this.voter = new Voter(this.logs, this.configuration,this);
             addFieldsForCandidates(configuration.NumberOfCandidates);
 
         }
@@ -128,6 +134,16 @@ namespace Voter
         {
             this.EAConnectButton.Enabled = true;
             this.ProxyConnectButton.Enabled = true;
+        }
+
+        private void getSLandSRButton_Click(object sender, EventArgs e)
+        {
+            this.voter.requestForSLandSR();
+        }
+
+        public void disableSLAndSRButton()
+        {
+            this.getSLandSRButton.Enabled = false;
         }
 
     }

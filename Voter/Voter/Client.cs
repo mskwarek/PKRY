@@ -16,13 +16,22 @@ namespace Voter
         private Thread clientThread;
         private Logs logs;
         private string myName;
+        private bool connected; // set when client is conected with proxy or EA
+        public bool Connected
+        {
+            get { return connected; }
+        }
+        
+        private Parser parser; //parser for both EA and Proxy message, because we don't 
+        //want to create to clients class 
 
-
-        public Client(string name, Logs logs)
+        public Client(string name, Logs logs,  Voter voter)
         {
             this.encoder = new ASCIIEncoding();
             this.logs = logs;
             this.myName = name;
+            this.parser = new Parser(this.logs, voter);
+            this.connected = false;
         }
 
 
@@ -53,6 +62,7 @@ namespace Voter
                 clientThread = new Thread(new ThreadStart(displayMessageReceived));
                 clientThread.Start();
                 sendMyName();
+                connected = true;
                 logs.addLog(Constants.CONNECTION_PASS + target, true, Constants.LOG_INFO, true);
                 return true;
             }
@@ -94,22 +104,31 @@ namespace Voter
                 {
                     break;
                 }
-
-                logs.addLog(encoder.GetString(message, 0, bytesRead), true, Constants.LOG_MESSAGE, true);
+                string msg = encoder.GetString(message, 0, bytesRead);
+                logs.addLog(msg, true, Constants.LOG_MESSAGE, true);
+                this.parser.parseMessage(msg);
             }
             if (client != null)
             {
-                disconnectFromElectionAuthority(true);
+                disconnect(true);
             }
         }
 
-        public void disconnectFromElectionAuthority(bool error = false)
+        public void disconnect(bool error = false)
         {
             if (client != null)
             {
-                client.GetStream().Close();
-                client.Close();
-                client = null;
+                try
+                {
+                    client.GetStream().Close();
+                    client.Close();
+                    client = null;
+                }
+                catch
+                {
+                    Console.WriteLine(Constants.CONNECTION_DISCONNECTED);
+                }
+
                 if (!error)
                 {
                     logs.addLog(Constants.CONNECTION_DISCONNECTED, true, Constants.LOG_INFO, true);
@@ -117,7 +136,6 @@ namespace Voter
                 else
                 {
                     logs.addLog(Constants.CONNECTION_DISCONNECTED_ERROR, true, Constants.LOG_ERROR, true);
-                    //form.Invoke(new MethodInvoker(delegate() { form.buttonsEnabled(); }));
                 }
             }
         }

@@ -12,12 +12,12 @@ namespace Proxy
     public partial class Form1 : Form
     {
         private Logs logs;
-        private Server server;
-        private Client client;
+        
         
         private Configuration configuration;
 
         private ParserEA parserEA;
+        private ParserClient parserClient;
 
         private Proxy proxy;
         
@@ -26,11 +26,8 @@ namespace Proxy
             InitializeComponent();
             this.logs = new Logs(this.logsListView);
             this.configuration = new Configuration(this.logs);
-            this.server = new Server(this.logs);
-            this.proxy = new Proxy(this.logs, this.configuration, this.server);
-            this.parserEA = new ParserEA(this.logs, this.proxy);
-            
-            this.client = new Client(this.logs, this.parserEA);
+
+           
             
             
 
@@ -45,25 +42,30 @@ namespace Proxy
         {
             configuration.loadConfiguration(openFileDialog.FileName);
             enableButtonsAfterConfiguration();
-            
+            this.proxy = new Proxy(this.logs, this.configuration);
+
         }
 
         private void connectElectionAuthorityButton_Click(object sender, EventArgs e)
         {
-            this.client.connect(configuration.ElectionAuthorityIP, configuration.ElectionAuthorityPort);
+            this.proxy.Client.connect(configuration.ElectionAuthorityIP, configuration.ElectionAuthorityPort);
             this.connectElectionAuthorityButton.Enabled = false;
 
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
-            this.server.stopServer();
-            this.client.disconnectFromElectionAuthority();
+            if (this.proxy.Server != null)
+            {
+                this.proxy.Server.stopServer();
+                this.proxy.Client.disconnectFromElectionAuthority();
+            }
+            
         }
 
         private void startProxyButton_Click(object sender, EventArgs e)
         {
-            this.server.startServer(configuration.ProxyPort);
+            this.proxy.Server.startServer(configuration.ProxyPort);
             this.proxy.generateSR();
 
 
@@ -77,9 +79,9 @@ namespace Proxy
             this.connectElectionAuthorityButton.Enabled = true;
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void sendSLAndSR_Click(object sender, EventArgs e)
         {
-            this.proxy.sendSLAndSR();
+
         }
         
     }

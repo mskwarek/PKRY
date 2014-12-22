@@ -74,7 +74,7 @@ namespace ElectionAuthority
         private void button1_Click(object sender, EventArgs e)
         {
             this.electionAuthority.sendSLAndTokensToProxy();
-            this.sendSLTokensAndTokensButton.Enabled = false;
+            //this.sendSLTokensAndTokensButton.Enabled = false;
         }
     }
 }

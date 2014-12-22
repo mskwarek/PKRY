@@ -37,6 +37,7 @@ namespace Voter
             this.logColumn = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.configButton = new System.Windows.Forms.Button();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
+            this.getSLandSRButton = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
             this.textBoxes = new List<TextBox>();
             this.voteButtons = new List<Button[]>();
@@ -45,7 +46,7 @@ namespace Voter
             // EAConnectButton
             // 
             this.EAConnectButton.Enabled = false;
-            this.EAConnectButton.Location = new System.Drawing.Point(12, 317);
+            this.EAConnectButton.Location = new System.Drawing.Point(12, 307);
             this.EAConnectButton.Name = "EAConnectButton";
             this.EAConnectButton.Size = new System.Drawing.Size(163, 25);
             this.EAConnectButton.TabIndex = 0;
@@ -56,7 +57,7 @@ namespace Voter
             // ProxyConnectButton
             // 
             this.ProxyConnectButton.Enabled = false;
-            this.ProxyConnectButton.Location = new System.Drawing.Point(12, 360);
+            this.ProxyConnectButton.Location = new System.Drawing.Point(12, 338);
             this.ProxyConnectButton.Name = "ProxyConnectButton";
             this.ProxyConnectButton.Size = new System.Drawing.Size(163, 25);
             this.ProxyConnectButton.TabIndex = 1;
@@ -95,6 +96,17 @@ namespace Voter
             this.openFileDialog.FileName = "openFileDialog";
             this.openFileDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.openFileDialog_FileOk);
             // 
+            // getSLandSRButton
+            // 
+            this.getSLandSRButton.Enabled = false;
+            this.getSLandSRButton.Location = new System.Drawing.Point(13, 370);
+            this.getSLandSRButton.Name = "getSLandSRButton";
+            this.getSLandSRButton.Size = new System.Drawing.Size(162, 23);
+            this.getSLandSRButton.TabIndex = 5;
+            this.getSLandSRButton.Text = "Get SL and SR ";
+            this.getSLandSRButton.UseVisualStyleBackColor = true;
+            this.getSLandSRButton.Click += new System.EventHandler(this.getSLandSRButton_Click);
+            // 
             // panel1
             // 
             this.panel1.AutoScroll = true;
@@ -108,6 +120,7 @@ namespace Voter
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(988, 478);
+            this.Controls.Add(this.getSLandSRButton);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.configButton);
             this.Controls.Add(this.logsListView);
@@ -129,9 +142,10 @@ namespace Voter
         private System.Windows.Forms.ColumnHeader logColumn;
         private System.Windows.Forms.Button configButton;
         private System.Windows.Forms.OpenFileDialog openFileDialog;
-        private System.Windows.Forms.Panel panel1;
         private List<TextBox> textBoxes;
         private List<Button[]> voteButtons;
+        private Button getSLandSRButton;
+        private Panel panel1;
     }
 }
 
