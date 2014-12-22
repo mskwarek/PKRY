@@ -45,7 +45,6 @@ namespace Proxy
             this.configuration = conf;
 
             this.server = new Server(this.logs,this);
-
             this.client = new Client(this.logs, this);
 
 
@@ -95,5 +94,6 @@ namespace Proxy
             
 
         }
+
     }
 }
