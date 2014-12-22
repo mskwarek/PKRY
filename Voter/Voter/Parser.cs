@@ -30,6 +30,9 @@ namespace Voter
                 case Constants.CONNECTION_SUCCESSFUL:
                     disableConnectionProxyButton();
                     break;
+                case Constants.CONNECTED:
+                    disableConnectionEAButton();
+                    break;
                 case Constants.CANDIDATE_LIST_RESPONSE:
                     saveCandidateList(elem[1]);
                     break;
@@ -38,6 +41,11 @@ namespace Voter
             }
 
 
+        }
+
+        private void disableConnectionEAButton()
+        {
+            this.voter.disableConnectionEAButton(); 
         }
 
         private void saveCandidateList(string list)

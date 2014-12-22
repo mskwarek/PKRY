@@ -40,7 +40,7 @@ namespace ElectionAuthority
         public const string SL_RECEIVED_SUCCESSFULLY = "SL_RECEIVED_SUCCESSFULLY";
         public const string SL_AND_SR_SENT_SUCCESSFULLY = "SL sent successfully to Proxy";
         public const string PROXY ="PROXY";
-        public static string PROXY_CONNECTED = "PROXY_CONNECTED";
+        public static string CONNECTED = "CONNECTED";
 
         public const string GET_CANDIDATE_LIST = "GET_CANDIDATE_LIST";
         public const string CANDIDATE_LIST_RESPONSE = "CANDIDATE_LIST_RESPONSE";

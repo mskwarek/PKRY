@@ -40,5 +40,6 @@ namespace Voter
         public const string GET_CANDIDATE_LIST = "GET_CANDIDATE_LIST";
         public const string CONNECTION_SUCCESSFUL = "CONNECTION_SUCCESSFUL";
         public const string CANDIDATE_LIST_RESPONSE = "CANDIDATE_LIST_RESPONSE";
+        public const string CONNECTED = "CONNECTED";
     }
 }

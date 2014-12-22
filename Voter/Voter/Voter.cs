@@ -68,6 +68,14 @@ namespace Voter
                 }));
         }
 
+        public void disableConnectionEAButton()
+        {
+            this.form.Invoke(new MethodInvoker(delegate()
+                {
+                    this.form.disableConnectionEAButton();
+                }));
+        }
+
         public void saveCandidateList(string msg)
         {
             string[] list = msg.Split(';');
@@ -80,5 +88,7 @@ namespace Voter
                     }));
             }
         }
+
+        
     }
 }

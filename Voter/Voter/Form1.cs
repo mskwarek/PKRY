@@ -165,5 +165,10 @@ namespace Voter
             this.ProxyConnectButton.Enabled = false;
 
         }
+
+        public void disableConnectionEAButton()
+        {
+            this.EAConnectButton.Enabled = false;
+        }
     }
 }

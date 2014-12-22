@@ -49,7 +49,7 @@ namespace Proxy
         public const string SL_RECEIVED_SUCCESSFULLY = "SL_RECEIVED_SUCCESSFULLY";
         public const string CONNECTION_SUCCESSFUL = "CONNECTION_SUCCESSFUL";
         public const string VOTER_CONNECTED = "Voter connected successfully to Proxy";
-        public const string PROXY_CONNECTED = "PROXY_CONNECTED";
+        public const string CONNECTED = "CONNECTED";
         public const string PROXY_CONNECTED_TO_EA= "Proxy connected successfully to EA";
         public const string SL_RECEIVED = "Proxy received SL from EA"; 
     }

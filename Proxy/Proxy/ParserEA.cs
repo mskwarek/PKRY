@@ -51,7 +51,7 @@ namespace Proxy
                         this.proxy.Client.sendMessage(Constants.SL_RECEIVED_SUCCESSFULLY + "&");
                     this.logs.addLog(Constants.SL_RECEIVED, true, Constants.LOG_INFO, true);
                     break;
-                case Constants.PROXY_CONNECTED:
+                case Constants.CONNECTED:
                     this.proxy.disableConnectElectionAuthorityButton();
                     this.logs.addLog(Constants.PROXY_CONNECTED_TO_EA, true, Constants.LOG_INFO, true);
                     break;
