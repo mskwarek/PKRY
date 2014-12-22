@@ -42,15 +42,13 @@ namespace Proxy
         {
             configuration.loadConfiguration(openFileDialog.FileName);
             enableButtonsAfterConfiguration();
-            this.proxy = new Proxy(this.logs, this.configuration);
+            this.proxy = new Proxy(this.logs, this.configuration,this);
 
         }
 
         private void connectElectionAuthorityButton_Click(object sender, EventArgs e)
         {
             this.proxy.Client.connect(configuration.ElectionAuthorityIP, configuration.ElectionAuthorityPort);
-            this.connectElectionAuthorityButton.Enabled = false;
-
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
@@ -79,10 +77,11 @@ namespace Proxy
             this.connectElectionAuthorityButton.Enabled = true;
         }
 
-        private void sendSLAndSR_Click(object sender, EventArgs e)
+        public void disableConnectElectionAuthorityButton()
         {
+            this.connectElectionAuthorityButton.Enabled = false;
+
 
         }
-        
     }
 }

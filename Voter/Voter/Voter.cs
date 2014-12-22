@@ -52,5 +52,33 @@ namespace Voter
                 }
                 ));
         }
+
+        public void requestForCandidatesList()
+        {
+            string msg = Constants.GET_CANDIDATE_LIST +"&" +this.configuration.Name+ "=" + this.voterBallot.SL.ToString();
+            this.electionAuthorityClient.sendMessage(msg);
+        }
+
+        public void disableConnectionProxyButton()
+        {
+            this.form.Invoke(new MethodInvoker(delegate()
+                {
+                    this.form.disableConectionProxyButton();
+
+                }));
+        }
+
+        public void saveCandidateList(string msg)
+        {
+            string[] list = msg.Split(';');
+            Console.WriteLine("dlugosc powinna byc 5 a jest" + list.Length);
+            for(int i=0;i<list.Length;i++)
+            {
+                this.form.Invoke(new MethodInvoker(delegate()
+                    {
+                        this.form.TextBoxes[i].Text = list[i];
+                    }));
+            }
+        }
     }
 }

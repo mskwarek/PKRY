@@ -13,8 +13,6 @@ namespace ElectionAuthority
     public partial class Form1 : Form
     {
         private Logs logs;
-        private Server serverClient; // server for clients (voters)
-        private Server serverProxy; // server for proxy
         private Configuration configuration;
 
         private ElectionAuthority electionAuthority;
@@ -25,15 +23,13 @@ namespace ElectionAuthority
             setColumnWidth();            
             logs = new Logs(this.logsListView);
             configuration = new Configuration(this.logs);
-            serverClient = new Server(this.logs);
-
-            serverProxy = new Server(this.logs);
+            
         }
 
         private void startElectionAuthorityButton_Click(object sender, EventArgs e)
         {
-            this.serverClient.startServer(configuration.ElectionAuthorityPortClient);
-            this.serverProxy.startServer(configuration.ElectionAuthorityPortProxy);
+            this.electionAuthority.ServerClient.startServer(configuration.ElectionAuthorityPortClient);
+            this.electionAuthority.ServerProxy.startServer(configuration.ElectionAuthorityPortProxy);
             this.startElectionAuthorityButton.Enabled = false;
             this.sendSLTokensAndTokensButton.Enabled = true;
             
@@ -50,7 +46,7 @@ namespace ElectionAuthority
         {
             configuration.loadConfiguration(openFileDialog.FileName);
             enableButtonAfterConfiguration();
-            electionAuthority = new ElectionAuthority(this.logs, this.configuration, this.serverClient, this.serverProxy);
+            electionAuthority = new ElectionAuthority(this.logs, this.configuration,this);
         }
 
 
@@ -62,8 +58,14 @@ namespace ElectionAuthority
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
-            this.serverClient.stopServer();
-            this.serverProxy.stopServer();
+            if (this.electionAuthority != null)
+            {
+                if (this.electionAuthority.ServerProxy != null)
+                    this.electionAuthority.ServerClient.stopServer();
+                if (this.electionAuthority.ServerClient != null)
+                    this.electionAuthority.ServerProxy.stopServer();
+            }
+            
         }
 
         private void setColumnWidth()
@@ -74,7 +76,11 @@ namespace ElectionAuthority
         private void button1_Click(object sender, EventArgs e)
         {
             this.electionAuthority.sendSLAndTokensToProxy();
-            //this.sendSLTokensAndTokensButton.Enabled = false;
+        }
+
+        public void disableSendSLTokensAndTokensButton()
+        {
+            this.sendSLTokensAndTokensButton.Enabled = false;
         }
     }
 }
