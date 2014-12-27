@@ -42,6 +42,8 @@ namespace Voter
             this.getSLandSRButton = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
             this.getCandidateListButton = new System.Windows.Forms.Button();
+            this.getYesNoPositionButton = new System.Windows.Forms.Button();
+            this.sendVoteButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // EAConnectButton
@@ -127,23 +129,34 @@ namespace Voter
             this.getCandidateListButton.UseVisualStyleBackColor = true;
             this.getCandidateListButton.Click += new System.EventHandler(this.getCandidateListButton_Click);
             // 
-            // getYesNoButton
+            // getYesNoPositionButton
             // 
-            this.getYesNoButton.Enabled = false;
-            this.getYesNoButton.Location = new System.Drawing.Point(13, 428);
-            this.getYesNoButton.Name = "getYesNoButton";
-            this.getYesNoButton.Size = new System.Drawing.Size(162, 23);
-            this.getYesNoButton.TabIndex = 7;
-            this.getYesNoButton.Text = "Get YES/NO position";
-            this.getYesNoButton.UseVisualStyleBackColor = true;
-            this.getYesNoButton.Click += new System.EventHandler(this.getYesNoButton_Click);
+            this.getYesNoPositionButton.Enabled = false;
+            this.getYesNoPositionButton.Location = new System.Drawing.Point(12, 428);
+            this.getYesNoPositionButton.Name = "getYesNoPositionButton";
+            this.getYesNoPositionButton.Size = new System.Drawing.Size(163, 23);
+            this.getYesNoPositionButton.TabIndex = 7;
+            this.getYesNoPositionButton.Text = "Get Yes No Position ";
+            this.getYesNoPositionButton.UseVisualStyleBackColor = true;
+            this.getYesNoPositionButton.Click += new System.EventHandler(this.getYesNoPositionButton_Click);
+            // 
+            // sendVoteButton
+            // 
+            this.sendVoteButton.Location = new System.Drawing.Point(182, 276);
+            this.sendVoteButton.Name = "sendVoteButton";
+            this.sendVoteButton.Size = new System.Drawing.Size(163, 25);
+            this.sendVoteButton.TabIndex = 8;
+            this.sendVoteButton.Text = "Send vote";
+            this.sendVoteButton.UseVisualStyleBackColor = true;
+            this.sendVoteButton.Click += new System.EventHandler(this.sendVoteButton_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(988, 478);
-            this.Controls.Add(this.getYesNoButton);
+            this.Controls.Add(this.sendVoteButton);
+            this.Controls.Add(this.getYesNoPositionButton);
             this.Controls.Add(this.getCandidateListButton);
             this.Controls.Add(this.getSLandSRButton);
             this.Controls.Add(this.panel1);
@@ -151,6 +164,7 @@ namespace Voter
             this.Controls.Add(this.logsListView);
             this.Controls.Add(this.ProxyConnectButton);
             this.Controls.Add(this.EAConnectButton);
+            this.Enabled = false;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
             this.Text = "Voter";
@@ -170,7 +184,8 @@ namespace Voter
         private Button getSLandSRButton;
         private Panel panel1;
         private Button getCandidateListButton;
-        private Button getYesNoButton;
+        private Button getYesNoPositionButton;
+        private Button sendVoteButton;
     }
 }
 

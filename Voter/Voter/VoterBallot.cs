@@ -10,6 +10,10 @@ namespace Voter
     {
         private int numberOfCandidates;
         private int [,] voted;
+        public int[,] Voted
+        {
+            get { return voted; }
+        }
         private BigInteger sl;
         public BigInteger SL
         {

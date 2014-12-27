@@ -59,7 +59,7 @@ namespace Voter
                 {
                     logs.addLog(Constants.VOTE_FINISH, true, Constants.LOG_INFO, true);
                     this.disableVoteButtons();
-                    this.voter.sendVoteToProxy();
+                    this.sendVoteButton.Enabled = true;
 
                 }
 
@@ -179,7 +179,7 @@ namespace Voter
         {
             this.getSLandSRButton.Enabled = false;
             this.getCandidateListButton.Enabled = true;
-            this.getYesNoButton.Enabled = true;
+            this.getYesNoPositionButton.Enabled = true;
         }
 
         private void getCandidateListButton_Click(object sender, EventArgs e)
@@ -199,11 +199,6 @@ namespace Voter
             this.EAConnectButton.Enabled = false;
         }
 
-        private void getYesNoButton_Click(object sender, EventArgs e)
-        {
-            this.voter.getYesNoPosition();
-        }
-
         public void disableGetCandidateListButton()
         {
             this.getCandidateListButton.Enabled = false;
@@ -211,7 +206,17 @@ namespace Voter
 
         public void disableGetYesNoPositionButton()
         {
-            this.getYesNoButton.Enabled = false;
+            this.getYesNoPositionButton.Enabled = false;
+        }
+
+        private void getYesNoPositionButton_Click(object sender, EventArgs e)
+        {
+            this.voter.getYesNoPosition();
+        }
+
+        private void sendVoteButton_Click(object sender, EventArgs e)
+        {
+            this.voter.sendVoteToProxy();
         }
     }
 }

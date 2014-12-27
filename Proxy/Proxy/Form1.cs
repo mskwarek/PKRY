@@ -16,8 +16,6 @@ namespace Proxy
         
         private Configuration configuration;
 
-        private ParserEA parserEA;
-        private ParserClient parserClient;
 
         private Proxy proxy;
         

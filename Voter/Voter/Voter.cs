@@ -139,7 +139,18 @@ namespace Voter
 
         public void sendVoteToProxy()
         {
-            //throw new NotImplementedException();
+            int[,] table = this.voterBallot.Voted;
+            Console.WriteLine("First dimension: " + table.GetLength(0));
+            Console.WriteLine("First dimension: " + table.GetLength(1));
+
+            for (int i = 0; i < table.GetLength(0); i++)
+            {
+
+                for (int j = 0; j < table.GetLength(1); j++)
+                {
+
+                }
+            }
         }
     }
 }

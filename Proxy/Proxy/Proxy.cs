@@ -41,6 +41,8 @@ namespace Proxy
         private static int numOfSentYesNo = 0; //numer of YesNo position sent to voter, incremented when request comes from voter
 
         private List<string> yesNoPosition; //its list which contains position of YES and NO buttons on ballot of each voter
+        private Dictionary<string, string> yesNoPositionDict; // we use it to know which voter has exact yesNoPosition 
+
 
         public Proxy(Logs logs, Configuration conf, Form1 form)
         {
@@ -71,6 +73,8 @@ namespace Proxy
         public void generateYesNoPosition()
         {
             this.yesNoPosition = new List<string>();
+            this.yesNoPositionDict = new Dictionary<string, string>(); // we will use it when request from voter comes
+
             this.yesNoPosition = SerialNumberGenerator.getYesNoPosition(this.configuration.NumOfVoters, this.configuration.NumOfCandidates);
             logs.addLog(Constants.YES_NO_POSITION_GEN_SUCCESSFULL, true, Constants.LOG_INFO);
         }
@@ -115,6 +119,7 @@ namespace Proxy
         {
             if (this.yesNoPosition != null)
             {
+                this.yesNoPositionDict.Add(name,this.yesNoPosition.ElementAt(numOfSentYesNo));
                 string msg = Constants.YES_NO_POSITION + "&" + this.yesNoPosition.ElementAt(numOfSentYesNo);
                 numOfSentYesNo += 1;
                 this.server.sendMessage(name, msg);
