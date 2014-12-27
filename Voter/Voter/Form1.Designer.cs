@@ -42,7 +42,6 @@ namespace Voter
             this.getSLandSRButton = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
             this.getCandidateListButton = new System.Windows.Forms.Button();
-            this.getYesNoButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // EAConnectButton

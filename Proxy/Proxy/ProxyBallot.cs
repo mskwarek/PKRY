@@ -25,7 +25,7 @@ namespace Proxy
         private int[,] vote;                                            //vote from voter
         private int[,] ballotMatrix;                                    //ballot matrix just fo proxy operations
         private List<string> columns;
-        private List<BigInteger[]> tokens;
+        private List<Org.BouncyCastle.Math.BigInteger[]> tokens;
         
        
         public ProxyBallot()
