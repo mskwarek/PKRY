@@ -147,7 +147,7 @@ namespace Proxy
             }
 
             this.proxyBallots.Add(name, new ProxyBallot(vote));
-        
+            this.logs.addLog(Constants.VOTE_RECEIVED + name, true, Constants.LOG_INFO, true);
         
         }
     }

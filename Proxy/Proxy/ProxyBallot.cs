@@ -33,7 +33,7 @@ namespace Proxy
             this.vote = vote;
             sng = sng.getInstance();
             this.SR = sng.getNextSr();
-            ballotMatrix = new int [Configuration.candidates, Configuration.ballotSize];
+            ballotMatrix = new int[this.vote.GetLength(0), this.vote.GetLength(1)];
             //init keyPair generator
             KeyGenerationParameters para = new KeyGenerationParameters(new SecureRandom(), 1024);
             RsaKeyPairGenerator keyGen = new RsaKeyPairGenerator();

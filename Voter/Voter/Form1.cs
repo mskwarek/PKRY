@@ -202,7 +202,7 @@ namespace Voter
         public void disableGetCandidateListButton()
         {
             this.getCandidateListButton.Enabled = false;
-            if (this.getCandidateListButton.Enabled == false)
+            if (this.getYesNoPositionButton.Enabled == false)
                 this.sendVoteButton.Enabled = true;
         }
 
@@ -221,6 +221,8 @@ namespace Voter
         private void sendVoteButton_Click(object sender, EventArgs e)
         {
             this.voter.sendVoteToProxy();
+            this.sendVoteButton.Enabled = false;
+                 
         }
     }
 }

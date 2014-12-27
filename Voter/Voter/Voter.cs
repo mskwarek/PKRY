@@ -140,8 +140,6 @@ namespace Voter
         public void sendVoteToProxy()
         {
             int[,] table = this.voterBallot.Voted;
-            Console.WriteLine("First dimension: " + table.GetLength(0));
-            Console.WriteLine("First dimension: " + table.GetLength(1));
             string message = Constants.VOTE + "&" + this.configuration.Name + ";";
             for (int i = 0; i < table.GetLength(0); i++)
             {
@@ -155,8 +153,8 @@ namespace Voter
                     else
                         message = message + table[i, j].ToString() + ":";
                 }
+                //vote wyglada tak: VOTE&Voter0;1:0:0:0;1:0:0:0;0:0:0:1;0:0:0:1;0:0:0:1
             }
-            Console.WriteLine("vote wyglada tak: " + message);
 
             this.proxyClient.sendMessage(message);
 
