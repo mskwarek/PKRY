@@ -8,7 +8,7 @@ namespace Voter
 {
     class VoterBallot
     {
-        private int NumberOfCandidates;
+        private int numberOfCandidates;
         private int [,] voted;
         private BigInteger sl;
         public BigInteger SL
@@ -22,14 +22,19 @@ namespace Voter
             set { sr = value; }
             get { return sr; }
         }
+
+        private int numOfVotes;
+
         public VoterBallot(int numbOfCand)
         {
-            NumberOfCandidates = numbOfCand;
+            numberOfCandidates = numbOfCand;
+            numOfVotes = 0;
             voted = new int[numbOfCand, Constants.BALLOTSIZE];
         }
 
         public bool vote(int x, int y)
         {
+
             if (voteInRowDone(x, y))
             {
                 return false;
@@ -37,6 +42,7 @@ namespace Voter
             else
             {
                 voted[x, y] = 1;
+                numOfVotes += 1;
                 return true;
             }
             
@@ -56,5 +62,13 @@ namespace Voter
         }
 
 
+
+        public bool voteDone()
+        {
+            if (numOfVotes == this.numberOfCandidates)
+                return true;
+            else
+                return false;
+        }
     }
 }

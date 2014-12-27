@@ -37,8 +37,10 @@ namespace Proxy
         }
 
         private Dictionary<BigInteger, BigInteger> serialNumberAndSR; //connects serialNumbers SL and SR 
-        private static int numOfSentSLandSR = 0; //number of SL and SR send to voter, incremented when request comes from voter
+        private static int numOfSentSLandSR = 0; //number of SL and SR sent to voter, incremented when request comes from voter
+        private static int numOfSentYesNo = 0; //numer of YesNo position sent to voter, incremented when request comes from voter
 
+        private List<string> yesNoPosition; //its list which contains position of YES and NO buttons on ballot of each voter
 
         public Proxy(Logs logs, Configuration conf, Form1 form)
         {
@@ -66,6 +68,12 @@ namespace Proxy
 
         }
 
+        public void generateYesNoPosition()
+        {
+            this.yesNoPosition = new List<string>();
+            this.yesNoPosition = SerialNumberGenerator.getYesNoPosition(this.configuration.NumOfVoters, this.configuration.NumOfCandidates);
+            logs.addLog(Constants.YES_NO_POSITION_GEN_SUCCESSFULL, true, Constants.LOG_INFO);
+        }
 
         public void connectSRandSL()
         {
@@ -84,7 +92,6 @@ namespace Proxy
                 string msg = Constants.SL_AND_SR + "&" + this.serialNumberAndSR.ElementAt(numOfSentSLandSR).Key.ToString()
                      + "=" +
                     this.serialNumberAndSR.ElementAt(numOfSentSLandSR).Value.ToString();
-                //msg = SL_AND_SR&keySL = valueSR
                 numOfSentSLandSR += 1;
                 this.server.sendMessage(name, msg);
             }
@@ -103,5 +110,17 @@ namespace Proxy
                     this.form.disableConnectElectionAuthorityButton();
                 }));
         }
+
+        public void sendYesNoPosition(string name)
+        {
+            if (this.yesNoPosition != null)
+            {
+                string msg = Constants.YES_NO_POSITION + "&" + this.yesNoPosition.ElementAt(numOfSentYesNo);
+                numOfSentYesNo += 1;
+                this.server.sendMessage(name, msg);
+            }
+        }
+
+        
     }
 }

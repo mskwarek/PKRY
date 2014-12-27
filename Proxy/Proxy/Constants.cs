@@ -16,6 +16,7 @@ namespace Proxy
         public const string ELECTION_AUTHORITY_IP = "electionAuthorityIP";
         public const string ELECTION_AUTHORITY_PORT = "electionAuthorityPort";
         public const string NUMBER_OF_VOTERS = "numberOfVoters";
+        public const string NUMBER_OF_CANDIDATES = "numberOfCandidates";
         public const string CONFIGURATION_LOADED_FROM = "Configuration loaded from file: ";
          
 
@@ -36,14 +37,15 @@ namespace Proxy
 
 
         public const int NUMBER_OF_BITS_SR = 64;
-        public const int NUMBER_OF_CANDIDATES = 10;
+        public const int NUM_OF_CANDIDATES = 5;
+        
 
 
         public const string SL_TOKENS = "SL_TOKENS"; //used to recognize message from EA
         public const string RECEIVED_FROM_EA ="Date received from EA";
         public const string SR_CONNECTED_WITH_SL = "SR connected with serial numbers SL";
 
-        public const string REQUEST_FOR_SL_AND_SR = "REQUEST_FOR_SL_AND_SR";
+        public const string GET_SL_AND_SR = "GET_SL_AND_SR";
         public const string SL_AND_SR = "SL_AND_SR";
         public const string ERROR_SEND_SL_AND_SR="Unable to send SL and SR, because they are not ready";
         public const string SL_RECEIVED_SUCCESSFULLY = "SL_RECEIVED_SUCCESSFULLY";
@@ -51,6 +53,10 @@ namespace Proxy
         public const string VOTER_CONNECTED = "Voter connected successfully to Proxy";
         public const string CONNECTED = "CONNECTED";
         public const string PROXY_CONNECTED_TO_EA= "Proxy connected successfully to EA";
-        public const string SL_RECEIVED = "Proxy received SL from EA"; 
+        public const string SL_RECEIVED = "Proxy received SL from EA";
+        public const int BALLOT_SIZE = 4;
+        public const string GET_YES_NO_POSITION = "GET_YES_NO_POSITION";
+        public const string YES_NO_POSITION_GEN_SUCCESSFULL= "Yes and No position generated successfully";
+        public const string YES_NO_POSITION = "YES_NO_POSITION";
     }
 }

@@ -124,7 +124,7 @@ namespace Proxy
         private void generateAndSplitBallotMatrix(){
             string temp;
 
-            for (int i = 0; i < Constants.NUMBER_OF_CANDIDATES; i++)
+            for (int i = 0; i < Constants.NUM_OF_CANDIDATES; i++)
             {
                 for (int j = 0; j < Constants.BALLOT_SIZE; j++)
                 {
@@ -140,7 +140,7 @@ namespace Proxy
             for (int j = 0; j < Constants.BALLOT_SIZE; j++)
             {
                 temp = "";
-                for (int i = 0; i < Constants.NUMBER_OF_CANDIDATES; i++)
+                for (int i = 0; i < Constants.NUM_OF_CANDIDATES; i++)
                 {
                     temp += ballotMatrix[i, j];
                 }

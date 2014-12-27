@@ -23,6 +23,12 @@ namespace Voter
             get { return textBoxes; }
         }
         private List<Button[]> voteButtons;
+        public List<Button[]> VoteButtons
+        {
+            get { return voteButtons; }
+        }
+
+
         public Form1()
         {
             InitializeComponent();
@@ -44,10 +50,19 @@ namespace Voter
         private void voteButton_Click(object sender, EventArgs e)
         {
             Button clickedButton = sender as Button;
+            Console.WriteLine(clickedButton);
             String[] words = clickedButton.Name.Split(';');
             if (this.voter.VoterBallot.vote(Convert.ToInt32(words[1]), Convert.ToInt32(words[2])))
             {
                 logs.addLog(Constants.VOTE_DONE, true, Constants.LOG_INFO, true);
+                if (this.voter.VoterBallot.voteDone())
+                {
+                    logs.addLog(Constants.VOTE_FINISH, true, Constants.LOG_INFO, true);
+                    this.disableVoteButtons();
+                    this.voter.sendVoteToProxy();
+
+                }
+
             }
             else
             {
@@ -56,6 +71,17 @@ namespace Voter
 
             //Console.WriteLine(words[0] );
 
+        }
+
+        private void disableVoteButtons()
+        {
+            for (int i=0; i<this.voteButtons.Count; i++)
+            {
+                for (int j = 0; j < this.voteButtons[i].Length; j++)
+                {
+                    this.voteButtons[i].ElementAt(j).Enabled = false;
+                }
+            }
         }
 
         private void setColumnWidth()
@@ -127,6 +153,7 @@ namespace Voter
                     this.voteButtons[i].ElementAt(j).Size = new System.Drawing.Size(70, 40);
                     this.voteButtons[i].ElementAt(j).TabIndex = 0;
                     this.voteButtons[i].ElementAt(j).Text = "NO";
+                    this.voteButtons[i].ElementAt(j).Enabled = false;
                     this.voteButtons[i].ElementAt(j).UseVisualStyleBackColor = true;
                     this.voteButtons[i].ElementAt(j).Click += new System.EventHandler(voteButton_Click);
                     this.panel1.Controls.Add(voteButtons[i].ElementAt(j));
@@ -152,6 +179,7 @@ namespace Voter
         {
             this.getSLandSRButton.Enabled = false;
             this.getCandidateListButton.Enabled = true;
+            this.getYesNoButton.Enabled = true;
         }
 
         private void getCandidateListButton_Click(object sender, EventArgs e)
@@ -169,6 +197,21 @@ namespace Voter
         public void disableConnectionEAButton()
         {
             this.EAConnectButton.Enabled = false;
+        }
+
+        private void getYesNoButton_Click(object sender, EventArgs e)
+        {
+            this.voter.getYesNoPosition();
+        }
+
+        public void disableGetCandidateListButton()
+        {
+            this.getCandidateListButton.Enabled = false;
+        }
+
+        public void disableGetYesNoPositionButton()
+        {
+            this.getYesNoButton.Enabled = false;
         }
     }
 }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Numerics;
+using Org.BouncyCastle.Math;
 
 namespace Proxy
 {
@@ -25,12 +25,12 @@ namespace Proxy
             for (int i = 1; i < dictionaryElem.Length; i++)
             {
                 string[] elem = dictionaryElem[i].Split('=');
-                BigInteger key = BigInteger.Parse(elem[0]);
+                BigInteger key = new BigInteger(elem[0]);
                 string[] dictValues = elem[1].Split(',');
                 List<BigInteger> list = new List<BigInteger>();
                 foreach (string s in dictValues)
                 {
-                    list.Add(BigInteger.Parse(s));
+                    list.Add(new BigInteger(s));
                 }
 
                 dict.Add(key, list);

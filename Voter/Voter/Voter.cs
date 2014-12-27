@@ -40,7 +40,7 @@ namespace Voter
 
         public void requestForSLandSR()
         {
-            string msg = Constants.REQUEST_FOR_SL_AND_SR + "&" + this.configuration.Name;
+            string msg = Constants.GET_SL_AND_SR + "&" + this.configuration.Name;
             this.proxyClient.sendMessage(msg);
         }
 
@@ -79,7 +79,6 @@ namespace Voter
         public void saveCandidateList(string msg)
         {
             string[] list = msg.Split(';');
-            Console.WriteLine("dlugosc powinna byc 5 a jest" + list.Length);
             for(int i=0;i<list.Length;i++)
             {
                 this.form.Invoke(new MethodInvoker(delegate()
@@ -87,8 +86,60 @@ namespace Voter
                         this.form.TextBoxes[i].Text = list[i];
                     }));
             }
+            disableGetCandidateListButton();
         }
 
-        
+        private void disableGetCandidateListButton()
+        {
+            this.form.Invoke(new MethodInvoker(delegate()
+                {
+                    this.form.disableGetCandidateListButton();
+                }));
+                
+        }
+
+
+
+        public void getYesNoPosition()
+        {
+            string msg = Constants.GET_YES_NO_POSITION  + "&" + this.configuration.Name;
+            this.proxyClient.sendMessage(msg);
+        }
+
+        public void saveYesNoPositon(string position)
+        {
+            Console.WriteLine(position);
+            string[] str = position.Split(':');
+            for (int i = 0; i < this.configuration.NumberOfCandidates; i++)
+            {
+                for (int j = 0; j < 4; j++)
+                {
+                    this.form.Invoke(new MethodInvoker(delegate()
+                        {
+                            if (j == Convert.ToInt32(str[i]))
+                                this.form.VoteButtons[i].ElementAt(j).Text = "YES";
+                            this.form.VoteButtons[i].ElementAt(j).Enabled = true;
+                        }));
+                }
+
+            }
+
+            disableGetYesNoPositionButton();
+        }
+
+        private void disableGetYesNoPositionButton()
+        {
+            this.form.Invoke(new MethodInvoker(delegate()
+            {
+                this.form.disableGetYesNoPositionButton();
+            }));
+
+
+        }
+
+        public void sendVoteToProxy()
+        {
+            //throw new NotImplementedException();
+        }
     }
 }

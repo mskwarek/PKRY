@@ -36,11 +36,19 @@ namespace Voter
                 case Constants.CANDIDATE_LIST_RESPONSE:
                     saveCandidateList(elem[1]);
                     break;
+                case Constants.YES_NO_POSITION:
+                    saveYesNoPosition(elem[1]);
+                    break;
 
 
             }
 
 
+        }
+
+        private void saveYesNoPosition(string position)
+        {
+            this.voter.saveYesNoPositon(position);
         }
 
         private void disableConnectionEAButton()

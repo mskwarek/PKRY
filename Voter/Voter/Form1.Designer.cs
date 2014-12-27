@@ -41,10 +41,8 @@ namespace Voter
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.getSLandSRButton = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.textBoxes = new List<TextBox>();
             this.getCandidateListButton = new System.Windows.Forms.Button();
-            this.voteButtons = new List<Button[]>();
-            this.textBoxes = new List<TextBox>();
+            this.getYesNoButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // EAConnectButton
@@ -130,11 +128,23 @@ namespace Voter
             this.getCandidateListButton.UseVisualStyleBackColor = true;
             this.getCandidateListButton.Click += new System.EventHandler(this.getCandidateListButton_Click);
             // 
+            // getYesNoButton
+            // 
+            this.getYesNoButton.Enabled = false;
+            this.getYesNoButton.Location = new System.Drawing.Point(13, 428);
+            this.getYesNoButton.Name = "getYesNoButton";
+            this.getYesNoButton.Size = new System.Drawing.Size(162, 23);
+            this.getYesNoButton.TabIndex = 7;
+            this.getYesNoButton.Text = "Get YES/NO position";
+            this.getYesNoButton.UseVisualStyleBackColor = true;
+            this.getYesNoButton.Click += new System.EventHandler(this.getYesNoButton_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(988, 478);
+            this.Controls.Add(this.getYesNoButton);
             this.Controls.Add(this.getCandidateListButton);
             this.Controls.Add(this.getSLandSRButton);
             this.Controls.Add(this.panel1);
@@ -161,6 +171,7 @@ namespace Voter
         private Button getSLandSRButton;
         private Panel panel1;
         private Button getCandidateListButton;
+        private Button getYesNoButton;
     }
 }
 
