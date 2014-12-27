@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Numerics;
+using Org.BouncyCastle.Math;
 using System.Net.Sockets;
 using System.Windows.Forms;
 

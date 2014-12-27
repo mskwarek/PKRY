@@ -19,13 +19,13 @@ namespace Proxy
         private RsaKeyParameters privKey;                               //priv Key to blind signature
         private SerialNumberGenerator sng;                              //generator SRand SL
         private BigInteger r;                                           //random blinding factor
-        private Org.BouncyCastle.Math.BigInteger SL;
-        private Org.BouncyCastle.Math.BigInteger SR;
+        private BigInteger SL;
+        private BigInteger SR;
         private List<int> yesPos;                                       //position of "yes" answer
         private int[,] vote;                                            //vote from voter
         private int[,] ballotMatrix;                                    //ballot matrix just fo proxy operations
         private List<string> columns;
-        private List<Org.BouncyCastle.Math.BigInteger[]> tokens;
+        private List<BigInteger[]> tokens;
         
        
         public ProxyBallot()
