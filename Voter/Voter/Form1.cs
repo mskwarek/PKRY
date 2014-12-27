@@ -202,11 +202,15 @@ namespace Voter
         public void disableGetCandidateListButton()
         {
             this.getCandidateListButton.Enabled = false;
+            if (this.getCandidateListButton.Enabled == false)
+                this.sendVoteButton.Enabled = true;
         }
 
         public void disableGetYesNoPositionButton()
         {
             this.getYesNoPositionButton.Enabled = false;
+            if (this.getCandidateListButton.Enabled == false)
+                this.sendVoteButton.Enabled = true;
         }
 
         private void getYesNoPositionButton_Click(object sender, EventArgs e)

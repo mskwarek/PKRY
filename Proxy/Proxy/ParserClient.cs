@@ -31,6 +31,9 @@ namespace Proxy
                     this.proxy.sendYesNoPosition(elem[1]);
                     break;
 
+                case Constants.VOTE:
+                    this.proxy.saveVote(elem[1]);
+                    break;
 
             }
 

@@ -28,8 +28,9 @@ namespace Proxy
         private List<Org.BouncyCastle.Math.BigInteger[]> tokens;
         
        
-        public ProxyBallot()
+        public ProxyBallot(int[,] vote)
         {
+            this.vote = vote;
             sng = sng.getInstance();
             this.SR = sng.getNextSr();
             ballotMatrix = new int [Configuration.candidates, Configuration.ballotSize];

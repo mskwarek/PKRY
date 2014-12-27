@@ -142,15 +142,24 @@ namespace Voter
             int[,] table = this.voterBallot.Voted;
             Console.WriteLine("First dimension: " + table.GetLength(0));
             Console.WriteLine("First dimension: " + table.GetLength(1));
-
+            string message = Constants.VOTE + "&" + this.configuration.Name + ";";
             for (int i = 0; i < table.GetLength(0); i++)
             {
 
                 for (int j = 0; j < table.GetLength(1); j++)
                 {
-
+                    if (j == table.GetLength(1) - 1 && i == table.GetLength(0)-1)
+                        message = message + table[i, j].ToString();
+                    else if (j == table.GetLength(1) - 1 && i != table.GetLength(0)-1)
+                        message = message + table[i, j].ToString()+ ";";
+                    else
+                        message = message + table[i, j].ToString() + ":";
                 }
             }
+            Console.WriteLine("vote wyglada tak: " + message);
+
+            this.proxyClient.sendMessage(message);
+
         }
     }
 }

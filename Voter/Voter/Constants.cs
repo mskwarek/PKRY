@@ -44,5 +44,6 @@ namespace Voter
         public const string GET_YES_NO_POSITION = "GET_YES_NO_POSITION";
         public const string YES_NO_POSITION = "YES_NO_POSITION";
         public const string VOTE_FINISH = "Process of voting done. Congratulations!";
+        public const string VOTE = "VOTE";
     }
 }

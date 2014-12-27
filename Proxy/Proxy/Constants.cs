@@ -60,5 +60,6 @@ namespace Proxy
         public const string GET_YES_NO_POSITION = "GET_YES_NO_POSITION";
         public const string YES_NO_POSITION_GEN_SUCCESSFULL= "Yes and No position generated successfully";
         public const string YES_NO_POSITION = "YES_NO_POSITION";
+        public const string VOTE = "VOTE";
     }
 }

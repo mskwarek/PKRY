@@ -142,6 +142,7 @@ namespace Voter
             // 
             // sendVoteButton
             // 
+            this.sendVoteButton.Enabled = false;
             this.sendVoteButton.Location = new System.Drawing.Point(182, 276);
             this.sendVoteButton.Name = "sendVoteButton";
             this.sendVoteButton.Size = new System.Drawing.Size(163, 25);
@@ -164,7 +165,6 @@ namespace Voter
             this.Controls.Add(this.logsListView);
             this.Controls.Add(this.ProxyConnectButton);
             this.Controls.Add(this.EAConnectButton);
-            this.Enabled = false;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
             this.Text = "Voter";

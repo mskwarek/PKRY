@@ -25,7 +25,7 @@ namespace Proxy
         }
         //serial number SR
         private List<BigInteger> SRList;
-        private List<ProxyBallot> proxyBallots;
+        private Dictionary<string, ProxyBallot> proxyBallots;
 
         private int numberOfVoters;
 
@@ -57,7 +57,7 @@ namespace Proxy
             this.serialNumberTokens = new Dictionary<BigInteger,List<BigInteger>>();
             this.SRList = new List<BigInteger>();
             this.serialNumberAndSR = new Dictionary<BigInteger, BigInteger>();
-            
+            this.proxyBallots = new Dictionary<string, ProxyBallot>();
         }
 
 
@@ -126,6 +126,29 @@ namespace Proxy
             }
         }
 
+
+
+        public void saveVote(string message)
+        {
+            //message = 'name;first_row;second_row .....;last_row'
+            //first_row = 'x:y:z:v'
+            int[,] vote = new int[this.configuration.NumOfCandidates, 4];
+            string[] words = message.Split(';');
+            string name = words[0];
+            for (int i = 1; i < words.Length; i++)
+            {
+                string[] row = words[i].Split(':');
+                for (int k = 0; k < row.Length; k++)
+                {
+                    vote[i-1,k] = Convert.ToInt32(row[k]);
+                    Console.WriteLine(vote[i - 1, k]);
+                }
+
+            }
+
+            this.proxyBallots.Add(name, new ProxyBallot(vote));
         
+        
+        }
     }
 }
