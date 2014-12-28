@@ -17,23 +17,37 @@ namespace Proxy
     {
         private RsaKeyParameters pubKey;                                //pub key to blind sign
         private RsaKeyParameters privKey;                               //priv Key to blind signature
-        private SerialNumberGenerator sng;                              //generator SRand SL
+        private SerialNumberGenerator sng;                              //generator SRand SL **********TO CHYBA TERAZ JUZ NIE POTRZEBNE***********
         private BigInteger r;                                           //random blinding factor
-        private BigInteger SL;
-        private BigInteger SR;
-        private List<int> yesPos;                                       //position of "yes" answer
+        private BigInteger sl;
+        public BigInteger SL
+        {
+            get { return sl; }
+        }
+        private BigInteger sr;
+        private string yesNoPos;                                          //position of "yes" answer
+        public string YesNoPos
+        {
+            set { yesNoPos = value; }
+        }
+        
         private int[,] vote;                                            //vote from voter
+        public int[,] Vote
+        {
+            set { vote = value; }
+        }
+        
         private int[,] ballotMatrix;                                    //ballot matrix just fo proxy operations
         private List<string> columns;
         private List<Org.BouncyCastle.Math.BigInteger[]> tokens;
         
        
-        public ProxyBallot(int[,] vote)
+        public ProxyBallot(BigInteger SL, BigInteger SR)
         {
-            this.vote = vote;
-            sng = sng.getInstance();
-            this.SR = sng.getNextSr();
-            ballotMatrix = new int[this.vote.GetLength(0), this.vote.GetLength(1)];
+            this.sl =  SL;
+            this.sr = SR;
+            //sng = sng.getInstance();
+            //this.SR = sng.getNextSr();
             //init keyPair generator
             KeyGenerationParameters para = new KeyGenerationParameters(new SecureRandom(), 1024);
             RsaKeyPairGenerator keyGen = new RsaKeyPairGenerator();
@@ -47,34 +61,14 @@ namespace Proxy
          
         }
 
-        private void randomYesPos(){
-            Random rnd = new Random();
-            yesPos.Add(rnd.Next(0, Configuration.ballotSize-1));
-        }
+        
 
-        public void getEaData(){
-            //getting sl and tokens from Ea
-        }
-
-        public void sendVoterData()
-        {
-            //sending SL + SR to voter; 
-            //AND "YES" POSITION - vector?
-
-
-        }
-
-        public void getVote()
-        {
-            //getting vote from Voter
-        }
-
-        private BigInteger[] prepareDataToSend()
+        public BigInteger[] prepareDataToSend()
         {
             BigInteger[] toSend = new BigInteger[Constants.BALLOT_SIZE];
 
             //blinding columns, prepare to signature
-            this.generateAndSplitBallotMatrix();
+
             int i=0;
             foreach (string column in columns)
             {
@@ -122,17 +116,20 @@ namespace Proxy
         }
 
 
-        private void generateAndSplitBallotMatrix(){
-            string temp;
-
+        public void generateAndSplitBallotMatrix()
+        {
+            
+            string[] position = this.yesNoPos.Split(':');
+            this.ballotMatrix = new int[this.vote.GetLength(0), this.vote.GetLength(1)];
+            this.columns = new List<string>();
             for (int i = 0; i < Constants.NUM_OF_CANDIDATES; i++)
             {
                 for (int j = 0; j < Constants.BALLOT_SIZE; j++)
                 {
                     //mark every non-clicked "No" button
-                    if (vote[i, j] != 1 && j != yesPos[i])
+                    if (vote[i, j] != 1 && j != Convert.ToInt32(position[i]))
                     {
-                        ballotMatrix[i, j] = 1;
+                        this.ballotMatrix[i, j] = 1;
                     }
                 }
             }
@@ -140,7 +137,7 @@ namespace Proxy
             //rewrite colums from ballot matrix to another array
             for (int j = 0; j < Constants.BALLOT_SIZE; j++)
             {
-                temp = "";
+                string temp = null;
                 for (int i = 0; i < Constants.NUM_OF_CANDIDATES; i++)
                 {
                     temp += ballotMatrix[i, j];

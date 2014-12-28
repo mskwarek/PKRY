@@ -35,6 +35,8 @@ namespace ElectionAuthority
                     BigInteger SL = BigInteger.Parse(str[1]);
                     this.electionAuthority.getCandidateListPermuated(name, SL);
                     return true;
+                case Constants.BLIND_PROXY_BALLOT:
+                    this.electionAuthority.saveBlindBallotMatrix(str[1]);
             }
 
 

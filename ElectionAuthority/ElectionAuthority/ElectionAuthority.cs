@@ -40,6 +40,8 @@ namespace ElectionAuthority
         private Dictionary<BigInteger, List<BigInteger>> dictionarySLPermuation;
         private Dictionary<BigInteger, List<BigInteger>> dictionarySLTokens;
 
+        private Dictionary<string, Ballot> ballots;
+
         private int numberOfVoters;
 
         public ElectionAuthority(Logs logs, Configuration configuration, Form1 form)
@@ -57,6 +59,8 @@ namespace ElectionAuthority
 
             this.numberOfVoters = Convert.ToInt32(this.configuration.NumberOfVoters);
             permutation = new Permutation(this.logs);
+
+            this.ballots = new Dictionary<string, Ballot>();
         }
 
         public void loadCandidateList(string pathToElectionAuthorityConfig)
@@ -185,6 +189,36 @@ namespace ElectionAuthority
             }
 
             this.serverClient.sendMessage(name, candidateListString);
+
+        }
+
+        public void saveBlindBallotMatrix(string message)
+        {
+            string[] words = message.Split(';');
+            string name = words[0];
+            BigInteger SL = BigInteger.Parse(words[1]);
+
+            BigInteger[] tokens = new BigInteger[4];
+            string[] strTokens = words[2].Split(',');
+            for(int i =0; i<tokens.Length; i++)
+            {
+                tokens[i] = BigInteger.Parse(strTokens[i]);
+            }
+
+            BigInteger[] columns = new BigInteger[4];
+            string[] strColumns = words[3].Split(',');
+            for (int i = 0; i < columns.Length; i++)
+            {
+                columns[i] = BigInteger.Parse(strColumns[i]);
+            }
+
+            this.ballots.Add(name, new Ballot(SL, tokens));
+            this.ballots[name].BlindColumn = columns;
+
+            this.logs.addLog(Constants.BLIND_PROXY_BALLOT_RECEIVED + name, true, Constants.LOG_INFO, true);
+
+
+   
 
         }
     }
