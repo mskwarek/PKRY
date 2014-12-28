@@ -36,7 +36,8 @@ namespace ElectionAuthority
                     this.electionAuthority.getCandidateListPermuated(name, SL);
                     return true;
                 case Constants.BLIND_PROXY_BALLOT:
-                    this.electionAuthority.saveBlindBallotMatrix(str[1]);
+                    this.electionAuthority.saveBlindBallotMatrix(words[1]);
+                    return true;
             }
 
 

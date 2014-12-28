@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Ballot.cs" />
     <Compile Include="CandidateList.cs" />
     <Compile Include="Configuration.cs" />
     <Compile Include="Constants.cs" />
