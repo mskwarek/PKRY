@@ -101,19 +101,29 @@ namespace Proxy
             return toSend;
         }
 
-        private string[] unblindSignedData(BigInteger[] signedData)
+        public string[] unblindSignedData(BigInteger[] signedData)
         {
             string[] unblinded = new string[Constants.BALLOT_SIZE];
             BigInteger e = pubKey.Exponent;
             BigInteger n = pubKey.Modulus;
+            BigInteger d = privKey.Exponent;
 
             for (int i = 0; i < signedData.Length; i++)
             {
-                BigInteger s = ((r.ModInverse(n)).Multiply(signedData[i])).Mod(n);
-                String str = System.Text.Encoding.ASCII.GetString(s.ModPow(e, n).ToByteArray());
+                BigInteger explicitData = new BigInteger(columns[i]);
+
+                if(explicitData.Equals(signedData[i].ModPow(d,n)))
+                {
+                    BigInteger s = ((r.ModInverse(n)).Multiply(signedData[i])).Mod(n);
+                    String str = System.Text.Encoding.ASCII.GetString(s.ModPow(e, n).ToByteArray());
+                }
+                else{
+                    //Dodanie loga, że zły podpis
+                }
             }
             return unblinded;
         }
+
 
 
         public void generateAndSplitBallotMatrix()

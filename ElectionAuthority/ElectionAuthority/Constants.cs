@@ -7,6 +7,9 @@ namespace ElectionAuthority
 {
     class Constants
     {
+        //===========ZMIENIC = WCZYTYWAC Z PLIKU!================
+        public const int BALLOT_SIZE = 4;
+
         public const int LOG_INFO = 0;
         public const int LOG_MESSAGE = 1;
         public const int LOG_ERROR = 2;

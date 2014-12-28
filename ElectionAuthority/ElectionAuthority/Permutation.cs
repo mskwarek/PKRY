@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Numerics;
 using System.Security.Cryptography;
+using Org.BouncyCastle.Math;
 
 namespace ElectionAuthority
 {
@@ -23,8 +23,7 @@ namespace ElectionAuthority
             List<BigInteger> permutation = new List<BigInteger>();
             for (int i = 1; i <= candidateQuantity; i++)
             {
-                permutation.Add(i);
-
+                permutation.Add(new BigInteger(i.ToString()));
             }
             //shuffle BigInt List
             Extentions.Shuffle(permutation);
@@ -55,7 +54,7 @@ namespace ElectionAuthority
             //we have to put "1" in each A(i,j)
             for (int i = 0; i < candidateQuantity; i++)
             {
-                tab[defaultList[i] - 1, (int)permutation[i] - 1] = 1;
+                tab[defaultList[i] - 1, permutation[i].IntValue - 1] = 1;
             }
             return tab;
         }
@@ -83,7 +82,7 @@ namespace ElectionAuthority
                 {
                     if (tabInv[i, j] == 1)
                     {
-                        inversePermutation.Add(j + 1);
+                        inversePermutation.Add(new BigInteger((j + 1).ToString()));
                     }
                 }
             }

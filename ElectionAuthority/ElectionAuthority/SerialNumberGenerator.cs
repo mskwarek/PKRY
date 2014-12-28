@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Numerics;
 using System.Security.Cryptography;
+using Org.BouncyCastle.Math;
 
 namespace ElectionAuthority
 {
@@ -23,11 +23,11 @@ namespace ElectionAuthority
             {
                 if (i == 0)
                 {
-                    listOfSerialNumber.Add(BigInteger.Abs(startValue + 1));
+                    listOfSerialNumber.Add(startValue.Add(new BigInteger(1.ToString())).Abs());
                 }
                 else
                 {
-                    listOfSerialNumber.Add(BigInteger.Abs(listOfSerialNumber[i - 1]+1));
+                    listOfSerialNumber.Add((listOfSerialNumber[i - 1].Add(new BigInteger(1.ToString()))).Abs());
                 }
 
             }

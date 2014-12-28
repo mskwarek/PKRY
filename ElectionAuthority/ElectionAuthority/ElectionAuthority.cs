@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Numerics;
 using System.Net.Sockets;
 using System.Windows.Forms;
+using Org.BouncyCastle.Math;
 
 namespace ElectionAuthority
 {
@@ -174,7 +174,7 @@ namespace ElectionAuthority
 
             for (int i = 0; i < this.candidateDefaultList.Count; i++)
             {
-                int index = (int)permutation[i];
+                int index = permutation[i].IntValue;
                 candidateList.Add(candidateDefaultList[index-1]);
             }
 
@@ -196,20 +196,20 @@ namespace ElectionAuthority
         {
             string[] words = message.Split(';');
             string name = words[0];
-            BigInteger SL = BigInteger.Parse(words[1]);
+            BigInteger SL = new BigInteger(words[1]);
 
             BigInteger[] tokens = new BigInteger[4];
             string[] strTokens = words[2].Split(',');
             for(int i =0; i<tokens.Length; i++)
             {
-                tokens[i] = BigInteger.Parse(strTokens[i]);
+                tokens[i] = new BigInteger(strTokens[i]);
             }
 
             BigInteger[] columns = new BigInteger[4];
             string[] strColumns = words[3].Split(',');
             for (int i = 0; i < columns.Length; i++)
             {
-                columns[i] = BigInteger.Parse(strColumns[i]);
+                columns[i] = new BigInteger(strColumns[i]);
             }
 
             this.ballots.Add(name, new Ballot(SL, tokens));
