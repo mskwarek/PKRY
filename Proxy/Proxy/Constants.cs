@@ -64,5 +64,6 @@ namespace Proxy
         public const string VOTE_RECEIVED = "Vote received from voter with ID: ";
         public const string BALLOT_MATRIX_GEN = "Ballot matrix generated for voter with ID: ";
         public const string BLIND_PROXY_BALLOT = "BLIND_PROXY_BALLOT";
+        public const string SIGNED_PROXY_BALLOT = "SIGNED_PROXY_BALLOT";
     }
 }

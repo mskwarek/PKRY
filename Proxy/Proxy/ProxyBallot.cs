@@ -16,6 +16,10 @@ namespace Proxy
     class ProxyBallot
     {
         private RsaKeyParameters pubKey;                                //pub key to blind sign
+        public RsaKeyParameters PubKey
+        {
+            get{return pubKey;}
+        }
         private RsaKeyParameters privKey;                               //priv Key to blind signature
         private SerialNumberGenerator sng;                              //generator SRand SL **********TO CHYBA TERAZ JUZ NIE POTRZEBNE***********
         private BigInteger r;                                           //random blinding factor
@@ -37,8 +41,16 @@ namespace Proxy
             set { vote = value; }
         }
         
+
+
         private int[,] ballotMatrix;                                    //ballot matrix just fo proxy operations
         private List<string> columns;
+        private List<string> signedColumns;
+        public List<string> SignedColumns
+        {
+            set { signedColumns = value; }
+
+        }
         private List<Org.BouncyCastle.Math.BigInteger[]> tokens;
         
        
