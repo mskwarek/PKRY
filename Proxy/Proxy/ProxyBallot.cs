@@ -49,6 +49,7 @@ namespace Proxy
         public List<string> SignedColumns
         {
             set { signedColumns = value; }
+            get { return signedColumns; }
 
         }
         private int confirmationColumn;

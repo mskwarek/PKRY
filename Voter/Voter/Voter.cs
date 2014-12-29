@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using Org.BouncyCastle.Math;
 
 namespace Voter
 {
@@ -166,6 +167,17 @@ namespace Voter
         public void setConfirm(int column)
         {
             confirm = new Confirmation(column);
+        }
+
+
+        public void saveSignedColumnAndToken(string message)
+        {
+            string[] words = message.Split(';');
+
+            this.voterBallot.SignedBlindColumn = new BigInteger(words[0]);
+            this.voterBallot.Token = new BigInteger(words[1]);
+
+            this.logs.addLog(Constants.SIGNED_COLUMNS_TOKEN_RECEIVED, true, Constants.LOG_INFO, true);
         }
     }
 }

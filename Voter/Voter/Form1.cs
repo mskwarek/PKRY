@@ -59,7 +59,7 @@ namespace Voter
                 {
                     logs.addLog(Constants.VOTE_FINISH, true, Constants.LOG_INFO, true);
                     this.disableVoteButtons();
-                    this.sendVoteButton.Enabled = true;
+                    this.confirmationBox.Enabled = true;
 
                 }
 
@@ -202,15 +202,15 @@ namespace Voter
         public void disableGetCandidateListButton()
         {
             this.getCandidateListButton.Enabled = false;
-            if (this.getYesNoPositionButton.Enabled == false)
-                this.sendVoteButton.Enabled = true;
+            //if (this.getYesNoPositionButton.Enabled == false)
+            //    this.sendVoteButton.Enabled = true;
         }
 
         public void disableGetYesNoPositionButton()
         {
             this.getYesNoPositionButton.Enabled = false;
-            if (this.getCandidateListButton.Enabled == false)
-                this.sendVoteButton.Enabled = true;
+            //if (this.getCandidateListButton.Enabled == false)
+            //    this.sendVoteButton.Enabled = true;
         }
 
         private void getYesNoPositionButton_Click(object sender, EventArgs e)
@@ -229,6 +229,8 @@ namespace Voter
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             this.voter.setConfirm(this.confirmationBox.SelectedIndex);
+            this.sendVoteButton.Enabled = true;
         }
+
     }
 }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Numerics;
+using Org.BouncyCastle.Math;
 
 namespace Voter
 {
@@ -28,6 +28,22 @@ namespace Voter
         }
 
         private int numOfVotes;
+
+        private BigInteger token;
+        public BigInteger Token
+        {
+            set { token = value; }
+            get { return token; }
+        }
+
+        private BigInteger signedBlindColumn;
+        public BigInteger SignedBlindColumn
+        {
+            set { signedBlindColumn = value; }
+            get { return signedBlindColumn; }
+        }
+
+
 
         public VoterBallot(int numbOfCand)
         {
@@ -70,7 +86,9 @@ namespace Voter
         public bool voteDone()
         {
             if (numOfVotes == this.numberOfCandidates)
+            {
                 return true;
+            }
             else
                 return false;
         }

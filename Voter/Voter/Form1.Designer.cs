@@ -154,6 +154,7 @@ namespace Voter
             // 
             // confirmationBox
             // 
+            this.confirmationBox.Enabled = false;
             this.confirmationBox.FormattingEnabled = true;
             this.confirmationBox.Items.AddRange(new object[] {
             "Column A",
