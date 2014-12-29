@@ -156,8 +156,9 @@ namespace Proxy
             string SL = this.proxyBallots[name].SL.ToString();
             string tokens = prepareTokens(this.proxyBallots[name].SL);
             string columns = prepareBlindProxyBallot(blindProxyBallot);
-            //msg = BLIND_PROXY_BALLOT&SL_number;token1,token2,token3,token4;col1,col2,col3,col4
-            string msg = Constants.BLIND_PROXY_BALLOT + "&" + name + ";" + SL + ";" + tokens + columns ;
+            string pubKeyModulus = this.proxyBallots[name].PubKey.Modulus.ToString();
+            //msg = BLIND_PROXY_BALLOT&name;pubKeyModulus;SL_number;token1,token2,token3,token4;col1,col2,col3,col4
+            string msg = Constants.BLIND_PROXY_BALLOT + "&" + name + ";" + pubKeyModulus + ";"  + SL + ";" + tokens + columns ;
 
             this.client.sendMessage(msg);
         }
@@ -191,6 +192,27 @@ namespace Proxy
         }
 
 
+        public void saveSignedBallot(string message)
+        {
+            string[] words = message.Split(';');
 
+            foreach (string s in words)
+            {
+                Console.WriteLine(s);
+            }
+
+
+            string name = words[0];
+
+            string[] signedColumns = words[1].Split(',');
+            List<string> signedColumnsList = new List<string>();
+            foreach (string s in signedColumns)
+            {
+                signedColumnsList.Add(s);
+            }
+
+            this.proxyBallots[name].SignedColumns = signedColumnsList;
+        
+        }
     }
 }

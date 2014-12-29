@@ -196,31 +196,56 @@ namespace ElectionAuthority
         {
             string[] words = message.Split(';');
             string name = words[0];
-            BigInteger SL = new BigInteger(words[1]);
+
+            BigInteger pubKeyModulus = new BigInteger(words[1]);
+            BigInteger SL = new BigInteger(words[2]);
 
             BigInteger[] tokens = new BigInteger[4];
-            string[] strTokens = words[2].Split(',');
+            string[] strTokens = words[3].Split(',');
             for(int i =0; i<tokens.Length; i++)
             {
                 tokens[i] = new BigInteger(strTokens[i]);
             }
 
             BigInteger[] columns = new BigInteger[4];
-            string[] strColumns = words[3].Split(',');
+            string[] strColumns = words[4].Split(',');
             for (int i = 0; i < columns.Length; i++)
             {
                 columns[i] = new BigInteger(strColumns[i]);
             }
 
             this.ballots.Add(name, new Ballot(SL, tokens));
+            
             this.ballots[name].BlindColumn = columns;
-
+            this.ballots[name].PubKeyModulus = pubKeyModulus;
             this.logs.addLog(Constants.BLIND_PROXY_BALLOT_RECEIVED + name, true, Constants.LOG_INFO, true);
 
-
+            this.signColumn(name);
    
 
         }
+
+        private void signColumn(string name)
+        {
+            //msg = BLIND_PROXY_BALLOT&name;signCol1,signCol2,signCol3,signCol4
+            this.ballots[name].signColumn();
+            string signColumns = null;
+            
+            for (int i =0 ;i<this.ballots[name].SignedColumn.Length;i++)
+            {
+                if (i!= this.ballots[name].SignedColumn.Length -1)
+                    signColumns += this.ballots[name].SignedColumn[i].ToString();
+                else
+                    signColumns = signColumns + this.ballots[name].SignedColumn[i].ToString() + ",";
+            }
+
+
+            string msg = Constants.SIGNED_PROXY_BALLOT + "&" + name + ";" + signColumns;
+            this.serverProxy.sendMessage(Constants.PROXY, msg);
+        
+        }
+
+        
     }
 }
 

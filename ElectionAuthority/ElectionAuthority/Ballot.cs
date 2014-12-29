@@ -10,12 +10,25 @@ namespace ElectionAuthority
     {
 
         private BigInteger sl;
+        public BigInteger SL
+        {
+            get { return sl; }
+        }
         private BigInteger[] tokens;
+        public BigInteger[] Tokens
+        {
+            get { return tokens; }
+        }
         private BigInteger pubKeyModulus;
-
-        public BigInteger pubKeyMod
+        public BigInteger PubKeyModulus
         {
             set { pubKeyModulus = value; }
+        }
+
+        private BigInteger[] signedColumn;
+        public BigInteger[] SignedColumn
+        {
+            get { return signedColumn; }
         }
 
         private BigInteger[] blindColumn;
@@ -31,7 +44,10 @@ namespace ElectionAuthority
             this.tokens = tokens;
         }
 
-        private BigInteger[] SignColumn()
+
+
+        //Method to sing each column in ballotMatrix
+        public void signColumn()
         {
             BigInteger[] signed = new BigInteger[Constants.BALLOT_SIZE];
             int i = 0;
@@ -42,7 +58,7 @@ namespace ElectionAuthority
                 i++;
             }
 
-            return signed;
+            this.signedColumn = signed;
         }
     }
 }

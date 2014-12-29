@@ -49,5 +49,6 @@ namespace ElectionAuthority
         public const string CANDIDATE_LIST_RESPONSE = "CANDIDATE_LIST_RESPONSE";
         public const string BLIND_PROXY_BALLOT = "BLIND_PROXY_BALLOT";
         public const string BLIND_PROXY_BALLOT_RECEIVED = "Blind ballot received from voter with ID: ";
+        public const string SIGNED_PROXY_BALLOT = "SIGNED_PROXY_BALLOT";
     }
 }
