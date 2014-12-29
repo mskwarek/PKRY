@@ -5,6 +5,8 @@ using System.Text;
 using System.Net.Sockets;
 using System.Windows.Forms;
 using Org.BouncyCastle.Math;
+using Org.BouncyCastle.Crypto;
+using Org.BouncyCastle.Crypto.Parameters;
 
 namespace ElectionAuthority
 {
@@ -35,7 +37,9 @@ namespace ElectionAuthority
         private List<BigInteger> serialNumberList;
 
         //tokens, one SL has four tokens
-        private List<List<BigInteger>> tokensList;
+        private List<List<BigInteger>> tokensList;          //for (un)blinding (proxy and EA)
+        private List<List<BigInteger>> exponentsList;       //for blinding (proxy)
+        private List<List<BigInteger>> signatureFactor;     //for signature (EA)
 
         //map which connect serialNumber and permuataion
         private Dictionary<BigInteger, List<BigInteger>> dictionarySLPermuation;
@@ -125,9 +129,29 @@ namespace ElectionAuthority
         private void generateTokens()
         {
             this.tokensList = new List<List<BigInteger>>();
+            this.exponentsList = new List<List<BigInteger>>();
+            this.signatureFactor = new List<List<BigInteger>>();
+
+            List<List<AsymmetricCipherKeyPair>>  PreTokensList = new List<List<AsymmetricCipherKeyPair>>();
             for (int i = 0; i < this.numberOfVoters; i++)
             { // we use the same method like to generate serial number, there is another random generator used inside this method
-                this.tokensList.Add(new List<BigInteger>(SerialNumberGenerator.generateListOfSerialNumber(4,Constants.NUMBER_OF_BITS_TOKEN)));
+                List<AsymmetricCipherKeyPair> preToken = new List<AsymmetricCipherKeyPair>(SerialNumberGenerator.generatePreTokens(4, Constants.NUMBER_OF_BITS_TOKEN));
+                PreTokensList.Add(preToken);
+                List<BigInteger> tokens = new List<BigInteger>();
+                List<BigInteger> exps = new List<BigInteger>();
+                List<BigInteger> signFactor = new List<BigInteger>();
+
+                foreach (AsymmetricCipherKeyPair token in preToken)
+                {
+                    RsaKeyParameters publicKey = (RsaKeyParameters)token.Public;
+                    RsaKeyParameters privKey = (RsaKeyParameters)token.Private;
+                    tokens.Add(publicKey.Modulus);
+                    exps.Add(publicKey.Exponent);
+                    signFactor.Add(privKey.Exponent);
+                }
+                this.tokensList.Add(tokens);
+                this.exponentsList.Add(exps);
+                this.signatureFactor.Add(signFactor);
             }
             logs.addLog(Constants.TOKENS_GENERATED_SUCCESSFULLY, true, Constants.LOG_INFO, true);
             connectSerialNumberAndTokens();

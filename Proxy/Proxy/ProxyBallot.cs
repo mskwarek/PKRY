@@ -106,7 +106,8 @@ namespace Proxy
                 SecureRandom random = new SecureRandom();
                 byte[] randomBytes = new byte[10];
                 
-                BigInteger n = pubKey.Modulus;
+                //BigInteger n = pubKey.Modulus;
+                BigInteger n = tokens[i];
                 BigInteger gcd = null;
                 BigInteger one = new BigInteger("1");
 
@@ -133,14 +134,22 @@ namespace Proxy
         {
             string[] unblinded = new string[Constants.BALLOT_SIZE];
             BigInteger e = pubKey.Exponent;
-            BigInteger n = pubKey.Modulus;
+            //BigInteger n = pubKey.Modulus;
             BigInteger d = privKey.Exponent;
 
             for (int i = 0; i < signedData.Length; i++)
             {
                 BigInteger explicitData = new BigInteger(columns[i]);
+                BigInteger n = tokens[i];
+                Console.WriteLine(i+". d = " + d);
+                Console.WriteLine(i+ ".n = " + n);
+                
+                //unblind sign
+               BigInteger signed = ((r.ModInverse(n)).Multiply(signedData[i])).Mod(n);
+                Console.WriteLine("signed = " + signed);
+                BigInteger check = signed.ModPow(e,n);
 
-                if(explicitData.Equals(signedData[i].ModPow(d,n)))
+                if (explicitData.Equals(check))
                 {
                     BigInteger s = ((r.ModInverse(n)).Multiply(signedData[i])).Mod(n);
                     String str = System.Text.Encoding.ASCII.GetString(s.ModPow(e, n).ToByteArray());
