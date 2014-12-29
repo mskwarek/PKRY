@@ -85,7 +85,7 @@ namespace Proxy
             AsymmetricCipherKeyPair keypair = keyGen.GenerateKeyPair();
             privKey = (RsaKeyParameters)keypair.Private;
             pubKey = (RsaKeyParameters)keypair.Public;
-         
+
         }
 
         
@@ -139,7 +139,6 @@ namespace Proxy
             for (int i = 0; i < signedData.Length; i++)
             {
                 BigInteger explicitData = new BigInteger(columns[i]);
-
                 if(explicitData.Equals(signedData[i].ModPow(d,n)))
                 {
                     BigInteger s = ((r.ModInverse(n)).Multiply(signedData[i])).Mod(n);
