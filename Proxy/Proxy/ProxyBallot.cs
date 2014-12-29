@@ -23,7 +23,7 @@ namespace Proxy
         }
         private RsaKeyParameters privKey;                               //priv Key to blind signature
         private SerialNumberGenerator sng;                              //generator SRand SL **********TO CHYBA TERAZ JUZ NIE POTRZEBNE***********
-        private BigInteger r;                                           //random blinding factor
+        private BigInteger[] r;                                         //random blinding factor
         private BigInteger sl;
         public BigInteger SL
         {
@@ -102,13 +102,13 @@ namespace Proxy
         public BigInteger[] prepareDataToSend()
         {
             BigInteger[] toSend = new BigInteger[Constants.BALLOT_SIZE];
-
+            r = new BigInteger[Constants.BALLOT_SIZE];
             //blinding columns, prepare to signature
 
             int i=0;
             foreach (string column in columns)
             {
-                BigInteger toBlind = new BigInteger(System.Text.Encoding.ASCII.GetBytes(column));
+                BigInteger toBlind = new BigInteger(column);
                 BigInteger e = pubKey.Exponent;
                 BigInteger d = privKey.Exponent;
 
@@ -116,7 +116,7 @@ namespace Proxy
                 byte[] randomBytes = new byte[10];
                 
                 //BigInteger n = pubKey.Modulus;
-                BigInteger n = tokens[i];
+                BigInteger n = tokensList[i];
                 BigInteger gcd = null;
                 BigInteger one = new BigInteger("1");
 
@@ -124,16 +124,17 @@ namespace Proxy
                 do
                 {
                     random.NextBytes(randomBytes);
-                    r = new BigInteger(1, randomBytes);
-                    gcd = r.Gcd(n);
+                    r[i] = new BigInteger(1, randomBytes);
+                    gcd = r[i].Gcd(n);
                     Console.WriteLine("gcd: " + gcd);
                 }
-                while (!gcd.Equals(one) || r.CompareTo(n) >= 0 || r.CompareTo(one) <= 0);
+                while (!gcd.Equals(one) || r[i].CompareTo(n) >= 0 || r[i].CompareTo(one) <= 0);
 
                 //********************* BLIND ************************************
-                BigInteger b = ((r.ModPow(e, n)).Multiply(toBlind)).Mod(n);
+                BigInteger b = ((r[i].ModPow(e, n)).Multiply(toBlind)).Mod(n);
                 toSend[i] = b;
-
+                Console.WriteLine("r = " + r[i]);
+                Console.WriteLine("blinded"+i+" = " + b);
                 i++;
             }
             return toSend;
@@ -142,25 +143,37 @@ namespace Proxy
         public string[] unblindSignedData(BigInteger[] signedData)
         {
             string[] unblinded = new string[Constants.BALLOT_SIZE];
-            BigInteger e = pubKey.Exponent;
+            //BigInteger e = pubKey.Exponent;
             //BigInteger n = pubKey.Modulus;
-            BigInteger d = privKey.Exponent;
+           // BigInteger d = privKey.Exponent;
 
             for (int i = 0; i < signedData.Length; i++)
             {
                 BigInteger explicitData = new BigInteger(columns[i]);
-                BigInteger n = tokens[i];
-                Console.WriteLine(i+". d = " + d);
-                Console.WriteLine(i+ ".n = " + n);
-                
+                BigInteger n = tokensList[i];
+                BigInteger e = exponentsList[i];
+                Console.WriteLine(i);
+                Console.WriteLine("input = " + signedData[i]);
+                Console.WriteLine("e = " + e);
+                Console.WriteLine("n = " + n);
+                Console.WriteLine("r = " + r[i]);
                 //unblind sign
-               BigInteger signed = ((r.ModInverse(n)).Multiply(signedData[i])).Mod(n);
-                Console.WriteLine("signed = " + signed);
-                BigInteger check = signed.ModPow(e,n);
+                BigInteger signed = ((r[i].ModInverse(n)).Multiply(signedData[i])).Mod(n);
+                Console.WriteLine("signedUnblind = " + signed);
 
+                //BigInteger s = ((r.ModInverse(n)).Multiply(signedData[i])).Mod(n);
+                
+                //Console.WriteLine("s = " + s);
+                BigInteger check = signed.ModPow(e, n);
+                Console.WriteLine("explicitData = " + explicitData);
+                Console.WriteLine("check = " + check);
+                if(explicitData.Equals(check))
                 {
-                    BigInteger s = ((r.ModInverse(n)).Multiply(signedData[i])).Mod(n);
-                    String str = System.Text.Encoding.ASCII.GetString(s.ModPow(e, n).ToByteArray());
+                    //BigInteger check = signed.ModPow(e, n);
+                    //String str = System.Text.Encoding.ASCII.GetString(s.ModPow(e, n).ToByteArray());
+                    //WYSŁAć NORMALNA KOLUMNE, BO WIEMY ZE NIE OSZUKA
+                    //this.logs.addLog(Constants.CORRECT_SIGNATURE, true, Constants.LOG_INFO);
+                //^ WYWALA WYJATEK
                 }
                 else{
                     this.logs.addLog(Constants.WRONG_SIGNATURE, true, Constants.LOG_ERROR, true);

@@ -132,11 +132,10 @@ namespace ElectionAuthority
             this.exponentsList = new List<List<BigInteger>>();
             this.signatureFactor = new List<List<BigInteger>>();
 
-            List<List<AsymmetricCipherKeyPair>>  PreTokensList = new List<List<AsymmetricCipherKeyPair>>();
+            
             for (int i = 0; i < this.numberOfVoters; i++)
             { // we use the same method like to generate serial number, there is another random generator used inside this method
                 List<AsymmetricCipherKeyPair> preToken = new List<AsymmetricCipherKeyPair>(SerialNumberGenerator.generatePreTokens(4, Constants.NUMBER_OF_BITS_TOKEN));
-                PreTokensList.Add(preToken);
                 List<BigInteger> tokens = new List<BigInteger>();
                 List<BigInteger> exps = new List<BigInteger>();
                 List<BigInteger> signFactor = new List<BigInteger>();
@@ -273,11 +272,11 @@ namespace ElectionAuthority
             string[] words = message.Split(';');
             string name = words[0];
 
-            BigInteger pubKeyModulus = new BigInteger(words[1]);
-            BigInteger SL = new BigInteger(words[2]);
+            //BigInteger pubKeyModulus = new BigInteger(words[1]);
+            BigInteger SL = new BigInteger(words[1]);
 
             List<BigInteger> tokenList = new List<BigInteger>();
-            string[] strTokens = words[3].Split(',');
+            string[] strTokens = words[2].Split(',');
             for(int i =0; i<strTokens.Length; i++)
             {
                 tokenList.Add(new BigInteger(strTokens[i]));
@@ -285,7 +284,7 @@ namespace ElectionAuthority
 
 
             List<BigInteger> exponentList = new List<BigInteger>();
-            string[] strExpo = words[4].Split(',');
+            string[] strExpo = words[3].Split(',');
             for (int i = 0; i < strExpo.Length; i++)
             {
                 exponentList.Add(new BigInteger(strExpo[i]));
@@ -308,7 +307,7 @@ namespace ElectionAuthority
             this.ballots[name].ExponentsList = exponentList;
             this.ballots[name].SignatureFactor = this.dictionarySLTokens[SL][2];
 
-            this.ballots[name].PubKeyModulus = pubKeyModulus;
+           // this.ballots[name].PubKeyModulus = pubKeyModulus;
             this.logs.addLog(Constants.BLIND_PROXY_BALLOT_RECEIVED + name, true, Constants.LOG_INFO, true);
 
             this.signColumn(name);

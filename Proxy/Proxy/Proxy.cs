@@ -157,13 +157,15 @@ namespace Proxy
             this.proxyBallots[name].generateAndSplitBallotMatrix();
             this.logs.addLog(Constants.BALLOT_MATRIX_GEN + name, true, Constants.LOG_INFO, true);
             BigInteger[] blindProxyBallot = this.proxyBallots[name].prepareDataToSend();
+            //Console.WriteLine("blind proxy ballot = " + blindProxyBallot);
             
             string SL = this.proxyBallots[name].SL.ToString();
             string tokens = prepareTokens(this.proxyBallots[name].SL);
             string columns = prepareBlindProxyBallot(blindProxyBallot);
-            string pubKeyModulus = this.proxyBallots[name].PubKey.Modulus.ToString();
+            //Console.WriteLine(columns);
+            //string pubKeyModulus = this.proxyBallots[name].PubKey.Modulus.ToString();
             //msg = BLIND_PROXY_BALLOT&name;pubKeyModulus;SL_number;token1,token2,token3,token4;col1,col2,col3,col4
-            string msg = Constants.BLIND_PROXY_BALLOT + "&" + name + ";" + pubKeyModulus + ";"  + SL + ";" + tokens + columns ;
+            string msg = Constants.BLIND_PROXY_BALLOT + "&" + name + ";"  + SL + ";" + tokens + columns ;
 
             this.client.sendMessage(msg);
         }
@@ -236,7 +238,7 @@ namespace Proxy
         private void sendSignedColumnToVoter(string name)
         {
             int confirmation = this.proxyBallots[name].ConfirmationColumn;
-            string token = this.proxyBallots[name].Tokens[confirmation].ToString(); // pytanie ktore tokeny wysylac do votera to tez musisz sam wiedziec dobrze :)
+            string token = this.proxyBallots[name].TokensList[confirmation].ToString(); // pytanie ktore tokeny wysylac do votera to tez musisz sam wiedziec dobrze :)
 
             BigInteger signedBlindColumn = this.proxyBallots[name].SignedColumns[confirmation];
             string signedBlindColumnStr = signedBlindColumn.ToString();

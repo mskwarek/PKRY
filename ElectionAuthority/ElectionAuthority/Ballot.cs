@@ -83,24 +83,17 @@ namespace ElectionAuthority
         //Method to sing each column in ballotMatrix
         public void signColumn()
         {
-
-            KeyGenerationParameters para = new KeyGenerationParameters(new SecureRandom(), 1024);
-	        //generate the RSA key pair
-	        RsaKeyPairGenerator keyGen = new RsaKeyPairGenerator(); 
-	        //initialise the KeyGenerator with a random number.
-	        keyGen.Init(para);
-	        AsymmetricCipherKeyPair keypair = keyGen.GenerateKeyPair();
-	        privKey = (RsaKeyParameters)keypair.Private;
-
-
             BigInteger[] signed = new BigInteger[Constants.BALLOT_SIZE];
             int i = 0;
-
-
-            Console.WriteLine("pubModu = " + pubKeyModulus);
             foreach (BigInteger column in blindColumn)
             {
-                signed[i] = blindColumn[i].ModPow(privKey.Exponent, tokens[i]);  /////MARCINEK TUTAJ OGARNIJ O CO CHODZI, JA CI ZROVBILEM tak ze masz wszystkie 3 te tokeny tutja
+
+                Console.WriteLine(i);
+                Console.WriteLine("input = " + column);
+                Console.WriteLine("d = " + signatureFactor[i]);
+                Console.WriteLine("n = " + tokenList[i]);
+                signed[i] = column.ModPow(signatureFactor[i], tokenList[i]);
+                Console.WriteLine("output = " + signed[i]);/////MARCINEK TUTAJ OGARNIJ O CO CHODZI, JA CI ZROVBILEM tak ze masz wszystkie 3 te tokeny tutja
                 i++;
             }
 
