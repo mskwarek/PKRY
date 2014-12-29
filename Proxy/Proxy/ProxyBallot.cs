@@ -108,6 +108,7 @@ namespace Proxy
                 //********************* BLIND ************************************
                 BigInteger b = ((r.ModPow(e, n)).Multiply(toBlind)).Mod(n);
                 toSend[i] = b;
+
                 i++;
             }
             return toSend;

@@ -222,7 +222,13 @@ namespace Voter
         {
             this.voter.sendVoteToProxy();
             this.sendVoteButton.Enabled = false;
+            this.confirmationBox.Enabled = false;
                  
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            this.voter.setConfirm(this.confirmationBox.SelectedIndex);
         }
     }
 }

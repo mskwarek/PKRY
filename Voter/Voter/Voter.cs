@@ -11,6 +11,8 @@ namespace Voter
         private Logs logs;
         private Configuration configuration;
         private Client proxyClient;
+        private Confirmation confirm;
+
         public Client ProxyClient
         {
             get { return proxyClient; }
@@ -155,9 +157,15 @@ namespace Voter
                 }
                 //vote wyglada tak: VOTE&Voter0;1:0:0:0;1:0:0:0;0:0:0:1;0:0:0:1;0:0:0:1
             }
-
+            message = message + confirm.Index.ToString();
+            
             this.proxyClient.sendMessage(message);
 
+        }
+
+        public void setConfirm(int column)
+        {
+            confirm = new Confirmation(column);
         }
     }
 }

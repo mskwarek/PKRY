@@ -44,6 +44,7 @@ namespace Voter
             this.getCandidateListButton = new System.Windows.Forms.Button();
             this.getYesNoPositionButton = new System.Windows.Forms.Button();
             this.sendVoteButton = new System.Windows.Forms.Button();
+            this.confirmationBox = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // EAConnectButton
@@ -143,7 +144,7 @@ namespace Voter
             // sendVoteButton
             // 
             this.sendVoteButton.Enabled = false;
-            this.sendVoteButton.Location = new System.Drawing.Point(182, 276);
+            this.sendVoteButton.Location = new System.Drawing.Point(181, 307);
             this.sendVoteButton.Name = "sendVoteButton";
             this.sendVoteButton.Size = new System.Drawing.Size(163, 25);
             this.sendVoteButton.TabIndex = 8;
@@ -151,11 +152,27 @@ namespace Voter
             this.sendVoteButton.UseVisualStyleBackColor = true;
             this.sendVoteButton.Click += new System.EventHandler(this.sendVoteButton_Click);
             // 
+            // confirmationBox
+            // 
+            this.confirmationBox.FormattingEnabled = true;
+            this.confirmationBox.Items.AddRange(new object[] {
+            "Column A",
+            "Column B",
+            "Column C",
+            "Column D"});
+            this.confirmationBox.Location = new System.Drawing.Point(181, 279);
+            this.confirmationBox.Name = "confirmationBox";
+            this.confirmationBox.Size = new System.Drawing.Size(163, 21);
+            this.confirmationBox.TabIndex = 9;
+            this.confirmationBox.Text = "Choose confirmation";
+            this.confirmationBox.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(988, 478);
+            this.Controls.Add(this.confirmationBox);
             this.Controls.Add(this.sendVoteButton);
             this.Controls.Add(this.getYesNoPositionButton);
             this.Controls.Add(this.getCandidateListButton);
@@ -186,6 +203,7 @@ namespace Voter
         private Button getCandidateListButton;
         private Button getYesNoPositionButton;
         private Button sendVoteButton;
+        private ComboBox confirmationBox;
     }
 }
 
