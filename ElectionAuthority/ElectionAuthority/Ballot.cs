@@ -37,6 +37,19 @@ namespace ElectionAuthority
             set { blindColumn = value; }
         }
 
+        private List<BigInteger> permutation;
+        public List<BigInteger> Permutation
+        {
+            set { permutation = value; }
+            get { return permutation; }
+        }
+
+        private List<BigInteger> inversePermutation;
+        public List<BigInteger> InversePermutation
+        {
+            set { inversePermutation = value; }
+            get { return inversePermutation; }
+        }
 
         public Ballot(BigInteger SL, BigInteger[] tokens)
         {

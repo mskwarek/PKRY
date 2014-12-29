@@ -93,7 +93,7 @@ namespace Proxy
                 BigInteger SL = this.serialNumberAndSR.ElementAt(numOfSentSLandSR).Key;
                 BigInteger SR = this.serialNumberAndSR.ElementAt(numOfSentSLandSR).Value;
                 List<BigInteger> tokens = this.serialNumberTokens[SL];
-                this.proxyBallots.Add(name, new ProxyBallot(SL, SR));
+                this.proxyBallots.Add(name, new ProxyBallot(this.logs, SL, SR));
                 this.proxyBallots[name].Tokens = tokens;
                 
                 string msg = Constants.SL_AND_SR + "&" + SL.ToString()
@@ -207,10 +207,11 @@ namespace Proxy
             string name = words[0];
 
             string[] signedColumns = words[1].Split(',');
-            List<string> signedColumnsList = new List<string>();
+            List<BigInteger> signedColumnsList = new List<BigInteger>();
             foreach (string s in signedColumns)
             {
-                signedColumnsList.Add(s);
+                BigInteger big = new BigInteger(s);
+                signedColumnsList.Add(big);
             }
 
             this.proxyBallots[name].SignedColumns = signedColumnsList;
@@ -224,10 +225,25 @@ namespace Proxy
             int confirmation = this.proxyBallots[name].ConfirmationColumn;
             string token = this.proxyBallots[name].Tokens[confirmation].ToString();
 
-            string signedBlindColumn = this.proxyBallots[name].SignedColumns[confirmation];
-
-            string message = Constants.SIGNED_COLUMNS_TOKEN + "&" + signedBlindColumn + ";" + token;
+            BigInteger signedBlindColumn = this.proxyBallots[name].SignedColumns[confirmation];
+            string signedBlindColumnStr = signedBlindColumn.ToString();
+            string message = Constants.SIGNED_COLUMNS_TOKEN + "&" + signedBlindColumnStr + ";" + token;
             this.server.sendMessage(name, message);
+
+            this.unblindSignedBallotMatrix(name);
+
+        }
+
+        private void unblindSignedBallotMatrix(string name)
+        {
+
+            BigInteger[]  signedColumns = this.proxyBallots[name].SignedColumns.ToArray();
+            string[] strTabel = this.proxyBallots[name].unblindSignedData(signedColumns);
+            Console.WriteLine("odslepiona ballotMatrix");
+            foreach (string s in strTabel)
+            {
+                Console.WriteLine(s);
+            }
 
         }
     }

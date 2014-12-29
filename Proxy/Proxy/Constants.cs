@@ -67,5 +67,6 @@ namespace Proxy
         public const string SIGNED_PROXY_BALLOT = "SIGNED_PROXY_BALLOT";
         public const string SIGNED_COLUMNS_RECEIVED = "Signed columns received from EA and saved.";
         public const string SIGNED_COLUMNS_TOKEN = "SIGNED_COLUMNS_TOKEN";
+        public const string WRONG_SIGNATURE = "Wrong signature!";
     }
 }

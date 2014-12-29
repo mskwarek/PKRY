@@ -29,6 +29,7 @@ namespace ElectionAuthority
         //permutation PI
         private Permutation permutation;
         private List<List<BigInteger>> permutationsList;
+        private List<List<BigInteger>> inversePermutationList;
 
         //serial number SL
         private List<BigInteger> serialNumberList;
@@ -38,6 +39,7 @@ namespace ElectionAuthority
 
         //map which connect serialNumber and permuataion
         private Dictionary<BigInteger, List<BigInteger>> dictionarySLPermuation;
+        private Dictionary<BigInteger, List<BigInteger>> dictionarySLInversePermutation;
         private Dictionary<BigInteger, List<BigInteger>> dictionarySLTokens;
 
         private Dictionary<string, Ballot> ballots;
@@ -79,21 +81,45 @@ namespace ElectionAuthority
         {
             
             permutationsList = new List<List<BigInteger>>();
-
             for (int i = 0; i < this.numberOfVoters; i++)
             {
                 this.permutationsList.Add(new List<BigInteger>(this.permutation.generatePermutation(candidateDefaultList.Count)));
             }
-            
-            logs.addLog(Constants.PERMUTATION_GEN_SUCCESSFULLY, true, Constants.LOG_INFO);
+
             connectSerialNumberAndPermutation();
+            generateInversePermutation();
+            logs.addLog(Constants.PERMUTATION_GEN_SUCCESSFULLY, true, Constants.LOG_INFO);
+            
+        }
+
+        private void generateInversePermutation()
+        {
+            this.inversePermutationList = new List<List<BigInteger>>();
+            for (int i = 0; i < this.numberOfVoters; i++)
+            {
+                this.inversePermutationList.Add(this.permutation.getInversePermutation(this.permutationsList[i]));
+            }
+            logs.addLog(Constants.GENERATE_INVERSE_PERMUTATION, true, Constants.LOG_INFO, true);
+            connectSerialNumberAndInversePermutation();
+        
+        }
+
+        private void connectSerialNumberAndInversePermutation()
+        {
+            dictionarySLInversePermutation = new Dictionary<BigInteger, List<BigInteger>>();
+            for (int i = 0; i < this.serialNumberList.Count; i++)
+            {
+                dictionarySLInversePermutation.Add(this.serialNumberList[i], this.inversePermutationList[i]);
+            }
+            logs.addLog(Constants.SL_CONNECTED_WITH_INVERSE_PERMUTATION, true, Constants.LOG_INFO,true);
         }
 
         private void generateSerialNumber()
         {
             serialNumberList = new List<BigInteger>();
             serialNumberList = SerialNumberGenerator.generateListOfSerialNumber(this.numberOfVoters, Constants.NUMBER_OF_BITS_SL);
-            logs.addLog(Constants.SERIAL_NUMBER_GEN_SUCCESSFULLY, true, Constants.LOG_INFO);
+            
+            logs.addLog(Constants.SERIAL_NUMBER_GEN_SUCCESSFULLY, true, Constants.LOG_INFO, true);
         }
 
         private void generateTokens()
@@ -103,7 +129,7 @@ namespace ElectionAuthority
             { // we use the same method like to generate serial number, there is another random generator used inside this method
                 this.tokensList.Add(new List<BigInteger>(SerialNumberGenerator.generateListOfSerialNumber(4,Constants.NUMBER_OF_BITS_TOKEN)));
             }
-            logs.addLog(Constants.TOKENS_GENERATED_SUCCESSFULLY, true, Constants.LOG_INFO);
+            logs.addLog(Constants.TOKENS_GENERATED_SUCCESSFULLY, true, Constants.LOG_INFO, true);
             connectSerialNumberAndTokens();
 
         }
@@ -217,6 +243,9 @@ namespace ElectionAuthority
             this.ballots.Add(name, new Ballot(SL, tokens));
             
             this.ballots[name].BlindColumn = columns;
+            this.ballots[name].Permutation = this.dictionarySLPermuation[SL];
+            this.ballots[name].InversePermutation = this.dictionarySLInversePermutation[SL];
+
             this.ballots[name].PubKeyModulus = pubKeyModulus;
             this.logs.addLog(Constants.BLIND_PROXY_BALLOT_RECEIVED + name, true, Constants.LOG_INFO, true);
 
@@ -233,7 +262,7 @@ namespace ElectionAuthority
             
             for (int i =0 ;i<this.ballots[name].SignedColumn.Length;i++)
             {
-                if (i!= this.ballots[name].SignedColumn.Length -1)
+                if (i == this.ballots[name].SignedColumn.Length -1)
                     signColumns += this.ballots[name].SignedColumn[i].ToString();
                 else
                     signColumns = signColumns + this.ballots[name].SignedColumn[i].ToString() + ",";

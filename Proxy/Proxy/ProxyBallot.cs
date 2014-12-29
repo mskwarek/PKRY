@@ -15,6 +15,7 @@ namespace Proxy
 {
     class ProxyBallot
     {
+        private Logs logs;                                              //logs 
         private RsaKeyParameters pubKey;                                //pub key to blind sign
         public RsaKeyParameters PubKey
         {
@@ -45,8 +46,8 @@ namespace Proxy
 
         private int[,] ballotMatrix;                                    //ballot matrix just fo proxy operations
         private List<string> columns;
-        private List<string> signedColumns;
-        public List<string> SignedColumns
+        private List<BigInteger> signedColumns;
+        public List<BigInteger> SignedColumns
         {
             set { signedColumns = value; }
             get { return signedColumns; }
@@ -66,10 +67,11 @@ namespace Proxy
             get { return tokens; }
         }
        
-        public ProxyBallot(BigInteger SL, BigInteger SR)
+        public ProxyBallot(Logs logs, BigInteger SL, BigInteger SR)
         {
             this.sl =  SL;
             this.sr = SR;
+            this.logs = logs;
             this.tokens = new List<BigInteger>();
             //sng = sng.getInstance();
             //this.SR = sng.getNextSr();
@@ -144,7 +146,7 @@ namespace Proxy
                     String str = System.Text.Encoding.ASCII.GetString(s.ModPow(e, n).ToByteArray());
                 }
                 else{
-                    //Dodanie loga, że zły podpis
+                    this.logs.addLog(Constants.WRONG_SIGNATURE, true, Constants.LOG_ERROR, true);
                 }
             }
             return unblinded;
