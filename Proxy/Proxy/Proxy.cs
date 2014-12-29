@@ -126,8 +126,6 @@ namespace Proxy
             }
         }
 
-
-
         public void saveVote(string message)
         {
             //message = 'name;first_row;second_row .....;last_row'
