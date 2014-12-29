@@ -5,6 +5,8 @@ using System.Text;
 using System.Net.Sockets;
 using System.Windows.Forms;
 using Org.BouncyCastle.Math;
+using Org.BouncyCastle.Crypto;
+using Org.BouncyCastle.Crypto.Parameters;
 
 namespace ElectionAuthority
 {
@@ -35,12 +37,14 @@ namespace ElectionAuthority
         private List<BigInteger> serialNumberList;
 
         //tokens, one SL has four tokens
-        private List<List<BigInteger>> tokensList;
+        private List<List<BigInteger>> tokensList;          //for (un)blinding (proxy and EA)
+        private List<List<BigInteger>> exponentsList;       //for blinding (proxy)
+        private List<List<BigInteger>> signatureFactor;     //for signature (EA)
 
         //map which connect serialNumber and permuataion
         private Dictionary<BigInteger, List<BigInteger>> dictionarySLPermuation;
         private Dictionary<BigInteger, List<BigInteger>> dictionarySLInversePermutation;
-        private Dictionary<BigInteger, List<BigInteger>> dictionarySLTokens;
+        private Dictionary<BigInteger, List<List<BigInteger>>> dictionarySLTokens;
 
         private Dictionary<string, Ballot> ballots;
 
@@ -125,9 +129,29 @@ namespace ElectionAuthority
         private void generateTokens()
         {
             this.tokensList = new List<List<BigInteger>>();
+            this.exponentsList = new List<List<BigInteger>>();
+            this.signatureFactor = new List<List<BigInteger>>();
+
+            List<List<AsymmetricCipherKeyPair>>  PreTokensList = new List<List<AsymmetricCipherKeyPair>>();
             for (int i = 0; i < this.numberOfVoters; i++)
             { // we use the same method like to generate serial number, there is another random generator used inside this method
-                this.tokensList.Add(new List<BigInteger>(SerialNumberGenerator.generateListOfSerialNumber(4,Constants.NUMBER_OF_BITS_TOKEN)));
+                List<AsymmetricCipherKeyPair> preToken = new List<AsymmetricCipherKeyPair>(SerialNumberGenerator.generatePreTokens(4, Constants.NUMBER_OF_BITS_TOKEN));
+                PreTokensList.Add(preToken);
+                List<BigInteger> tokens = new List<BigInteger>();
+                List<BigInteger> exps = new List<BigInteger>();
+                List<BigInteger> signFactor = new List<BigInteger>();
+
+                foreach (AsymmetricCipherKeyPair token in preToken)
+                {
+                    RsaKeyParameters publicKey = (RsaKeyParameters)token.Public;
+                    RsaKeyParameters privKey = (RsaKeyParameters)token.Private;
+                    tokens.Add(publicKey.Modulus);
+                    exps.Add(publicKey.Exponent);
+                    signFactor.Add(privKey.Exponent);
+                }
+                this.tokensList.Add(tokens);
+                this.exponentsList.Add(exps);
+                this.signatureFactor.Add(signFactor);
             }
             logs.addLog(Constants.TOKENS_GENERATED_SUCCESSFULLY, true, Constants.LOG_INFO, true);
             connectSerialNumberAndTokens();
@@ -147,22 +171,18 @@ namespace ElectionAuthority
 
         private void connectSerialNumberAndTokens()
         {
-            this.dictionarySLTokens = new Dictionary<BigInteger, List<BigInteger>>();
+            this.dictionarySLTokens = new Dictionary<BigInteger, List<List<BigInteger>>>();
             for (int i = 0; i < this.serialNumberList.Count; i++)
             {
-                this.dictionarySLTokens.Add(this.serialNumberList[i], this.tokensList[i]);
+                List<List<BigInteger>> tokens = new List<List<BigInteger>>();
+                tokens.Add(tokensList[i]);
+                tokens.Add(exponentsList[i]);
+                tokens.Add(signatureFactor[i]);
+                this.dictionarySLTokens.Add(this.serialNumberList[i], tokens);
             }
-            for (int i = 0; i < this.serialNumberList.Count; i++)
-            {
-                Console.WriteLine("klucz");
-                Console.WriteLine(this.dictionarySLTokens.ElementAt(i).Key);
-                Console.WriteLine("tokeny");
-                foreach (BigInteger b in this.dictionarySLTokens.ElementAt(i).Value)
-                {
-                    Console.WriteLine(b);
-                }
 
-            }
+
+            
 
             logs.addLog(Constants.SL_CONNECTED_WITH_TOKENS, true, Constants.LOG_INFO);
         }
@@ -178,8 +198,38 @@ namespace ElectionAuthority
         public void sendSLAndTokensToProxy()
         {
             //before sending we have to convert dictionary to string. We use our own conversion to recoginize message in proxy and reparse it to dictionary
-            string serialNumberAndTokens = Converter.convertDictionaryToString(Constants.SL_TOKENS, this.dictionarySLTokens);
-            this.serverProxy.sendMessage(Constants.PROXY, serialNumberAndTokens);
+            // msg = SL_TOKENS&FIRST_SL=tokensList[0],tokensList[1],tokensList[2]....:exponentsList[0],exponentsList[1],exponentsList[2]....;SECOND_SL
+
+            string msg = Constants.SL_TOKENS + "&";
+            for (int i =0; i<this.serialNumberList.Count;i++)
+            {
+
+                msg = msg + this.serialNumberList[i].ToString() + "=";
+                for (int j =0; j<this.tokensList[i].Count;j++)
+                {
+                    if (j == this.tokensList[i].Count - 1)
+                        msg = msg + this.tokensList[i][j].ToString() + ":";
+
+                    else
+                        msg = msg + this.tokensList[i][j].ToString() + ",";
+
+                }
+
+                for (int j = 0; j < this.exponentsList[i].Count; j++)
+                {
+                    if (j == this.exponentsList[i].Count - 1)
+                        msg += this.exponentsList[i][j].ToString();
+
+                    else
+                        msg = msg + this.exponentsList[i][j].ToString() + ",";
+
+                }
+
+                if (i != this.serialNumberList.Count -1 )
+                    msg += ";";
+
+            }
+            this.serverProxy.sendMessage(Constants.PROXY, msg);
         }
 
         public void disableSendSLTokensAndTokensButton()
@@ -226,12 +276,21 @@ namespace ElectionAuthority
             BigInteger pubKeyModulus = new BigInteger(words[1]);
             BigInteger SL = new BigInteger(words[2]);
 
-            BigInteger[] tokens = new BigInteger[4];
+            List<BigInteger> tokenList = new List<BigInteger>();
             string[] strTokens = words[3].Split(',');
-            for(int i =0; i<tokens.Length; i++)
+            for(int i =0; i<strTokens.Length; i++)
             {
-                tokens[i] = new BigInteger(strTokens[i]);
+                tokenList.Add(new BigInteger(strTokens[i]));
             }
+
+
+            List<BigInteger> exponentList = new List<BigInteger>();
+            string[] strExpo = words[4].Split(',');
+            for (int i = 0; i < strExpo.Length; i++)
+            {
+                exponentList.Add(new BigInteger(strExpo[i]));
+            }
+
 
             BigInteger[] columns = new BigInteger[4];
             string[] strColumns = words[4].Split(',');
@@ -240,11 +299,14 @@ namespace ElectionAuthority
                 columns[i] = new BigInteger(strColumns[i]);
             }
 
-            this.ballots.Add(name, new Ballot(SL, tokens));
+            this.ballots.Add(name, new Ballot(SL));
             
             this.ballots[name].BlindColumn = columns;
             this.ballots[name].Permutation = this.dictionarySLPermuation[SL];
             this.ballots[name].InversePermutation = this.dictionarySLInversePermutation[SL];
+            this.ballots[name].TokenList = tokenList;
+            this.ballots[name].ExponentsList = exponentList;
+            this.ballots[name].SignatureFactor = this.dictionarySLTokens[SL][2];
 
             this.ballots[name].PubKeyModulus = pubKeyModulus;
             this.logs.addLog(Constants.BLIND_PROXY_BALLOT_RECEIVED + name, true, Constants.LOG_INFO, true);

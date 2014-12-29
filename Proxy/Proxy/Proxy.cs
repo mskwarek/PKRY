@@ -29,8 +29,8 @@ namespace Proxy
 
         private int numberOfVoters;
 
-        private Dictionary<BigInteger, List<BigInteger>> serialNumberTokens; //dictionary contains serialNumber and tokens connected with that SL
-        public Dictionary<BigInteger, List<BigInteger>> SerialNumberTokens
+        private Dictionary<BigInteger, List<List<BigInteger>>> serialNumberTokens; //dictionary contains serialNumber and tokens connected with that SL
+        public Dictionary<BigInteger, List<List<BigInteger>>> SerialNumberTokens
         {
             get { return this.serialNumberTokens; }
             set {this.serialNumberTokens = value;}
@@ -53,7 +53,7 @@ namespace Proxy
 
 
 
-            this.serialNumberTokens = new Dictionary<BigInteger,List<BigInteger>>();
+            this.serialNumberTokens = new Dictionary<BigInteger, List<List<BigInteger>>>();
             this.SRList = new List<BigInteger>();
             this.serialNumberAndSR = new Dictionary<BigInteger, BigInteger>();
             this.proxyBallots = new Dictionary<string, ProxyBallot>();
@@ -92,10 +92,13 @@ namespace Proxy
             {
                 BigInteger SL = this.serialNumberAndSR.ElementAt(numOfSentSLandSR).Key;
                 BigInteger SR = this.serialNumberAndSR.ElementAt(numOfSentSLandSR).Value;
-                List<BigInteger> tokens = this.serialNumberTokens[SL];
+                List<BigInteger> tokensList = this.serialNumberTokens[SL][0];
+                List<BigInteger> exponentesList = this.serialNumberTokens[SL][1];
+
                 this.proxyBallots.Add(name, new ProxyBallot(this.logs, SL, SR));
-                this.proxyBallots[name].Tokens = tokens;
-                
+                this.proxyBallots[name].TokensList = tokensList;
+                this.proxyBallots[name].ExponentsList = exponentesList;
+
                 string msg = Constants.SL_AND_SR + "&" + SL.ToString()
                      + "=" + SR.ToString();
                 numOfSentSLandSR += 1;
@@ -182,14 +185,24 @@ namespace Proxy
         private string prepareTokens(BigInteger SL)
         {
             string tokens = null;
-            List<BigInteger> tokenTable = this.serialNumberTokens[SL];
-            for (int i = 0; i < tokenTable.Count; i++)
+            List<BigInteger> tokenList = this.serialNumberTokens[SL][0];
+            for (int i = 0; i < tokenList.Count; i++)
             {
-                if (i != tokenTable.Count - 1)
-                    tokens = tokens + tokenTable[i].ToString() + ",";
+                if (i != tokenList.Count - 1)
+                    tokens = tokens + tokenList[i].ToString() + ",";
                 else
-                    tokens = tokens + tokenTable[i].ToString() + ";";
+                    tokens = tokens + tokenList[i].ToString() + ";";
             }
+
+            List<BigInteger> exponentsList = this.serialNumberTokens[SL][1];
+            for (int i = 0; i < exponentsList.Count; i++)
+            {
+                if (i != exponentsList.Count - 1)
+                    tokens = tokens + exponentsList[i].ToString() + ",";
+                else
+                    tokens = tokens + exponentsList[i].ToString() + ";";
+            }
+
             return tokens;
         }
 
@@ -223,7 +236,7 @@ namespace Proxy
         private void sendSignedColumnToVoter(string name)
         {
             int confirmation = this.proxyBallots[name].ConfirmationColumn;
-            string token = this.proxyBallots[name].Tokens[confirmation].ToString();
+            string token = this.proxyBallots[name].Tokens[confirmation].ToString(); // pytanie ktore tokeny wysylac do votera to tez musisz sam wiedziec dobrze :)
 
             BigInteger signedBlindColumn = this.proxyBallots[name].SignedColumns[confirmation];
             string signedBlindColumnStr = signedBlindColumn.ToString();

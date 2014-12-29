@@ -60,19 +60,28 @@ namespace Proxy
             set { confirmationColumn = value; }
         }
         
-        private List<BigInteger> tokens;
-        public List<BigInteger> Tokens
+        private List<BigInteger> tokensList;
+        public List<BigInteger> TokensList
         {
-            set { tokens = value; }
-            get { return tokens; }
+            set { tokensList = value; }
+            get { return tokensList; }
         }
-       
+
+
+        private List<BigInteger> exponentsList;
+        public List<BigInteger> ExponentsList
+        {
+            set { exponentsList = value; }
+            get { return exponentsList; }
+        }
         public ProxyBallot(Logs logs, BigInteger SL, BigInteger SR)
         {
             this.sl =  SL;
             this.sr = SR;
             this.logs = logs;
-            this.tokens = new List<BigInteger>();
+            this.tokensList = new List<BigInteger>();
+            this.exponentsList = new List<BigInteger>();
+            
             //sng = sng.getInstance();
             //this.SR = sng.getNextSr();
             //init keyPair generator
