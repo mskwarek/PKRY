@@ -51,13 +51,25 @@ namespace Proxy
             set { signedColumns = value; }
 
         }
-        private List<Org.BouncyCastle.Math.BigInteger[]> tokens;
+        private int confirmationColumn;
+        public int ConfirmationColumn
+        {
+            get { return confirmationColumn; }
+            set { confirmationColumn = value; }
+        }
         
+        private List<BigInteger> tokens;
+        public List<BigInteger> Tokens
+        {
+            set { tokens = value; }
+            get { return tokens; }
+        }
        
         public ProxyBallot(BigInteger SL, BigInteger SR)
         {
             this.sl =  SL;
             this.sr = SR;
+            this.tokens = new List<BigInteger>();
             //sng = sng.getInstance();
             //this.SR = sng.getNextSr();
             //init keyPair generator

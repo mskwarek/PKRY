@@ -242,6 +242,7 @@ namespace ElectionAuthority
 
             string msg = Constants.SIGNED_PROXY_BALLOT + "&" + name + ";" + signColumns;
             this.serverProxy.sendMessage(Constants.PROXY, msg);
+            this.logs.addLog(Constants.SIGNED_BALLOT_MATRIX_SENT, true, Constants.LOG_INFO, true);
         
         }
 

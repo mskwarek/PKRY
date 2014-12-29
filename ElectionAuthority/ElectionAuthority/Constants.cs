@@ -50,5 +50,6 @@ namespace ElectionAuthority
         public const string BLIND_PROXY_BALLOT = "BLIND_PROXY_BALLOT";
         public const string BLIND_PROXY_BALLOT_RECEIVED = "Blind ballot received from voter with ID: ";
         public const string SIGNED_PROXY_BALLOT = "SIGNED_PROXY_BALLOT";
+        public const string SIGNED_BALLOT_MATRIX_SENT = "SIGNED_BALLOT_MATRIX_SENT";
     }
 }

@@ -92,7 +92,10 @@ namespace Proxy
             {
                 BigInteger SL = this.serialNumberAndSR.ElementAt(numOfSentSLandSR).Key;
                 BigInteger SR = this.serialNumberAndSR.ElementAt(numOfSentSLandSR).Value;
+                List<BigInteger> tokens = this.serialNumberTokens[SL];
                 this.proxyBallots.Add(name, new ProxyBallot(SL, SR));
+                this.proxyBallots[name].Tokens = tokens;
+                
                 string msg = Constants.SL_AND_SR + "&" + SL.ToString()
                      + "=" + SR.ToString();
                 numOfSentSLandSR += 1;
@@ -133,9 +136,9 @@ namespace Proxy
             int[,] vote = new int[this.configuration.NumOfCandidates, 4];
             string[] words = message.Split(';');
             string name = words[0];
-            for (int i = 1; i < words.Length; i++)
+            for (int i = 1; i < words.Length-1; i++)
             {
-                string[] row = words[i].Split(':');
+                string[] row = words[i].Split(':'); 
                 for (int k = 0; k < row.Length; k++)
                 {
                     vote[i-1,k] = Convert.ToInt32(row[k]);
@@ -146,6 +149,7 @@ namespace Proxy
 
 
             this.proxyBallots[name].Vote = vote;
+            this.proxyBallots[name].ConfirmationColumn = Convert.ToInt32(words[words.Length - 1]);
             this.logs.addLog(Constants.VOTE_RECEIVED + name, true, Constants.LOG_INFO, true);
             this.proxyBallots[name].generateAndSplitBallotMatrix();
             this.logs.addLog(Constants.BALLOT_MATRIX_GEN + name, true, Constants.LOG_INFO, true);
@@ -210,7 +214,20 @@ namespace Proxy
             }
 
             this.proxyBallots[name].SignedColumns = signedColumnsList;
-        
+            this.logs.addLog(Constants.SIGNED_COLUMNS_RECEIVED, true, Constants.LOG_INFO, true);
+
+            this.sendSignedColumnToVoter(name);
+        }
+
+        private void sendSignedColumnToVoter(string name)
+        {
+            int confirmation = this.proxyBallots[name].ConfirmationColumn;
+            string token = this.proxyBallots[name].Tokens[confirmation].ToString();
+
+            string signedBlindColumn = this.proxyBallots[name].SignedColumns[confirmation];
+
+
+
         }
     }
 }

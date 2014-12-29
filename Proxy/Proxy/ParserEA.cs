@@ -55,6 +55,11 @@ namespace Proxy
                     this.proxy.disableConnectElectionAuthorityButton();
                     this.logs.addLog(Constants.PROXY_CONNECTED_TO_EA, true, Constants.LOG_INFO, true);
                     break;
+
+
+                case Constants.SIGNED_PROXY_BALLOT:
+                    this.proxy.saveSignedBallot(elem[1]);
+                    break;
             }
 
 

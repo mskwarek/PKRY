@@ -157,7 +157,7 @@ namespace Voter
                 }
                 //vote wyglada tak: VOTE&Voter0;1:0:0:0;1:0:0:0;0:0:0:1;0:0:0:1;0:0:0:1
             }
-            message = message + confirm.Index.ToString();
+            message = message + ";" + confirm.Index.ToString();
             
             this.proxyClient.sendMessage(message);
 
