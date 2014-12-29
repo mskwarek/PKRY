@@ -226,7 +226,8 @@ namespace Proxy
 
             string signedBlindColumn = this.proxyBallots[name].SignedColumns[confirmation];
 
-
+            string message = Constants.SIGNED_COLUMNS_TOKEN + "&" + signedBlindColumn + ";" + token;
+            this.server.sendMessage(name, message);
 
         }
     }

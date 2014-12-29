@@ -45,5 +45,7 @@ namespace Voter
         public const string YES_NO_POSITION = "YES_NO_POSITION";
         public const string VOTE_FINISH = "Process of voting done. Congratulations!";
         public const string VOTE = "VOTE";
+        public const string SIGNED_COLUMNS_TOKEN = "SIGNED_COLUMNS_TOKEN";
+        public const string SIGNED_COLUMNS_TOKEN_RECEIVED = "Signed blind columns received from Proxy.";
     }
 }
