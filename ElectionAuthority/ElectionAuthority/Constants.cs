@@ -51,5 +51,7 @@ namespace ElectionAuthority
         public const string BLIND_PROXY_BALLOT_RECEIVED = "Blind ballot received from voter with ID: ";
         public const string SIGNED_PROXY_BALLOT = "SIGNED_PROXY_BALLOT";
         public const string SIGNED_BALLOT_MATRIX_SENT = "SIGNED_BALLOT_MATRIX_SENT";
+        public const string GENERATE_INVERSE_PERMUTATION = "Inverse permutation generated";
+        public const string SL_CONNECTED_WITH_INVERSE_PERMUTATION = "Serial numbers connected with inverse permutation";
     }
 }
