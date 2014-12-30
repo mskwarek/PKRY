@@ -53,5 +53,11 @@ namespace ElectionAuthority
         public const string SIGNED_BALLOT_MATRIX_SENT = "SIGNED_BALLOT_MATRIX_SENT";
         public const string GENERATE_INVERSE_PERMUTATION = "Inverse permutation generated";
         public const string SL_CONNECTED_WITH_INVERSE_PERMUTATION = "Serial numbers connected with inverse permutation";
+        public const string UNBLINED_BALLOT_MATRIX = "UNBLINED_BALLOT_MATRIX";
+        public const string UNBLINED_BALLOT_MATRIX_RECEIVED = "Unblined ballot matrix received from Proxy.";
+
+        public const string UNABLE_TO_STOP_VOTING = "UNABLE_TO_STOP_VOTING";
+
+        public const string VOTIGN_STOPPED = "Votign stopped successfully";
     }
 }

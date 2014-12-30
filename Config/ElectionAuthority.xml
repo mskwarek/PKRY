@@ -1,3 +1,3 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ElectionAuthority ID = "Election Authority" electionAuthorityPortForClient="15000" electionAuthorityPortForProxy = "15500" numberOfVoters = "5"/>
+<ElectionAuthority ID = "Election Authority" electionAuthorityPortForClient="15000" electionAuthorityPortForProxy = "15500" numberOfVoters = "5" />
 

@@ -49,6 +49,8 @@ namespace ElectionAuthority
         private Dictionary<string, Ballot> ballots;
 
         private int numberOfVoters;
+        private int[] finalResults;
+
 
         public ElectionAuthority(Logs logs, Configuration configuration, Form1 form)
         {
@@ -336,7 +338,151 @@ namespace ElectionAuthority
         
         }
 
-        
+
+
+        public void saveUnblindedBallotMatrix(string message)
+        {
+
+            string[] words = message.Split(';');
+
+            string name = words[0];
+            string[] strUnblinedColumns = words[1].Split(',');
+
+            string[,] unblindedBallot = new string[this.candidateDefaultList.Count, Constants.BALLOT_SIZE];
+            for (int i = 0; i < strUnblinedColumns.Length; i++)
+            {
+                for (int j = 0; j < strUnblinedColumns[i].Length; j++)
+                {
+                    unblindedBallot[j, i] = strUnblinedColumns[i][j].ToString();
+
+                }
+            }
+
+            string[,] unblindedUnpermuatedBallot = new string[this.candidateDefaultList.Count, Constants.BALLOT_SIZE];
+            BigInteger[] inversePermutation = this.ballots[name].InversePermutation.ToArray();
+
+            for (int i = 0; i < unblindedUnpermuatedBallot.GetLength(0); i++)
+            {
+                string strRow = inversePermutation[i].ToString();
+                int row = Convert.ToInt32(strRow) -1;
+                for (int j = 0; j < unblindedUnpermuatedBallot.GetLength(1); j++)
+                {
+                    unblindedUnpermuatedBallot[i, j] = unblindedBallot[row , j];
+                }
+            }
+
+
+            this.ballots[name].UnblindedBallot = unblindedUnpermuatedBallot;
+            this.logs.addLog(Constants.UNBLINED_BALLOT_MATRIX_RECEIVED, true, Constants.LOG_INFO, true);
+        }
+
+        public void disbaleProxy()
+        {
+            try
+            {
+                this.serverProxy.stopServer();
+            }
+            catch(Exception)
+            {
+                this.logs.addLog(Constants.UNABLE_TO_STOP_VOTING, true, Constants.LOG_ERROR, true);
+            }
+
+            this.logs.addLog(Constants.VOTIGN_STOPPED, true, Constants.LOG_INFO, true);
+            
+        }
+
+        public void countVotes()
+        {
+            this.finalResults = new int[this.candidateDefaultList.Count];
+            initializeFinalResults();
+
+            for (int i = 0; i < this.ballots.Count; i++)
+            {
+                int signleVote = checkVote(i); 
+                if ( signleVote!= -1)
+                {
+                    this.finalResults[signleVote] += 1;
+                }
+            }
+
+            this.announceResultsOfElection();
+        }
+
+        private void announceResultsOfElection()
+        {
+            
+            
+            int maxValue = this.finalResults.Max();
+            int maxIndex = this.finalResults.ToList().IndexOf(maxValue);
+            int winningCandidates = 0;
+            string winners = null;
+            for(int i =0; i<this.finalResults.Length;i++)
+            {
+                if (this.finalResults[i] == maxValue)
+                {
+                    winningCandidates += 1; // a few candidates has the same number of votes.
+                    winners = winners + this.candidateDefaultList[i] + " ";
+                }
+            }
+
+            if (winningCandidates == 1)
+            {
+                this.form.Invoke(new MethodInvoker(delegate()
+                    {
+                        MessageBox.Show("Winner of the election is: " + winners) ;        
+                    }));
+                
+            }
+            else
+            {
+                this.form.Invoke(new MethodInvoker(delegate()
+                {
+
+                    MessageBox.Show("There is no one winner. Candidates on first place ex aequo: " + winners);
+                }));
+                
+            }
+
+
+
+        }
+
+        private int checkVote(int voterNumber)
+        {
+            Ballot ballot = this.ballots.ElementAt(voterNumber).Value;
+            string[,] vote = ballot.UnblindedBallot;
+            Console.WriteLine("Voter number " + voterNumber);
+            int voteCastOn = -1;
+            for (int i = 0; i < vote.GetLength(0); i++)
+            {
+                int numberOfYes = 0;
+                for (int j = 0; j < vote.GetLength(1); j++)
+                {
+                    if (vote[i, j] == "1")
+                        numberOfYes += 1;
+                }
+                
+                
+                if (numberOfYes == 3)
+                {
+                    voteCastOn = i;
+                    break;
+                }
+            }
+
+            return voteCastOn;
+
+        }
+
+
+
+        private void initializeFinalResults()
+        {
+            for (int i = 0; i < this.finalResults.Length; i++)
+            {
+                this.finalResults[i] = 0;
+            }
+        }
     }
 }
 

@@ -233,6 +233,7 @@ namespace Proxy
             this.logs.addLog(Constants.SIGNED_COLUMNS_RECEIVED, true, Constants.LOG_INFO, true);
 
             this.sendSignedColumnToVoter(name);
+            this.unblindSignedBallotMatrix(name);
         }
 
         private void sendSignedColumnToVoter(string name)
@@ -245,7 +246,7 @@ namespace Proxy
             string message = Constants.SIGNED_COLUMNS_TOKEN + "&" + signedBlindColumnStr + ";" + token;
             this.server.sendMessage(name, message);
 
-            this.unblindSignedBallotMatrix(name);
+            
 
         }
 
@@ -253,13 +254,22 @@ namespace Proxy
         {
 
             BigInteger[]  signedColumns = this.proxyBallots[name].SignedColumns.ToArray();
-            string[] strTabel = this.proxyBallots[name].unblindSignedData(signedColumns);
+            string[] strUnblindedBallotMatrix = this.proxyBallots[name].unblindSignedData(signedColumns);
             Console.WriteLine("odslepiona ballotMatrix");
-            foreach (string s in strTabel)
+            string unblinedColumns = null;
+            for (int i =0; i<strUnblindedBallotMatrix.Length;i++)
             {
-                Console.WriteLine(s);
+                Console.WriteLine(strUnblindedBallotMatrix[i]);
+                if (i!= strUnblindedBallotMatrix.Length -1)
+                    unblinedColumns = unblinedColumns + strUnblindedBallotMatrix[i] + ",";
+                else
+                    unblinedColumns += strUnblindedBallotMatrix[i];
             }
 
+
+            string message = Constants.UNBLINED_BALLOT_MATRIX + "&" + name + ";" + unblinedColumns;
+
+            this.client.sendMessage(message);
         }
     }
 }

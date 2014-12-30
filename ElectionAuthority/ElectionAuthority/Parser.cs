@@ -39,6 +39,9 @@ namespace ElectionAuthority
                 case Constants.BLIND_PROXY_BALLOT:
                     this.electionAuthority.saveBlindBallotMatrix(words[1]);
                     return true;
+                case Constants.UNBLINED_BALLOT_MATRIX:
+                    this.electionAuthority.saveUnblindedBallotMatrix(words[1]);
+                    return true;
             }
 
 

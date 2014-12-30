@@ -69,5 +69,7 @@ namespace Proxy
         public const string SIGNED_COLUMNS_TOKEN = "SIGNED_COLUMNS_TOKEN";
         public const string WRONG_SIGNATURE = "Wrong signature!";
         public const string CORRECT_SIGNATURE = "Correct signature!";
+        public const string ALL_COLUMNS_UNBLINDED_CORRECTLY = "Correct signature! All columns unblinded correctly!";
+        public const string UNBLINED_BALLOT_MATRIX = "UNBLINED_BALLOT_MATRIX";
     }
 }

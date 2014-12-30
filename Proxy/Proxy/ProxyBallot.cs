@@ -160,20 +160,27 @@ namespace Proxy
                 Console.WriteLine("r = " + r[i]);
                 *///unblind sign
                 BigInteger signed = ((r[i].ModInverse(n)).Multiply(signedData[i])).Mod(n);
-                Console.WriteLine("signedUnblind = " + signed);
+                
 
                 //BigInteger s = ((r.ModInverse(n)).Multiply(signedData[i])).Mod(n);
                 
-                //Console.WriteLine("s = " + s);
                 BigInteger check = signed.ModPow(e, n);
-                //Console.WriteLine("explicitData = " + explicitData);
-                //Console.WriteLine("check = " + check);
+                int correctUnblindedColumns = 0; //used to now if all columns are unblinded correctly
                 if(explicitData.Equals(check))
                 {
                     //BigInteger check = signed.ModPow(e, n);
+                    correctUnblindedColumns += 1;
                     String str = check.ToString();
+                    String correctString =  checkZeros(str);
+                    unblinded[i] = correctString;
+                    Console.WriteLine("Odslepiona co marcinek zapomniał: " + unblinded[i]);
                     //WYSŁAć NORMALNA KOLUMNE, BO WIEMY ZE NIE OSZUKA
-                    this.logs.addLog(Constants.CORRECT_SIGNATURE, true, Constants.LOG_INFO, true);
+                    if (correctUnblindedColumns == Constants.BALLOT_SIZE)
+                        this.logs.addLog(Constants.ALL_COLUMNS_UNBLINDED_CORRECTLY, true, Constants.LOG_INFO, true);
+                    else
+                        this.logs.addLog(Constants.CORRECT_SIGNATURE, true, Constants.LOG_INFO, true);
+
+
                 //^ WYWALA WYJATEK
                 }
                 else{
@@ -181,6 +188,30 @@ namespace Proxy
                 }
             }
             return unblinded;
+        }
+
+        private string checkZeros(string str)
+        {
+            if (str.Length == this.vote.GetLength(0))
+                return str;
+            else
+            {
+                int neccessaryZeros = this.vote.GetLength(0) - str.Length;
+                string zeros = null;
+                for (int i = 0; i < neccessaryZeros; i++)
+                {
+                    zeros += "0";
+                }
+                string column = zeros + str;
+
+                return column;
+            }
+                
+                
+                
+
+
+            
         }
 
 

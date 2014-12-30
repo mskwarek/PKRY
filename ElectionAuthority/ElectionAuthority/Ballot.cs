@@ -58,6 +58,13 @@ namespace ElectionAuthority
             set { blindColumn = value; }
         }
 
+        private string[,] unblindedBallot;
+        public string[,] UnblindedBallot
+        {
+            set { unblindedBallot = value; }
+            get { return unblindedBallot; }
+        }
+
         private List<BigInteger> permutation;
         public List<BigInteger> Permutation
         {
@@ -87,13 +94,12 @@ namespace ElectionAuthority
             int i = 0;
             foreach (BigInteger column in blindColumn)
             {
-
-                Console.WriteLine(i);
-                Console.WriteLine("input = " + column);
-                Console.WriteLine("d = " + signatureFactor[i]);
-                Console.WriteLine("n = " + tokenList[i]);
+                //Console.WriteLine(i);
+                //Console.WriteLine("input = " + column);
+                //Console.WriteLine("d = " + signatureFactor[i]);
+                //Console.WriteLine("n = " + tokenList[i]);
                 signed[i] = column.ModPow(signatureFactor[i], tokenList[i]);
-                Console.WriteLine("output = " + signed[i]);/////MARCINEK TUTAJ OGARNIJ O CO CHODZI, JA CI ZROVBILEM tak ze masz wszystkie 3 te tokeny tutja
+                //Console.WriteLine("output = " + signed[i]);
                 i++;
             }
 
