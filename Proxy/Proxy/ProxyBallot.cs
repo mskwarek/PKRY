@@ -152,12 +152,13 @@ namespace Proxy
                 BigInteger explicitData = new BigInteger(columns[i]);
                 BigInteger n = tokensList[i];
                 BigInteger e = exponentsList[i];
+               /*
                 Console.WriteLine(i);
                 Console.WriteLine("input = " + signedData[i]);
                 Console.WriteLine("e = " + e);
                 Console.WriteLine("n = " + n);
                 Console.WriteLine("r = " + r[i]);
-                //unblind sign
+                *///unblind sign
                 BigInteger signed = ((r[i].ModInverse(n)).Multiply(signedData[i])).Mod(n);
                 Console.WriteLine("signedUnblind = " + signed);
 
@@ -165,14 +166,14 @@ namespace Proxy
                 
                 //Console.WriteLine("s = " + s);
                 BigInteger check = signed.ModPow(e, n);
-                Console.WriteLine("explicitData = " + explicitData);
-                Console.WriteLine("check = " + check);
+                //Console.WriteLine("explicitData = " + explicitData);
+                //Console.WriteLine("check = " + check);
                 if(explicitData.Equals(check))
                 {
                     //BigInteger check = signed.ModPow(e, n);
-                    //String str = System.Text.Encoding.ASCII.GetString(s.ModPow(e, n).ToByteArray());
+                    String str = check.ToString();
                     //WYSŁAć NORMALNA KOLUMNE, BO WIEMY ZE NIE OSZUKA
-                    //this.logs.addLog(Constants.CORRECT_SIGNATURE, true, Constants.LOG_INFO);
+                    this.logs.addLog(Constants.CORRECT_SIGNATURE, true, Constants.LOG_INFO, true);
                 //^ WYWALA WYJATEK
                 }
                 else{
