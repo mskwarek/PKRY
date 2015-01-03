@@ -7,6 +7,9 @@ namespace ElectionAuthority
 {
     class Constants
     {
+        //===========ZMIENIC = WCZYTYWAC Z PLIKU!================
+        public const int BALLOT_SIZE = 4;
+
         public const int LOG_INFO = 0;
         public const int LOG_MESSAGE = 1;
         public const int LOG_ERROR = 2;
@@ -34,15 +37,27 @@ namespace ElectionAuthority
         public const int NUMBER_OF_BITS_SL = 64;
         public const int NUMBER_OF_TOKENS = 4;
         public const string TOKENS_GENERATED_SUCCESSFULLY = "Tokens generated successfully";
-        public const int NUMBER_OF_BITS_TOKEN =32;
+        public const int NUMBER_OF_BITS_TOKEN =512;
         public const string SL_CONNECTED_WITH_TOKENS = "Serial numbers connected with tokens";
         public static string SL_TOKENS = "SL_TOKENS";
         public const string SL_RECEIVED_SUCCESSFULLY = "SL_RECEIVED_SUCCESSFULLY";
         public const string SL_AND_SR_SENT_SUCCESSFULLY = "SL sent successfully to Proxy";
         public const string PROXY ="PROXY";
-        public static string PROXY_CONNECTED = "PROXY_CONNECTED";
+        public static string CONNECTED = "CONNECTED";
 
         public const string GET_CANDIDATE_LIST = "GET_CANDIDATE_LIST";
         public const string CANDIDATE_LIST_RESPONSE = "CANDIDATE_LIST_RESPONSE";
+        public const string BLIND_PROXY_BALLOT = "BLIND_PROXY_BALLOT";
+        public const string BLIND_PROXY_BALLOT_RECEIVED = "Blind ballot received from voter with ID: ";
+        public const string SIGNED_PROXY_BALLOT = "SIGNED_PROXY_BALLOT";
+        public const string SIGNED_BALLOT_MATRIX_SENT = "SIGNED_BALLOT_MATRIX_SENT";
+        public const string GENERATE_INVERSE_PERMUTATION = "Inverse permutation generated";
+        public const string SL_CONNECTED_WITH_INVERSE_PERMUTATION = "Serial numbers connected with inverse permutation";
+        public const string UNBLINED_BALLOT_MATRIX = "UNBLINED_BALLOT_MATRIX";
+        public const string UNBLINED_BALLOT_MATRIX_RECEIVED = "Unblined ballot matrix received from Proxy.";
+
+        public const string UNABLE_TO_STOP_VOTING = "UNABLE_TO_STOP_VOTING";
+
+        public const string VOTIGN_STOPPED = "Votign stopped successfully";
     }
 }

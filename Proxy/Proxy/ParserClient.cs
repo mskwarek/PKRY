@@ -24,10 +24,16 @@ namespace Proxy
             string[] elem = msg.Split('&');
             switch (elem[0])
             {
-                case Constants.REQUEST_FOR_SL_AND_SR:
+                case Constants.GET_SL_AND_SR:
                     this.proxy.sendSLAndSR(elem[1]);
                     break;
+                case Constants.GET_YES_NO_POSITION:
+                    this.proxy.sendYesNoPosition(elem[1]);
+                    break;
 
+                case Constants.VOTE:
+                    this.proxy.saveVote(elem[1]);
+                    break;
 
             }
 

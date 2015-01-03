@@ -14,20 +14,26 @@ namespace Voter
 
         private Logs logs;
         private Configuration configuration;
-
-
         private Voter voter;
         private List<TextBox> textBoxes;
+        private Confirmation confirmation;
         public List<TextBox> TextBoxes
         {
             get { return textBoxes; }
         }
         private List<Button[]> voteButtons;
+        public List<Button[]> VoteButtons
+        {
+            get { return voteButtons; }
+        }
+
+
         public Form1()
         {
             InitializeComponent();
             setColumnWidth();
             this.logs = new Logs(this.logsListView);
+            this.confirmation = new Confirmation(this.ConfBox);
             this.configuration = new Configuration(this.logs);
             this.textBoxes = new List<TextBox>();
             this.voteButtons = new List<Button[]>();
@@ -44,10 +50,19 @@ namespace Voter
         private void voteButton_Click(object sender, EventArgs e)
         {
             Button clickedButton = sender as Button;
+            Console.WriteLine(clickedButton);
             String[] words = clickedButton.Name.Split(';');
             if (this.voter.VoterBallot.vote(Convert.ToInt32(words[1]), Convert.ToInt32(words[2])))
             {
                 logs.addLog(Constants.VOTE_DONE, true, Constants.LOG_INFO, true);
+                if (this.voter.VoterBallot.voteDone())
+                {
+                    logs.addLog(Constants.VOTE_FINISH, true, Constants.LOG_INFO, true);
+                    this.disableVoteButtons();
+                    this.confirmationBox.Enabled = true;
+
+                }
+
             }
             else
             {
@@ -56,6 +71,17 @@ namespace Voter
 
             //Console.WriteLine(words[0] );
 
+        }
+
+        private void disableVoteButtons()
+        {
+            for (int i=0; i<this.voteButtons.Count; i++)
+            {
+                for (int j = 0; j < this.voteButtons[i].Length; j++)
+                {
+                    this.voteButtons[i].ElementAt(j).Enabled = false;
+                }
+            }
         }
 
         private void setColumnWidth()
@@ -92,7 +118,7 @@ namespace Voter
             configuration.loadConfiguration(openFileDialog.FileName);
             enableButtonsAfterLoadingConfiguration();
             
-            this.voter = new Voter(this.logs, this.configuration,this);
+            this.voter = new Voter(this.logs, this.configuration,this, this.confirmation);
             addFieldsForCandidates(configuration.NumberOfCandidates);
 
         }
@@ -127,6 +153,7 @@ namespace Voter
                     this.voteButtons[i].ElementAt(j).Size = new System.Drawing.Size(70, 40);
                     this.voteButtons[i].ElementAt(j).TabIndex = 0;
                     this.voteButtons[i].ElementAt(j).Text = "NO";
+                    this.voteButtons[i].ElementAt(j).Enabled = false;
                     this.voteButtons[i].ElementAt(j).UseVisualStyleBackColor = true;
                     this.voteButtons[i].ElementAt(j).Click += new System.EventHandler(voteButton_Click);
                     this.panel1.Controls.Add(voteButtons[i].ElementAt(j));
@@ -152,6 +179,7 @@ namespace Voter
         {
             this.getSLandSRButton.Enabled = false;
             this.getCandidateListButton.Enabled = true;
+            this.getYesNoPositionButton.Enabled = true;
         }
 
         private void getCandidateListButton_Click(object sender, EventArgs e)
@@ -165,5 +193,46 @@ namespace Voter
             this.ProxyConnectButton.Enabled = false;
 
         }
+
+        public void disableConnectionEAButton()
+        {
+            this.EAConnectButton.Enabled = false;
+        }
+
+        public void disableGetCandidateListButton()
+        {
+            this.getCandidateListButton.Enabled = false;
+            //if (this.getYesNoPositionButton.Enabled == false)
+            //    this.sendVoteButton.Enabled = true;
+        }
+
+        public void disableGetYesNoPositionButton()
+        {
+            this.getYesNoPositionButton.Enabled = false;
+            //if (this.getCandidateListButton.Enabled == false)
+            //    this.sendVoteButton.Enabled = true;
+        }
+
+        private void getYesNoPositionButton_Click(object sender, EventArgs e)
+        {
+            this.voter.getYesNoPosition();
+        }
+
+        private void sendVoteButton_Click(object sender, EventArgs e)
+        {
+            this.voter.sendVoteToProxy();
+            this.sendVoteButton.Enabled = false;
+            this.confirmationBox.Enabled = false;
+                 
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            this.voter.setConfirm(this.confirmationBox.SelectedIndex);
+            this.sendVoteButton.Enabled = true;
+        }
+
+
+        public int confBox { get; set; }
     }
 }

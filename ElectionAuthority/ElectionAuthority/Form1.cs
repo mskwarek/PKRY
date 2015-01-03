@@ -76,11 +76,30 @@ namespace ElectionAuthority
         private void button1_Click(object sender, EventArgs e)
         {
             this.electionAuthority.sendSLAndTokensToProxy();
+            this.finishVotingButton.Enabled = true;
         }
 
         public void disableSendSLTokensAndTokensButton()
         {
             this.sendSLTokensAndTokensButton.Enabled = false;
+        }
+
+        private void finishVotingButton_Click(object sender, EventArgs e)
+        {
+            this.electionAuthority.disbaleProxy();
+            this.finishVotingButton.Enabled = false;
+            this.countVotesButton.Enabled = true;
+        }
+
+        private void countVotesButton_Click(object sender, EventArgs e)
+        {
+            this.electionAuthority.countVotes();
+            this.countVotesButton.Enabled = false;
+        }
+
+        private void fontDialog1_Apply(object sender, EventArgs e)
+        {
+
         }
     }
 }

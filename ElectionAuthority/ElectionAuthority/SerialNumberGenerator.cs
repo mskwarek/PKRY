@@ -2,8 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Numerics;
 using System.Security.Cryptography;
+using Org.BouncyCastle.Math;
+using Org.BouncyCastle.Crypto;
+using Org.BouncyCastle.Crypto.Generators;
+using Org.BouncyCastle.Security;
 
 namespace ElectionAuthority
 {
@@ -23,17 +26,34 @@ namespace ElectionAuthority
             {
                 if (i == 0)
                 {
-                    listOfSerialNumber.Add(BigInteger.Abs(startValue + 1));
+                    listOfSerialNumber.Add(startValue.Add(new BigInteger(1.ToString())).Abs());
                 }
                 else
                 {
-                    listOfSerialNumber.Add(BigInteger.Abs(listOfSerialNumber[i - 1]+1));
+                    listOfSerialNumber.Add((listOfSerialNumber[i - 1].Add(new BigInteger(1.ToString()))).Abs());
                 }
 
             }
 
             Extentions.Shuffle(listOfSerialNumber);
             return listOfSerialNumber;
+        }
+
+        public static List<AsymmetricCipherKeyPair> generatePreTokens(int numberOfSerials, int numberOfBits)
+        {
+            List<AsymmetricCipherKeyPair> preTokens = new List<AsymmetricCipherKeyPair>();
+            for (int i = 0; i < numberOfSerials; i++)
+            {
+                KeyGenerationParameters para = new KeyGenerationParameters(new SecureRandom(), numberOfBits);
+                //generate the RSA key pair
+                RsaKeyPairGenerator keyGen = new RsaKeyPairGenerator();
+                //initialise the KeyGenerator with a random number.
+                keyGen.Init(para);
+                AsymmetricCipherKeyPair keypair = keyGen.GenerateKeyPair();
+                preTokens.Add(keypair);
+            }
+
+            return preTokens;
         }
     }
 }

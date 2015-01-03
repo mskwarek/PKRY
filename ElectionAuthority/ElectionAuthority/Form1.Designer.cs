@@ -35,6 +35,8 @@
             this.configButton = new System.Windows.Forms.Button();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.sendSLTokensAndTokensButton = new System.Windows.Forms.Button();
+            this.finishVotingButton = new System.Windows.Forms.Button();
+            this.countVotesButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // startElectionAuthorityButton
@@ -91,11 +93,35 @@
             this.sendSLTokensAndTokensButton.UseVisualStyleBackColor = true;
             this.sendSLTokensAndTokensButton.Click += new System.EventHandler(this.button1_Click);
             // 
+            // finishVotingButton
+            // 
+            this.finishVotingButton.Enabled = false;
+            this.finishVotingButton.Location = new System.Drawing.Point(13, 294);
+            this.finishVotingButton.Name = "finishVotingButton";
+            this.finishVotingButton.Size = new System.Drawing.Size(122, 35);
+            this.finishVotingButton.TabIndex = 4;
+            this.finishVotingButton.Text = "Finish voting";
+            this.finishVotingButton.UseVisualStyleBackColor = true;
+            this.finishVotingButton.Click += new System.EventHandler(this.finishVotingButton_Click);
+            // 
+            // countVotesButton
+            // 
+            this.countVotesButton.Enabled = false;
+            this.countVotesButton.Location = new System.Drawing.Point(13, 336);
+            this.countVotesButton.Name = "countVotesButton";
+            this.countVotesButton.Size = new System.Drawing.Size(122, 35);
+            this.countVotesButton.TabIndex = 5;
+            this.countVotesButton.Text = "Count votes";
+            this.countVotesButton.UseVisualStyleBackColor = true;
+            this.countVotesButton.Click += new System.EventHandler(this.countVotesButton_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(765, 409);
+            this.Controls.Add(this.countVotesButton);
+            this.Controls.Add(this.finishVotingButton);
             this.Controls.Add(this.sendSLTokensAndTokensButton);
             this.Controls.Add(this.configButton);
             this.Controls.Add(this.logsListView);
@@ -117,6 +143,8 @@
         private System.Windows.Forms.OpenFileDialog openFileDialog;
         private System.Windows.Forms.ColumnHeader logColumn;
         private System.Windows.Forms.Button sendSLTokensAndTokensButton;
+        private System.Windows.Forms.Button finishVotingButton;
+        private System.Windows.Forms.Button countVotesButton;
     }
 }
 

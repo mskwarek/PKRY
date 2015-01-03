@@ -41,10 +41,12 @@ namespace Voter
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.getSLandSRButton = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.textBoxes = new List<TextBox>();
             this.getCandidateListButton = new System.Windows.Forms.Button();
-            this.voteButtons = new List<Button[]>();
-            this.textBoxes = new List<TextBox>();
+            this.getYesNoPositionButton = new System.Windows.Forms.Button();
+            this.sendVoteButton = new System.Windows.Forms.Button();
+            this.confirmationBox = new System.Windows.Forms.ComboBox();
+            this.ConfBox = new System.Windows.Forms.ListView();
+            this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.SuspendLayout();
             // 
             // EAConnectButton
@@ -130,11 +132,70 @@ namespace Voter
             this.getCandidateListButton.UseVisualStyleBackColor = true;
             this.getCandidateListButton.Click += new System.EventHandler(this.getCandidateListButton_Click);
             // 
+            // getYesNoPositionButton
+            // 
+            this.getYesNoPositionButton.Enabled = false;
+            this.getYesNoPositionButton.Location = new System.Drawing.Point(12, 428);
+            this.getYesNoPositionButton.Name = "getYesNoPositionButton";
+            this.getYesNoPositionButton.Size = new System.Drawing.Size(163, 23);
+            this.getYesNoPositionButton.TabIndex = 7;
+            this.getYesNoPositionButton.Text = "Get Yes No Position ";
+            this.getYesNoPositionButton.UseVisualStyleBackColor = true;
+            this.getYesNoPositionButton.Click += new System.EventHandler(this.getYesNoPositionButton_Click);
+            // 
+            // sendVoteButton
+            // 
+            this.sendVoteButton.Enabled = false;
+            this.sendVoteButton.Location = new System.Drawing.Point(181, 307);
+            this.sendVoteButton.Name = "sendVoteButton";
+            this.sendVoteButton.Size = new System.Drawing.Size(163, 25);
+            this.sendVoteButton.TabIndex = 8;
+            this.sendVoteButton.Text = "Send vote";
+            this.sendVoteButton.UseVisualStyleBackColor = true;
+            this.sendVoteButton.Click += new System.EventHandler(this.sendVoteButton_Click);
+            // 
+            // confirmationBox
+            // 
+            this.confirmationBox.Enabled = false;
+            this.confirmationBox.FormattingEnabled = true;
+            this.confirmationBox.Items.AddRange(new object[] {
+            "Column A",
+            "Column B",
+            "Column C",
+            "Column D"});
+            this.confirmationBox.Location = new System.Drawing.Point(181, 279);
+            this.confirmationBox.Name = "confirmationBox";
+            this.confirmationBox.Size = new System.Drawing.Size(163, 21);
+            this.confirmationBox.TabIndex = 9;
+            this.confirmationBox.Text = "Choose confirmation";
+            this.confirmationBox.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
+            // 
+            // ConfBox
+            // 
+            this.ConfBox.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader1});
+            this.ConfBox.FullRowSelect = true;
+            this.ConfBox.Location = new System.Drawing.Point(181, 334);
+            this.ConfBox.Name = "ConfBox";
+            this.ConfBox.Size = new System.Drawing.Size(163, 117);
+            this.ConfBox.TabIndex = 10;
+            this.ConfBox.UseCompatibleStateImageBehavior = false;
+            this.ConfBox.View = System.Windows.Forms.View.Details;
+            // 
+            // columnHeader1
+            // 
+            this.columnHeader1.Text = "Your Confirmation";
+            this.columnHeader1.Width = 105;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(988, 478);
+            this.Controls.Add(this.ConfBox);
+            this.Controls.Add(this.confirmationBox);
+            this.Controls.Add(this.sendVoteButton);
+            this.Controls.Add(this.getYesNoPositionButton);
             this.Controls.Add(this.getCandidateListButton);
             this.Controls.Add(this.getSLandSRButton);
             this.Controls.Add(this.panel1);
@@ -161,6 +222,11 @@ namespace Voter
         private Button getSLandSRButton;
         private Panel panel1;
         private Button getCandidateListButton;
+        private Button getYesNoPositionButton;
+        private Button sendVoteButton;
+        private ComboBox confirmationBox;
+        private ListView ConfBox;
+        private ColumnHeader columnHeader1;
     }
 }
 

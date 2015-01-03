@@ -107,7 +107,7 @@ namespace ElectionAuthority
                 if (clientSockets[clientSocket].Equals(Constants.UNKNOWN))
                 {
                     updateClientName(clientSocket, signal);
-                    sendMessage(clientSockets[clientSocket], Constants.PROXY_CONNECTED);
+                    sendMessage(clientSockets[clientSocket], Constants.CONNECTED);
                 }
                 else
                 {

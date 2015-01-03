@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Numerics;
+using Org.BouncyCastle.Math;
 
 namespace Voter
 {
@@ -30,14 +30,39 @@ namespace Voter
                 case Constants.CONNECTION_SUCCESSFUL:
                     disableConnectionProxyButton();
                     break;
+                case Constants.CONNECTED:
+                    disableConnectionEAButton();
+                    break;
                 case Constants.CANDIDATE_LIST_RESPONSE:
                     saveCandidateList(elem[1]);
+                    break;
+                case Constants.YES_NO_POSITION:
+                    saveYesNoPosition(elem[1]);
+                    break;
+
+                case Constants.SIGNED_COLUMNS_TOKEN:
+                    saveSignedColumnAndToken(elem[1]);
                     break;
 
 
             }
 
 
+        }
+
+        private void saveSignedColumnAndToken(string message)
+        {
+            this.voter.saveSignedColumnAndToken(message);
+        }
+
+        private void saveYesNoPosition(string position)
+        {
+            this.voter.saveYesNoPositon(position);
+        }
+
+        private void disableConnectionEAButton()
+        {
+            this.voter.disableConnectionEAButton(); 
         }
 
         private void saveCandidateList(string list)
@@ -54,8 +79,9 @@ namespace Voter
         private void saveSLAndSR(string msg)
         {
             string[] elem = msg.Split('=');
-            BigInteger SL = BigInteger.Parse(elem[0]);
-            BigInteger SR = BigInteger.Parse(elem[1]);
+            BigInteger SL = new BigInteger(elem[0]);
+
+            BigInteger SR = new BigInteger(elem[1]);
 
             this.voter.VoterBallot.SL = SL;
             Console.WriteLine("SL = " + SL);

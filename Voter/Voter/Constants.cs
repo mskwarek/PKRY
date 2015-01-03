@@ -30,15 +30,22 @@ namespace Voter
         public const string NAME = "name";
         public const string CONFIGURATION_LOADED_FROM = "Configuration loaded from file: ";
         public const string NUMBEROFVOTERS = "numberOfVoters";
-        public const string VOTE_DONE = "Vote done.";
-        public const string VOTE_ERROR = "Vote error (2nd button for one candidate).";
+        public const string VOTE_DONE = "Vote accepted.";
+        public const string VOTE_ERROR = "Vote error, you've already voted to this candidate";
         
         
-        public const string REQUEST_FOR_SL_AND_SR="REQUEST_FOR_SL_AND_SR";
+        public const string GET_SL_AND_SR="GET_SL_AND_SR";
         public const string SL_AND_SR = "SL_AND_SR";
         public const string SR_AND_SR_RECEIVED = "SL and SR received correctly from Proxy";
         public const string GET_CANDIDATE_LIST = "GET_CANDIDATE_LIST";
         public const string CONNECTION_SUCCESSFUL = "CONNECTION_SUCCESSFUL";
         public const string CANDIDATE_LIST_RESPONSE = "CANDIDATE_LIST_RESPONSE";
+        public const string CONNECTED = "CONNECTED";
+        public const string GET_YES_NO_POSITION = "GET_YES_NO_POSITION";
+        public const string YES_NO_POSITION = "YES_NO_POSITION";
+        public const string VOTE_FINISH = "Process of voting done. Congratulations!";
+        public const string VOTE = "VOTE";
+        public const string SIGNED_COLUMNS_TOKEN = "SIGNED_COLUMNS_TOKEN";
+        public const string SIGNED_COLUMNS_TOKEN_RECEIVED = "Signed blind columns received from Proxy.";
     }
 }

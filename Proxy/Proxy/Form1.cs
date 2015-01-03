@@ -16,8 +16,6 @@ namespace Proxy
         
         private Configuration configuration;
 
-        private ParserEA parserEA;
-        private ParserClient parserClient;
 
         private Proxy proxy;
         
@@ -53,10 +51,12 @@ namespace Proxy
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (this.proxy.Server != null)
+            if (this.proxy != null)
             {
-                this.proxy.Server.stopServer();
-                this.proxy.Client.disconnectFromElectionAuthority();
+                if (this.proxy.Server !=  null )
+                    this.proxy.Server.stopServer();
+                if (this.proxy.Client != null)
+                    this.proxy.Client.disconnectFromElectionAuthority();
             }
             
         }
@@ -65,6 +65,7 @@ namespace Proxy
         {
             this.proxy.Server.startServer(configuration.ProxyPort);
             this.proxy.generateSR();
+            this.proxy.generateYesNoPosition();
 
 
             this.startProxyButton.Enabled = false;

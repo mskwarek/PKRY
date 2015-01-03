@@ -19,6 +19,7 @@ namespace Proxy
         public const string ELECTION_AUTHORITY_IP = "electionAuthorityIP";
         public const string ELECTION_AUTHORITY_PORT = "electionAuthorityPort";
         public const string NUMBER_OF_VOTERS = "numberOfVoters";
+        public const string NUMBER_OF_CANDIDATES = "numberOfCandidates";
         public const string CONFIGURATION_LOADED_FROM = "Configuration loaded from file: ";
          
 
@@ -39,21 +40,36 @@ namespace Proxy
 
 
         public const int NUMBER_OF_BITS_SR = 64;
-        public const int NUMBER_OF_CANDIDATES = 10;
+        public const int NUM_OF_CANDIDATES = 5;
+        
 
 
         public const string SL_TOKENS = "SL_TOKENS"; //used to recognize message from EA
         public const string RECEIVED_FROM_EA ="Date received from EA";
         public const string SR_CONNECTED_WITH_SL = "SR connected with serial numbers SL";
 
-        public const string REQUEST_FOR_SL_AND_SR = "REQUEST_FOR_SL_AND_SR";
+        public const string GET_SL_AND_SR = "GET_SL_AND_SR";
         public const string SL_AND_SR = "SL_AND_SR";
         public const string ERROR_SEND_SL_AND_SR="Unable to send SL and SR, because they are not ready";
         public const string SL_RECEIVED_SUCCESSFULLY = "SL_RECEIVED_SUCCESSFULLY";
         public const string CONNECTION_SUCCESSFUL = "CONNECTION_SUCCESSFUL";
         public const string VOTER_CONNECTED = "Voter connected successfully to Proxy";
-        public const string PROXY_CONNECTED = "PROXY_CONNECTED";
+        public const string CONNECTED = "CONNECTED";
         public const string PROXY_CONNECTED_TO_EA= "Proxy connected successfully to EA";
-        public const string SL_RECEIVED = "Proxy received SL from EA"; 
+        public const string SL_RECEIVED = "Proxy received SL from EA";
+        public const string GET_YES_NO_POSITION = "GET_YES_NO_POSITION";
+        public const string YES_NO_POSITION_GEN_SUCCESSFULL= "Yes and No position generated successfully";
+        public const string YES_NO_POSITION = "YES_NO_POSITION";
+        public const string VOTE = "VOTE";
+        public const string VOTE_RECEIVED = "Vote received from voter with ID: ";
+        public const string BALLOT_MATRIX_GEN = "Ballot matrix generated for voter with ID: ";
+        public const string BLIND_PROXY_BALLOT = "BLIND_PROXY_BALLOT";
+        public const string SIGNED_PROXY_BALLOT = "SIGNED_PROXY_BALLOT";
+        public const string SIGNED_COLUMNS_RECEIVED = "Signed columns received from EA and saved.";
+        public const string SIGNED_COLUMNS_TOKEN = "SIGNED_COLUMNS_TOKEN";
+        public const string WRONG_SIGNATURE = "Wrong signature!";
+        public const string CORRECT_SIGNATURE = "Correct signature!";
+        public const string ALL_COLUMNS_UNBLINDED_CORRECTLY = "Correct signature! All columns unblinded correctly!";
+        public const string UNBLINED_BALLOT_MATRIX = "UNBLINED_BALLOT_MATRIX";
     }
 }

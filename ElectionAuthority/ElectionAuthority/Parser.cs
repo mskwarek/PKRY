@@ -1,8 +1,9 @@
-﻿using System;
+﻿using Org.BouncyCastle.Math;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Numerics;
+
 
 namespace ElectionAuthority
 {
@@ -32,8 +33,14 @@ namespace ElectionAuthority
                 case Constants.GET_CANDIDATE_LIST:
                     string[] str = words[1].Split('=');
                     string name = str[0];
-                    BigInteger SL = BigInteger.Parse(str[1]);
+                    BigInteger SL = new BigInteger(str[1]);
                     this.electionAuthority.getCandidateListPermuated(name, SL);
+                    return true;
+                case Constants.BLIND_PROXY_BALLOT:
+                    this.electionAuthority.saveBlindBallotMatrix(words[1]);
+                    return true;
+                case Constants.UNBLINED_BALLOT_MATRIX:
+                    this.electionAuthority.saveUnblindedBallotMatrix(words[1]);
                     return true;
             }
 
