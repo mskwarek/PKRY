@@ -7,6 +7,8 @@ using System.Windows.Forms;
 using Org.BouncyCastle.Math;
 using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Crypto.Parameters;
+using Org.BouncyCastle.Security;
+using Org.BouncyCastle.Crypto.Generators;
 
 namespace ElectionAuthority
 {
@@ -28,6 +30,7 @@ namespace ElectionAuthority
         private CandidateList candidateList;
         private List<String> candidateDefaultList;
         private Configuration configuration;
+        
         //permutation PI
         private Permutation permutation;
         private List<List<BigInteger>> permutationsList;
@@ -52,6 +55,14 @@ namespace ElectionAuthority
         private int[] finalResults;
 
 
+        private Auditor auditor;                            // check if voting process runs with all 
+        private RsaKeyParameters privKey;                   // priv Key to blind signature
+        private RsaKeyParameters pubKey;                    // pub key to blind sign
+        private BigInteger[] r;                             //random blinding factor
+        private List<BigInteger> permutationTokensList;
+        private List<BigInteger> permutationExponentsList;
+
+
         public ElectionAuthority(Logs logs, Configuration configuration, Form1 form)
         {
             this.encoder = new ASCIIEncoding();
@@ -69,6 +80,20 @@ namespace ElectionAuthority
             permutation = new Permutation(this.logs);
 
             this.ballots = new Dictionary<string, Ballot>();
+
+            this.auditor = new Auditor(this.logs);
+
+            KeyGenerationParameters para = new KeyGenerationParameters(new SecureRandom(), 1024);
+            RsaKeyPairGenerator keyGen = new RsaKeyPairGenerator();
+            keyGen.Init(para);
+            
+
+            //generate key pair and get keys
+            AsymmetricCipherKeyPair keypair = keyGen.GenerateKeyPair();
+            privKey = (RsaKeyParameters)keypair.Private;
+            pubKey = (RsaKeyParameters)keypair.Public;
+
+
         }
 
         public void loadCandidateList(string pathToElectionAuthorityConfig)
@@ -94,8 +119,28 @@ namespace ElectionAuthority
 
             connectSerialNumberAndPermutation();
             generateInversePermutation();
+            generatePermutationTokens();
+            blindPermutation(permutationsList); //Send blind permutation to Auditor
             logs.addLog(Constants.PERMUTATION_GEN_SUCCESSFULLY, true, Constants.LOG_INFO);
             
+        }
+
+        private void generatePermutationTokens()
+        {
+            this.permutationTokensList = new List<BigInteger>();
+            this.permutationExponentsList = new List<BigInteger>();
+
+
+            for (int i = 0; i < this.numberOfVoters; i++)
+            { // we use the same method like to generate serial number, there is another random generator used inside this method
+                List<AsymmetricCipherKeyPair> preToken = new List<AsymmetricCipherKeyPair>(SerialNumberGenerator.generatePreTokens(1, Constants.NUMBER_OF_BITS_TOKEN));
+
+                RsaKeyParameters publicKey = (RsaKeyParameters)preToken[0].Public;
+                RsaKeyParameters privKey = (RsaKeyParameters)preToken[0].Private;
+                permutationTokensList.Add(publicKey.Modulus);
+                permutationExponentsList.Add(publicKey.Exponent);
+            }
+            Console.WriteLine("Permutation tokens generated");
         }
 
         private void generateInversePermutation()
@@ -191,8 +236,9 @@ namespace ElectionAuthority
         public void generateDate()
         {
             generateSerialNumber();
-            generatePermutation();
             generateTokens();
+            generatePermutation();
+            
         }
         //** End methods to generate tokens and permutation 
 
@@ -393,6 +439,7 @@ namespace ElectionAuthority
 
         public void countVotes()
         {
+            unblindPermutation(this.auditor.BlindPermatation);
             this.finalResults = new int[this.candidateDefaultList.Count];
             initializeFinalResults();
 
@@ -482,6 +529,135 @@ namespace ElectionAuthority
             {
                 this.finalResults[i] = 0;
             }
+        }
+
+
+
+
+
+        //Auditor's functions
+        public void blindPermutation(List<List<BigInteger>> permutationList)
+        {
+
+            int size = permutationList.Count;
+            
+            BigInteger[] toSend = new BigInteger[size];
+            r = new BigInteger[size];
+            //blinding columns, prepare to signature
+
+            int k = 0;
+            string[] strPermuationList = new string[permutationList.Count];
+
+            foreach (List<BigInteger> list in permutationList)
+            {
+                string str = null;
+                foreach (BigInteger big in list)
+                {
+                    str += big.ToString();
+                }
+                strPermuationList[k] = str;
+                k++;
+            }
+
+            int i = 0;
+            foreach (string str in strPermuationList)
+            {
+                BigInteger toBlind = new BigInteger(str);
+                BigInteger e = pubKey.Exponent;
+                BigInteger d = privKey.Exponent;
+
+                SecureRandom random = new SecureRandom();
+                byte[] randomBytes = new byte[10];
+                
+                //BigInteger n = pubKey.Modulus;
+                BigInteger n = permutationTokensList[i];
+                BigInteger gcd = null;
+                BigInteger one = new BigInteger("1");
+
+                //check that gcd(r,n) = 1 && r < n && r > 1
+                do
+                {
+                    random.NextBytes(randomBytes);
+                    r[i] = new BigInteger(1, randomBytes);
+                    gcd = r[i].Gcd(n);
+                    Console.WriteLine("gcd: " + gcd);
+                }
+                while (!gcd.Equals(one) || r[i].CompareTo(n) >= 0 || r[i].CompareTo(one) <= 0);
+
+                //********************* BLIND ************************************
+                BigInteger b = ((r[i].ModPow(e, n)).Multiply(toBlind)).Mod(n);
+                toSend[i] = b;
+                Console.WriteLine("r = " + r[i]);
+                Console.WriteLine("blinded"+i+" = " + b);
+                i++;
+            }
+            this.auditor.BlindPermatation = toSend;
+        }
+
+        public void unblindPermutation(BigInteger[] signedData)
+        {
+            string[] unblinded = new string[signedData.Length];
+            //BigInteger e = pubKey.Exponent;
+            //BigInteger n = pubKey.Modulus;
+           // BigInteger d = privKey.Exponent;
+
+            string[] strPermuationList = new string[permutationsList.Count];
+            int k = 0;
+            foreach (List<BigInteger> list in permutationsList)
+            {
+                string str = null;
+                foreach (BigInteger big in list)
+                {
+                    str += big.ToString();
+                }
+                strPermuationList[k] = str;
+                k++;
+            }
+
+            for (int i = 0; i < signedData.Length; i++)
+            {
+
+                BigInteger explicitData = new BigInteger(strPermuationList[i]); 
+                BigInteger n = permutationTokensList[i];
+                BigInteger e = permutationExponentsList[i];
+               /*
+                Console.WriteLine(i);
+                Console.WriteLine("input = " + signedData[i]);
+                Console.WriteLine("e = " + e);
+                Console.WriteLine("n = " + n);
+                Console.WriteLine("r = " + r[i]);
+                *///unblind sign
+                BigInteger signed = ((r[i].ModInverse(n)).Multiply(signedData[i])).Mod(n);
+                
+
+                //BigInteger s = ((r.ModInverse(n)).Multiply(signedData[i])).Mod(n);
+                
+                BigInteger check = signed.ModPow(e, n);
+                Console.WriteLine("explicit data: " + explicitData);
+                Console.WriteLine("check: " + check);
+                int correctUnblindedColumns = 0; //used to now if all columns are unblinded correctly
+                if(explicitData.Equals(check))
+                {
+                    ////BigInteger check = signed.ModPow(e, n);
+                    //correctUnblindedColumns += 1;
+                    //String str = check.ToString();
+                    
+                    //unblinded[i] = correctString;
+                    //Console.WriteLine("Odslepiona co marcinek zapomniał: " + unblinded[i]);
+                    ////WYSŁAć NORMALNA KOLUMNE, BO WIEMY ZE NIE OSZUKA
+                    //if (correctUnblindedColumns == Constants.BALLOT_SIZE)
+                    //    this.logs.addLog(Constants.ALL_COLUMNS_UNBLINDED_CORRECTLY, true, Constants.LOG_INFO, true);
+                    //else
+                    //    this.logs.addLog(Constants.CORRECT_SIGNATURE, true, Constants.LOG_INFO, true);
+                    Console.WriteLine("Dobrze odslepiona permutacja");
+
+                }
+                else{
+                    //this.logs.addLog(Constants.WRONG_SIGNATURE, true, Constants.LOG_ERROR, true);
+                    Console.WriteLine("Zle odslepiona permutacja");
+                }
+            }
+            //return unblinded;
         }
     }
 }

@@ -53,6 +53,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Auditor.cs" />
     <Compile Include="Ballot.cs" />
     <Compile Include="CandidateList.cs" />
     <Compile Include="Configuration.cs" />

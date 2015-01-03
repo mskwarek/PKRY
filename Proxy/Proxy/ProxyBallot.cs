@@ -22,7 +22,6 @@ namespace Proxy
             get{return pubKey;}
         }
         private RsaKeyParameters privKey;                               //priv Key to blind signature
-        private SerialNumberGenerator sng;                              //generator SRand SL **********TO CHYBA TERAZ JUZ NIE POTRZEBNE***********
         private BigInteger[] r;                                         //random blinding factor
         private BigInteger sl;
         public BigInteger SL
