@@ -182,6 +182,7 @@ namespace Voter
             //DOŚć NIEELEGANCKO :<<<
             // trzeba wpisać kolumne którą głosujący sobie wybrał do tego co niżej jest wykomentowane
             //this.confirm.Column
+
             this.confirm.SignedColumn = this.voterBallot.SignedBlindColumn;
             this.confirm.Token = this.voterBallot.Token;
 
