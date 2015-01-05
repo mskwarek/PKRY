@@ -56,6 +56,9 @@ namespace ElectionAuthority
         public const string UNBLINED_BALLOT_MATRIX = "UNBLINED_BALLOT_MATRIX";
         public const string UNBLINED_BALLOT_MATRIX_RECEIVED = "Unblined ballot matrix received from Proxy.";
 
+        public const string BIT_COMMITMENT_OK = "Checking bit commitment correct";
+        public const string BIT_COMMITMENT_FAIL = "Checking bit commitment incorrect";
+
         public const string UNABLE_TO_STOP_VOTING = "UNABLE_TO_STOP_VOTING";
 
         public const string VOTIGN_STOPPED = "Votign stopped successfully";

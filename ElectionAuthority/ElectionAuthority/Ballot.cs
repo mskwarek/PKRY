@@ -12,20 +12,24 @@ namespace ElectionAuthority
 {
     class Ballot
     {
-        private RsaKeyParameters privKey;
+        //class represents one ballot and has information about it
+
+        //SL number
         private BigInteger sl;
         public BigInteger SL
         {
             get { return sl; }
         }
+
+        //tokens
         private List<BigInteger> tokenList;
         public List<BigInteger> TokenList
         {
             get { return tokenList; }
             set { tokenList = value; }
-
         }
 
+        //exponents (for blind signature)
         private List<BigInteger> exponentsList;
         public List<BigInteger> ExponentsList
         {
@@ -33,31 +37,37 @@ namespace ElectionAuthority
             set { exponentsList = value; }
         }
 
-
+        //every ballot has its own signature factor (such as tokens)
         private List<BigInteger> signatureFactor;
         public List<BigInteger> SignatureFactor
         {
             get { return signatureFactor; }
             set { signatureFactor = value; }
         }
+
+        //public keys, for blind signature too
         private BigInteger pubKeyModulus;
         public BigInteger PubKeyModulus
         {
             set { pubKeyModulus = value; }
         }
 
+
+        //signed column (EA signature)
         private BigInteger[] signedColumn;
         public BigInteger[] SignedColumn
         {
             get { return signedColumn; }
         }
 
+        //blind colmun recived from proxy
         private BigInteger[] blindColumn;
         public BigInteger[] BlindColumn
         {
             set { blindColumn = value; }
         }
 
+        //inblinded ballot, next step in blind signature
         private string[,] unblindedBallot;
         public string[,] UnblindedBallot
         {
@@ -65,6 +75,7 @@ namespace ElectionAuthority
             get { return unblindedBallot; }
         }
 
+        //permutation connected to ballot (so SL too)
         private List<BigInteger> permutation;
         public List<BigInteger> Permutation
         {
@@ -72,6 +83,7 @@ namespace ElectionAuthority
             get { return permutation; }
         }
 
+        //inverse permutation for each ballot
         private List<BigInteger> inversePermutation;
         public List<BigInteger> InversePermutation
         {
@@ -86,7 +98,6 @@ namespace ElectionAuthority
         }
 
 
-
         //Method to sing each column in ballotMatrix
         public void signColumn()
         {
@@ -94,12 +105,7 @@ namespace ElectionAuthority
             int i = 0;
             foreach (BigInteger column in blindColumn)
             {
-                //Console.WriteLine(i);
-                //Console.WriteLine("input = " + column);
-                //Console.WriteLine("d = " + signatureFactor[i]);
-                //Console.WriteLine("n = " + tokenList[i]);
                 signed[i] = column.ModPow(signatureFactor[i], tokenList[i]);
-                //Console.WriteLine("output = " + signed[i]);
                 i++;
             }
 

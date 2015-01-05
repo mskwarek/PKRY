@@ -9,6 +9,8 @@ namespace ElectionAuthority
 {
     class Logs
     {
+        //nice way to presents logs in program
+
         private ListView logsListView;
 
         public Logs(ListView logsListView)

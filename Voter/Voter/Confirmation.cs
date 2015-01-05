@@ -10,7 +10,7 @@ namespace Voter
     class Confirmation
     {
         private int numColumn;
-        private BigInteger column;
+        private string column;
         private BigInteger token;
         private BigInteger signedColumn;
         private ListView ListView;
@@ -28,7 +28,7 @@ namespace Voter
             set { numColumn = value; }
         }
 
-        public BigInteger Column
+        public string Column
         {
             set { column = value; }
             get { return column; }

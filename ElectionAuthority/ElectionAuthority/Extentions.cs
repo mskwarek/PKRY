@@ -8,6 +8,9 @@ namespace ElectionAuthority
 {
     public static class Extentions
     {
+        //additional function for our program
+
+        //shuffling lists (used ie. for generation SL)
         public static void Shuffle<T>(this IList<T> list)
         {
             RNGCryptoServiceProvider provider = new RNGCryptoServiceProvider();

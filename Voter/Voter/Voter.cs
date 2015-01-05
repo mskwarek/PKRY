@@ -168,6 +168,10 @@ namespace Voter
         public void setConfirm(int column)
         {
             //confirm = new Confirmation(column, this.ConfBox);
+            for(int i=0; i<this.voterBallot.Voted.GetLength(0); i++){
+                this.confirm.Column += this.voterBallot.Voted[i,column];
+            }
+            
             confirm.ColumnNumber = column+1;
         }
 
@@ -178,10 +182,6 @@ namespace Voter
 
             this.voterBallot.SignedBlindColumn = new BigInteger(words[0]);
             this.voterBallot.Token = new BigInteger(words[1]);
-
-            //DOŚć NIEELEGANCKO :<<<
-            // trzeba wpisać kolumne którą głosujący sobie wybrał do tego co niżej jest wykomentowane
-            //this.confirm.Column
 
             this.confirm.SignedColumn = this.voterBallot.SignedBlindColumn;
             this.confirm.Token = this.voterBallot.Token;

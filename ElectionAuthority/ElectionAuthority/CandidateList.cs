@@ -8,6 +8,9 @@ namespace ElectionAuthority
 {
     class CandidateList
     {
+
+        //class loads candidate list from txt file
+
         private Logs logs;
         public CandidateList(Logs logs)
         {

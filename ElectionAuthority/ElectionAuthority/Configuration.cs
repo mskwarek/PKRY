@@ -8,6 +8,9 @@ namespace ElectionAuthority
 {
     class Configuration
     {
+
+        //loading config from txt file
+
         private Logs logs;
 
         private string electionAuthorityID;

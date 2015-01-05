@@ -9,6 +9,8 @@ namespace ElectionAuthority
 {
     class Parser
     {
+        //parsing messages recived form clients
+
         private Logs logs;
         private ElectionAuthority electionAuthority;
 

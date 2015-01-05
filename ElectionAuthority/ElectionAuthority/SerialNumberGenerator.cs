@@ -16,7 +16,6 @@ namespace ElectionAuthority
         {
 
             List<BigInteger> listOfSerialNumber = new List<BigInteger>();
-            //Random random = new Random();
             RNGCryptoServiceProvider random = new RNGCryptoServiceProvider();
             byte[] data = new byte[numberOfBits];
             random.GetBytes(data);
