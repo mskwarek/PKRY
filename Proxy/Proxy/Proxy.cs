@@ -8,41 +8,97 @@ using System.Windows.Forms;
 
 namespace Proxy
 {
+
+    /// <summary>
+    /// Proxy class - broker between EA and voter, generate SR and another part of voter ballot;
+    /// is responsible ie. for blinding voter data
+    /// </summary>
     class Proxy
     {
+        /// <summary>
+        /// logs instance
+        /// </summary>
         private Logs logs;
+
+        /// <summary>
+        /// configuration loaded from file
+        /// </summary>
         private Configuration configuration;
+
+        /// <summary>
+        /// form application
+        /// </summary>
         private Form1 form;
+
+        /// <summary>
+        /// server instance
+        /// </summary>
         private Server server;
         public Server Server
         {
             get { return server; }
         }
+
+        /// <summary>
+        /// client instance (client for EA)
+        /// </summary>
         private Client client;
         public Client Client
         {
             get { return client; }
         }
-        //serial number SR
+        /// <summary>
+        /// serial numbers SR
+        /// </summary>
         private List<BigInteger> SRList;
-        private Dictionary<string, ProxyBallot> proxyBallots; //string is a name of voter, ProxyBallot contains all necesary information like SL, SR, yesNoPosition etc.
 
+        /// <summary>
+        /// string is a name of voter, ProxyBallot contains all necesary information like SL, SR, yesNoPosition etc.
+        /// </summary>
+        private Dictionary<string, ProxyBallot> proxyBallots; 
+
+        /// <summary>
+        /// number of voters connected to proxy
+        /// </summary>
         private int numberOfVoters;
 
-        private Dictionary<BigInteger, List<List<BigInteger>>> serialNumberTokens; //dictionary contains serialNumber and tokens connected with that SL
+        /// <summary>
+        /// dictionary contains serialNumber and tokens connected with that SL
+        /// </summary>
+        private Dictionary<BigInteger, List<List<BigInteger>>> serialNumberTokens; 
         public Dictionary<BigInteger, List<List<BigInteger>>> SerialNumberTokens
         {
             get { return this.serialNumberTokens; }
             set {this.serialNumberTokens = value;}
         }
 
-        private Dictionary<BigInteger, BigInteger> serialNumberAndSR; //connects serialNumbers SL and SR 
-        private static int numOfSentSLandSR = 0; //number of SL and SR sent to voter, incremented when request comes from voter
-        private static int numOfSentYesNo = 0; //numer of YesNo position sent to voter, incremented when request comes from voter
+        /// <summary>
+        /// connects serialNumbers SL and SR 
+        /// </summary>
+        private Dictionary<BigInteger, BigInteger> serialNumberAndSR;
+ 
+        /// <summary>
+        /// number of SL and SR sent to voter, incremented when request comes from voter
+        /// </summary>
+        private static int numOfSentSLandSR = 0;
+ 
+        /// <summary>
+        /// numer of YesNo position sent to voter, incremented when request comes from voter
+        /// </summary>
+        private static int numOfSentYesNo = 0; 
 
-        private List<string> yesNoPosition; //its list which contains position of YES and NO buttons on ballot of each voter
 
+        /// <summary>
+        /// its list which contains position of YES and NO buttons on ballot of each voter
+        /// </summary>
+        private List<string> yesNoPosition; 
 
+        /// <summary>
+        /// constructor
+        /// </summary>
+        /// <param name="logs">logs instance</param>
+        /// <param name="conf">laoded configuration</param>
+        /// <param name="form">form appplication</param>
         public Proxy(Logs logs, Configuration conf, Form1 form)
         {
             this.logs = logs;
@@ -59,16 +115,20 @@ namespace Proxy
             this.proxyBallots = new Dictionary<string, ProxyBallot>();
         }
 
-
+        /// <summary>
+        /// generates SR for voters connected to proxy
+        /// </summary>
         public void generateSR()
         {
             this.numberOfVoters = this.configuration.NumOfVoters;
-            Console.WriteLine("num of voters" + this.numberOfVoters);
             this.SRList = SerialNumberGenerator.generateListOfSerialNumber(this.numberOfVoters, Constants.NUMBER_OF_BITS_SR);
             logs.addLog(Constants.SR_GEN_SUCCESSFULLY, true, Constants.LOG_INFO);
 
         }
 
+        /// <summary>
+        /// generates random yes/no position at ballot
+        /// </summary>
         public void generateYesNoPosition()
         {
             this.yesNoPosition = new List<string>();
@@ -76,6 +136,9 @@ namespace Proxy
             logs.addLog(Constants.YES_NO_POSITION_GEN_SUCCESSFULL, true, Constants.LOG_INFO);
         }
 
+        /// <summary>
+        /// connects SR and SL
+        /// </summary>
         public void connectSRandSL()
         {
             for(int i=0; i<this.SRList.Count; i++)
@@ -86,6 +149,10 @@ namespace Proxy
 
         }
 
+        /// <summary>
+        /// sends SR and SL to voter
+        /// </summary>
+        /// <param name="name">voter ID</param>
         public void sendSLAndSR(string name)
         {
             if (this.serialNumberAndSR != null && this.serialNumberAndSR.Count != 0)
@@ -112,6 +179,9 @@ namespace Proxy
 
         }
 
+        /// <summary>
+        /// disables EA connect button
+        /// </summary>
         public void disableConnectElectionAuthorityButton()
         {
             this.form.Invoke(new MethodInvoker(delegate()
@@ -120,6 +190,10 @@ namespace Proxy
                 }));
         }
 
+        /// <summary>
+        /// sends yes/no position to voter
+        /// </summary>
+        /// <param name="name">voter name</param>
         public void sendYesNoPosition(string name)
         {
             if (this.yesNoPosition != null)
@@ -132,6 +206,10 @@ namespace Proxy
             }
         }
 
+        /// <summary>
+        /// send vote (to EA)
+        /// </summary>
+        /// <param name="message">prepared message to send (message = 'name;first_row;second_row .....;last_row')</param>
         public void saveVote(string message)
         {
             //message = 'name;first_row;second_row .....;last_row'
@@ -170,6 +248,12 @@ namespace Proxy
             this.client.sendMessage(msg);
         }
 
+
+        /// <summary>
+        /// prepares blind proxy ballot to send
+        /// </summary>
+        /// <param name="blindProxyBallot">proxy ballot</param>
+        /// <returns>proxy ballot as string (ready to send)</returns>
         private string prepareBlindProxyBallot(BigInteger[] blindProxyBallot)
         {
             string columns = null;
@@ -184,6 +268,11 @@ namespace Proxy
             return columns;
         }
 
+        /// <summary>
+        /// prepares tokens to send
+        /// </summary>
+        /// <param name="SL">serial number (SL) which tokens will be send</param>
+        /// <returns>tokens as message </returns>
         private string prepareTokens(BigInteger SL)
         {
             string tokens = null;
@@ -239,17 +328,18 @@ namespace Proxy
         private void sendSignedColumnToVoter(string name)
         {
             int confirmation = this.proxyBallots[name].ConfirmationColumn;
-            string token = this.proxyBallots[name].TokensList[confirmation].ToString(); // pytanie ktore tokeny wysylac do votera to tez musisz sam wiedziec dobrze :)
+            string token = this.proxyBallots[name].TokensList[confirmation].ToString(); 
 
             BigInteger signedBlindColumn = this.proxyBallots[name].SignedColumns[confirmation];
             string signedBlindColumnStr = signedBlindColumn.ToString();
             string message = Constants.SIGNED_COLUMNS_TOKEN + "&" + signedBlindColumnStr + ";" + token;
             this.server.sendMessage(name, message);
-
-            
-
         }
 
+        /// <summary>
+        /// unblindes signed ballot matrix (if RSA signature is correct)
+        /// </summary>
+        /// <param name="name">voter name</param>
         private void unblindSignedBallotMatrix(string name)
         {
 

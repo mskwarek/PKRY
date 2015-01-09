@@ -6,17 +6,39 @@ using Org.BouncyCastle.Math;
 
 namespace Proxy
 {
+
+    /// <summary>
+    /// parser message from EA
+    /// </summary>
     class ParserEA
     {
+
+        /// <summary>
+        /// logs instance
+        /// </summary>
         Logs logs;
+
+        /// <summary>
+        /// proxy instance
+        /// </summary>
         Proxy proxy;
 
+        /// <summary>
+        /// constructor
+        /// </summary>
+        /// <param name="logs">logs instance</param>
+        /// <param name="proxy">proxy instance</param>
         public ParserEA(Logs logs, Proxy proxy)
         {
             this.logs = logs;
             this.proxy = proxy;
         }
 
+        /// <summary>
+        /// parsing SL and tokens recived from EA
+        /// </summary>
+        /// <param name="msg">message</param>
+        /// <returns>result of parsing process</returns>
         private bool parseSLTokensDictionaryFromEA(string msg)
         {
             //msg = FIRST_SL=tokensList[0],tokensList[1],tokensList[2]....:exponentsList[0],exponentsList[1],exponentsList[2]....;SECOND_SL
@@ -63,6 +85,11 @@ namespace Proxy
             return true;
         }
 
+
+        /// <summary>
+        /// parsing message from ea
+        /// </summary>
+        /// <param name="msg">message</param>
         public void parseMessageFromEA(string msg)
         {
             string[] elem = msg.Split('&');

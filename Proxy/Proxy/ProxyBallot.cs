@@ -13,38 +13,76 @@ using Org.BouncyCastle.Crypto.Digests;
 
 namespace Proxy
 {
+    /// <summary>
+    /// proxy ballot - one ballot (represents one voter) with all serialns, keys and data used in election
+    /// </summary>
     class ProxyBallot
     {
-        private Logs logs;                                              //logs 
-        private RsaKeyParameters pubKey;                                //pub key to blind sign
-        public RsaKeyParameters PubKey
-        {
-            get{return pubKey;}
-        }
-        private RsaKeyParameters privKey;                               //priv Key to blind signature
-        private BigInteger[] r;                                         //random blinding factor
+        /// <summary>
+        /// logs 
+        /// </summary>
+        private Logs logs;                                              
+
+        /// <summary>
+        /// pub key to blind sign
+        /// </summary>
+        private RsaKeyParameters pubKey;                                
+    
+        /// <summary>
+        /// priv Key to blind signature
+        /// </summary>
+        private RsaKeyParameters privKey;                             
+
+        /// <summary>
+        /// random blinding factor
+        /// </summary>
+        private BigInteger[] r;    
+        
+        /// <summary>
+        /// SL connected to proxy ballot
+        /// </summary>
         private BigInteger sl;
         public BigInteger SL
         {
             get { return sl; }
         }
+        /// <summary>
+        /// SR connected to proxy ballot
+        /// </summary>
         private BigInteger sr;
-        private string yesNoPos;                                          //position of "yes" answer
+
+        /// <summary>
+        /// position of "yes" answer
+        /// </summary>
+        private string yesNoPos;                                          
         public string YesNoPos
         {
             set { yesNoPos = value; }
         }
         
-        private int[,] vote;                                            //vote from voter
+        /// <summary>
+        /// vote from voter
+        /// </summary>
+        private int[,] vote;                                            
         public int[,] Vote
         {
             set { vote = value; }
         }
         
 
-
-        private int[,] ballotMatrix;                                    //ballot matrix just fo proxy operations
+        /// <summary>
+        /// ballot matrix (select every "no" which was not clicked by voter)
+        /// </summary>
+        private int[,] ballotMatrix;    
+        
+        /// <summary>
+        /// columns as string
+        /// </summary>                
         private List<string> columns;
+
+        /// <summary>
+        /// signed columns recived from EA
+        /// </summary>
         private List<BigInteger> signedColumns;
         public List<BigInteger> SignedColumns
         {
@@ -52,6 +90,10 @@ namespace Proxy
             get { return signedColumns; }
 
         }
+
+        /// <summary>
+        /// Confirmation which was chosen by voter
+        /// </summary>
         private int confirmationColumn;
         public int ConfirmationColumn
         {
@@ -59,6 +101,9 @@ namespace Proxy
             set { confirmationColumn = value; }
         }
         
+        /// <summary>
+        /// List of tokens connected with SL
+        /// </summary>
         private List<BigInteger> tokensList;
         public List<BigInteger> TokensList
         {
@@ -66,13 +111,22 @@ namespace Proxy
             get { return tokensList; }
         }
 
-
+        /// <summary>
+        /// exponent list (parameters) connected to the SL
+        /// </summary>
         private List<BigInteger> exponentsList;
         public List<BigInteger> ExponentsList
         {
             set { exponentsList = value; }
             get { return exponentsList; }
         }
+
+        /// <summary>
+        /// constructor
+        /// </summary>
+        /// <param name="logs">log instance</param>
+        /// <param name="SL">SL number which will connected to the proxy ballot</param>
+        /// <param name="SR">SR number which will connected to the proxy ballot</param>
         public ProxyBallot(Logs logs, BigInteger SL, BigInteger SR)
         {
             this.sl =  SL;
@@ -97,7 +151,10 @@ namespace Proxy
         }
 
         
-
+        /// <summary>
+        /// prepares data to send
+        /// </summary>
+        /// <returns>blinded columns </returns>
         public BigInteger[] prepareDataToSend()
         {
             BigInteger[] toSend = new BigInteger[Constants.BALLOT_SIZE];
@@ -132,55 +189,46 @@ namespace Proxy
                 //********************* BLIND ************************************
                 BigInteger b = ((r[i].ModPow(e, n)).Multiply(toBlind)).Mod(n);
                 toSend[i] = b;
-                Console.WriteLine("r = " + r[i]);
-                Console.WriteLine("blinded"+i+" = " + b);
+
                 i++;
             }
             return toSend;
         }
 
+        /// <summary>
+        /// unblind signed data (for one ballot)
+        /// </summary>
+        /// <param name="signedData">signed data recived from EA</param>
+        /// <returns>unblinded data (columns)</returns>
         public string[] unblindSignedData(BigInteger[] signedData)
         {
             string[] unblinded = new string[Constants.BALLOT_SIZE];
-            //BigInteger e = pubKey.Exponent;
-            //BigInteger n = pubKey.Modulus;
-           // BigInteger d = privKey.Exponent;
 
             for (int i = 0; i < signedData.Length; i++)
             {
                 BigInteger explicitData = new BigInteger(columns[i]);
                 BigInteger n = tokensList[i];
                 BigInteger e = exponentsList[i];
-               /*
-                Console.WriteLine(i);
-                Console.WriteLine("input = " + signedData[i]);
-                Console.WriteLine("e = " + e);
-                Console.WriteLine("n = " + n);
-                Console.WriteLine("r = " + r[i]);
-                *///unblind sign
+
                 BigInteger signed = ((r[i].ModInverse(n)).Multiply(signedData[i])).Mod(n);
                 
-
-                //BigInteger s = ((r.ModInverse(n)).Multiply(signedData[i])).Mod(n);
                 
                 BigInteger check = signed.ModPow(e, n);
                 int correctUnblindedColumns = 0; //used to now if all columns are unblinded correctly
                 if(explicitData.Equals(check))
                 {
-                    //BigInteger check = signed.ModPow(e, n);
                     correctUnblindedColumns += 1;
                     String str = check.ToString();
                     String correctString =  checkZeros(str);
                     unblinded[i] = correctString;
                     Console.WriteLine("Odslepiona co marcinek zapomniał: " + unblinded[i]);
+
                     //WYSŁAć NORMALNA KOLUMNE, BO WIEMY ZE NIE OSZUKA
                     if (correctUnblindedColumns == Constants.BALLOT_SIZE)
                         this.logs.addLog(Constants.ALL_COLUMNS_UNBLINDED_CORRECTLY, true, Constants.LOG_INFO, true);
                     else
                         this.logs.addLog(Constants.CORRECT_SIGNATURE, true, Constants.LOG_INFO, true);
 
-
-                //^ WYWALA WYJATEK
                 }
                 else{
                     this.logs.addLog(Constants.WRONG_SIGNATURE, true, Constants.LOG_ERROR, true);
@@ -189,6 +237,11 @@ namespace Proxy
             return unblinded;
         }
 
+        /// <summary>
+        /// complete vote with 0 at the begin
+        /// </summary>
+        /// <param name="str">message</param>
+        /// <returns>correct message</returns>
         private string checkZeros(string str)
         {
             if (str.Length == this.vote.GetLength(0))
@@ -204,17 +257,13 @@ namespace Proxy
                 string column = zeros + str;
 
                 return column;
-            }
-                
-                
-                
-
-
-            
+            }       
         }
 
 
-
+        /// <summary>
+        /// generate ballot martix and split it (in column order)
+        /// </summary>
         public void generateAndSplitBallotMatrix()
         {
             

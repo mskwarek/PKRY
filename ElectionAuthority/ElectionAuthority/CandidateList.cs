@@ -6,17 +6,31 @@ using System.Xml;
 
 namespace ElectionAuthority
 {
+    /// <summary>
+    /// class loads candidate list from txt file
+    /// </summary>
     class CandidateList
     {
 
-        //class loads candidate list from txt file
-
+        /// <summary>
+        /// allows to collect and display logs
+        /// </summary>
         private Logs logs;
+
+        /// <summary>
+        /// condidate list constructor
+        /// </summary>
+        /// <param name="logs">logs instance</param>
         public CandidateList(Logs logs)
         {
             this.logs = logs;
         }
 
+        /// <summary>
+        /// loading cadidate list
+        /// </summary>
+        /// <param name="path">path to txt file</param>
+        /// <returns>List of strings with candidates</returns>
         public List<string> loadCanidateList(string path)
         {
             List<string> candidate = new List<string>();
@@ -42,7 +56,11 @@ namespace ElectionAuthority
             return candidate;
         }
 
-
+        /// <summary>
+        /// gets path to txt file with candidates list
+        /// </summary>
+        /// <param name="path">path to txt file</param>
+        /// <returns>path to file</returns>
         public string getPathToCandidateList(string path)
         {
             string[] split = path.Split('\\');
@@ -54,11 +72,8 @@ namespace ElectionAuthority
                     pathToCandidateList += split[i];
                 else
                     pathToCandidateList = pathToCandidateList + split[i] + "\\";
-            }
-            
-            
+            }               
             return pathToCandidateList;
-
         }
     }
 }

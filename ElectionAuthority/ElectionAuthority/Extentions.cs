@@ -6,9 +6,12 @@ using System.Security.Cryptography;
 
 namespace ElectionAuthority
 {
+    /// <summary>
+    /// additional function for our program
+    /// </summary>
     public static class Extentions
     {
-        //additional function for our program
+        
 
         //shuffling lists (used ie. for generation SL)
         public static void Shuffle<T>(this IList<T> list)

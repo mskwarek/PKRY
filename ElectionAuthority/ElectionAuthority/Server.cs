@@ -14,6 +14,10 @@ namespace ElectionAuthority
         private Thread serverThread;
         private Dictionary<TcpClient, string> clientSockets;
         private ASCIIEncoding encoder;
+
+        /// <summary>
+        /// allows to collect and display logs
+        /// </summary>
         private Logs logs;
         private Parser parser;
              

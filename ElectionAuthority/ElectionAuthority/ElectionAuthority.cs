@@ -12,59 +12,160 @@ using Org.BouncyCastle.Crypto.Generators;
 
 namespace ElectionAuthority
 {
+    /// <summary>
+    /// Election authority class - responsible for generating serial numbers(SL, SR and numbers connected to them) and counting votes;
+    /// main class in e-voting project
+    /// </summary>
     class ElectionAuthority
     {
+        /// <summary>
+        /// encoder used in network protocol
+        /// </summary>
         ASCIIEncoding encoder;
+
+
+        /// <summary>
+        /// allows to collect and display logs
+        /// </summary>
         private Logs logs;
+
+        /// <summary>
+        /// Application form
+        /// </summary>
         private Form1 form;
-        private Server serverClient; // server for clients (voters)
+
+        /// <summary>
+        /// server for clients (voters)
+        /// </summary>
+        private Server serverClient; 
         public Server ServerClient
         {
             get { return serverClient; }
         }
-        private Server serverProxy; // server for proxy
+
+        /// <summary>
+        /// server for proxy
+        /// </summary>
+        private Server serverProxy; 
         public Server ServerProxy
         {
             get { return serverProxy; }
         }
 
+        /// <summary>
+        /// cadidate list
+        /// </summary>
         private CandidateList candidateList;
+
+        /// <summary>
+        /// default candidate list (one for voting)
+        /// </summary>
         private List<String> candidateDefaultList;
+
+        /// <summary>
+        /// Configuration from file
+        /// </summary>
         private Configuration configuration;
 
-        //permutation PI
+        /// <summary>
+        /// permutation PI
+        /// </summary>
         private Permutation permutation;
+
+        /// <summary>
+        /// List of permutation
+        /// </summary>
         private List<List<BigInteger>> permutationsList;
+
+        /// <summary>
+        /// List of inverse permutation
+        /// </summary>
         private List<List<BigInteger>> inversePermutationList;
 
-        //serial number SL
+        /// <summary>
+        /// serial numbers SL (for voters)
+        /// </summary>
         private List<BigInteger> serialNumberList;
 
-        //tokens, one SL has four tokens
-        private List<List<BigInteger>> tokensList;          //for (un)blinding (proxy and EA)
-        private List<List<BigInteger>> exponentsList;       //for blinding (proxy)
-        private List<List<BigInteger>> signatureFactor;     //for signature (EA)
+        /// <summary>
+        /// tokens, one SL has four tokens, for (un)blinding (proxy and EA)
+        /// </summary>
+        private List<List<BigInteger>> tokensList;          
 
-        //map which connect serialNumber and permuataion
+        /// <summary>
+        /// for blinding (proxy)
+        /// </summary>
+        private List<List<BigInteger>> exponentsList;  
+    
+        /// <summary>
+        /// for signature (EA)
+        /// </summary>
+        private List<List<BigInteger>> signatureFactor;     
+
+
+        /// <summary>
+        /// map which connect serialNumber and permuataion
+        /// </summary>
         private Dictionary<BigInteger, List<BigInteger>> dictionarySLPermuation;
+
+        /// <summary>
+        /// map which connect serialNumber and inverse permuataion
+        /// </summary>
         private Dictionary<BigInteger, List<BigInteger>> dictionarySLInversePermutation;
+
+        /// <summary>
+        /// map which connect serialNumber and tokens
+        /// </summary>
         private Dictionary<BigInteger, List<List<BigInteger>>> dictionarySLTokens;
 
-        private Dictionary<string, Ballot> ballots;         //EA reprezentation of every Voter ballot
+        /// <summary>
+        /// EA reprezentation of every Voter ballot
+        /// </summary>
+        private Dictionary<string, Ballot> ballots;        
 
+        /// <summary>
+        /// Quantity of voters
+        /// </summary>
         private int numberOfVoters;
+
+        /// <summary>
+        /// final results of voting
+        /// </summary>
         private int[] finalResults;
 
 
-        private Auditor auditor;                            // check if voting process runs with all 
-        private RsaKeyParameters privKey;                   // priv Key to bit commitment of permutation
-        private RsaKeyParameters pubKey;                    // pub key to bit commitment of permutation
+        /// <summary>
+        /// check if voting process runs with all 
+        /// </summary>
+        private Auditor auditor;                            
 
-        //Tokens (for blind signature scheme)
+        /// <summary>
+        /// priv Key to bit commitment of permutation
+        /// </summary>
+        private RsaKeyParameters privKey;                   
+
+        /// <summary>
+        /// pub key to bit commitment of permutation
+        /// </summary>
+        private RsaKeyParameters pubKey;                    
+
+        /// <summary>
+        /// Tokens (for blind signature scheme)
+        /// </summary>
         private List<BigInteger> permutationTokensList;
+
+        /// <summary>
+        /// Exponent (for blind signature scheme)
+        /// </summary>
         private List<BigInteger> permutationExponentsList;
 
 
+        /// <summary>
+        /// Constructor of EA
+        /// </summary>
+        /// <param name="logs">logs instance</param>
+        /// <param name="configuration">configuration loaded</param>
+        /// <param name="form">application form</param>
         public ElectionAuthority(Logs logs, Configuration configuration, Form1 form)
         {
             this.encoder = new ASCIIEncoding();
@@ -97,6 +198,10 @@ namespace ElectionAuthority
             pubKey = (RsaKeyParameters)keypair.Public;
         }
 
+        /// <summary>
+        /// loading cadidate list from file
+        /// </summary>
+        /// <param name="pathToElectionAuthorityConfig">path to EA configuration file</param>
         public void loadCandidateList(string pathToElectionAuthorityConfig)
         {
             //pathToElectionAuthorityConfig it's a path to file which contains ElectionAuthority config
@@ -109,6 +214,10 @@ namespace ElectionAuthority
         }
 
         //** Start methods to generate tokens and permutation 
+
+        /// <summary>
+        /// generates permutation for all voters
+        /// </summary>
         private void generatePermutation()
         {
             //generating permutation and feeling List
@@ -126,6 +235,10 @@ namespace ElectionAuthority
 
         }
 
+
+        /// <summary>
+        /// generates tokens for all voters (every SL numbers)
+        /// </summary>
         private void generatePermutationTokens()
         {
             this.permutationTokensList = new List<BigInteger>();
@@ -144,6 +257,9 @@ namespace ElectionAuthority
             Console.WriteLine("Permutation tokens generated");
         }
 
+        /// <summary>
+        /// Inverse every permutation
+        /// </summary>
         private void generateInversePermutation()
         {
             //using mathematics to generate inverse permutation for our List
@@ -157,6 +273,9 @@ namespace ElectionAuthority
 
         }
 
+        /// <summary>
+        /// conneceting serial numbers and inverse permutation 
+        /// </summary>
         private void connectSerialNumberAndInversePermutation()
         {
             dictionarySLInversePermutation = new Dictionary<BigInteger, List<BigInteger>>();
@@ -167,6 +286,10 @@ namespace ElectionAuthority
             logs.addLog(Constants.SL_CONNECTED_WITH_INVERSE_PERMUTATION, true, Constants.LOG_INFO, true);
         }
 
+
+        /// <summary>
+        /// generates serial numbers (SL)
+        /// </summary>
         private void generateSerialNumber()
         {
             //Generating serial numbers (SL)
@@ -176,6 +299,9 @@ namespace ElectionAuthority
             logs.addLog(Constants.SERIAL_NUMBER_GEN_SUCCESSFULLY, true, Constants.LOG_INFO, true);
         }
 
+        /// <summary>
+        /// generates tokens
+        /// </summary>
         private void generateTokens()
         {
 
@@ -211,6 +337,9 @@ namespace ElectionAuthority
 
         }
 
+        /// <summary>
+        /// connects serial numbers and permutation
+        /// </summary>
         private void connectSerialNumberAndPermutation()
         {
             dictionarySLPermuation = new Dictionary<BigInteger, List<BigInteger>>();
@@ -222,6 +351,9 @@ namespace ElectionAuthority
 
         }
 
+        /// <summary>
+        /// connects serial number and tokens
+        /// </summary>
         private void connectSerialNumberAndTokens()
         {
             this.dictionarySLTokens = new Dictionary<BigInteger, List<List<BigInteger>>>();
@@ -237,6 +369,9 @@ namespace ElectionAuthority
             logs.addLog(Constants.SL_CONNECTED_WITH_TOKENS, true, Constants.LOG_INFO);
         }
 
+        /// <summary>
+        /// generates data for voting (serial numbers, tokens, permutations)
+        /// </summary>
         public void generateDate()
         {
             generateSerialNumber();
@@ -246,6 +381,9 @@ namespace ElectionAuthority
         }
         //** End methods to generate tokens and permutation 
 
+        /// <summary>
+        /// Sends SL and Tokens to proxy
+        /// </summary>
         public void sendSLAndTokensToProxy()
         {
             //before sending we have to convert dictionary to string. We use our own conversion to recoginize message in proxy and reparse it to dictionary
@@ -282,6 +420,9 @@ namespace ElectionAuthority
             this.serverProxy.sendMessage(Constants.PROXY, msg);
         }
 
+        /// <summary>
+        /// disable button causes sending tokens an SLs
+        /// </summary>
         public void disableSendSLTokensAndTokensButton()
         {
             this.form.Invoke(new MethodInvoker(delegate()
@@ -291,6 +432,11 @@ namespace ElectionAuthority
 
         }
 
+        /// <summary>
+        /// permutes candidate list for concrete voter and for his/her SL number
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="SL"></param>
         public void getCandidateListPermuated(string name, BigInteger SL)
         {
             List<BigInteger> permutation = new List<BigInteger>();
@@ -318,6 +464,10 @@ namespace ElectionAuthority
 
         }
 
+        /// <summary>
+        /// saves blind ballot matrix recived from proxy
+        /// </summary>
+        /// <param name="message"></param>
         public void saveBlindBallotMatrix(string message)
         {
             //saving data recived from Proxy
@@ -368,6 +518,10 @@ namespace ElectionAuthority
             this.signColumn(name);
         }
 
+        /// <summary>
+        /// Signs columns (EA signature)
+        /// </summary>
+        /// <param name="name">Voter name</param>
         private void signColumn(string name)
         {
             //msg = BLIND_PROXY_BALLOT&name;signCol1,signCol2,signCol3,signCol4
@@ -388,7 +542,10 @@ namespace ElectionAuthority
         }
 
 
-
+        /// <summary>
+        /// saves unblinded ballot matrix (vote)
+        /// </summary>
+        /// <param name="message">string message recived from proxy</param>
         public void saveUnblindedBallotMatrix(string message)
         {
             //the same as previous saving
@@ -423,6 +580,10 @@ namespace ElectionAuthority
             this.logs.addLog(Constants.UNBLINED_BALLOT_MATRIX_RECEIVED, true, Constants.LOG_INFO, true);
         }
 
+
+        /// <summary>
+        /// disables proxy 
+        /// </summary>
         public void disbaleProxy()
         {
             try
@@ -438,6 +599,10 @@ namespace ElectionAuthority
 
         }
 
+        /// <summary>
+        /// counting votes EA send to voter unblinded permutation (and then private key) so Audiotr
+        ///        can check RSA formula
+        /// </summary>
         public void countVotes()
         {
             //counting votes
@@ -461,6 +626,9 @@ namespace ElectionAuthority
             this.announceResultsOfElection();
         }
 
+        /// <summary>
+        /// announce results of election
+        /// </summary>
         private void announceResultsOfElection()
         {
 
@@ -497,6 +665,11 @@ namespace ElectionAuthority
 
         }
 
+        /// <summary>
+        /// count vote from one voter
+        /// </summary>
+        /// <param name="voterNumber">voter number in voters array</param>
+        /// <returns>vote for candidate</returns>
         private int checkVote(int voterNumber)
         {
             Ballot ballot = this.ballots.ElementAt(voterNumber).Value;
@@ -524,7 +697,9 @@ namespace ElectionAuthority
 
         }
 
-
+        /// <summary>
+        /// initialize finale results
+        /// </summary>
         private void initializeFinalResults()
         {
             for (int i = 0; i < this.finalResults.Length; i++)
@@ -536,6 +711,11 @@ namespace ElectionAuthority
 
 
         //Auditor's functions
+
+        /// <summary>
+        /// blinds permutations (all of them), RSA formula (bit commitment)
+        /// </summary>
+        /// <param name="permutationList">permutation list</param>
         public void blindPermutation(List<List<BigInteger>> permutationList)
         {
 
@@ -570,6 +750,10 @@ namespace ElectionAuthority
             this.auditor.CommitedPermatation = toSend;
         }
 
+        /// <summary>
+        /// unblind permutation, checking permutations RSA (auditor checks all of the permutations)
+        /// </summary>
+        /// <param name="permutationList">permutation list</param>
         public void unblindPermutation(List<List<BigInteger>> permutationList)
         {
             int size = permutationList.Count;

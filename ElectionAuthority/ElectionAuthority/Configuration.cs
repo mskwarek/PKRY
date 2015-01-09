@@ -6,13 +6,20 @@ using System.Xml;
 
 namespace ElectionAuthority
 {
+    /// <summary>
+    /// loading config from txt file
+    /// </summary>
     class Configuration
     {
 
-        //loading config from txt file
-
+        /// <summary>
+        /// allows to collect and display logs
+        /// </summary>
         private Logs logs;
 
+        /// <summary>
+        /// Election Authority ID 
+        /// </summary>
         private string electionAuthorityID;
         public string ElectionAuthorityID
         {

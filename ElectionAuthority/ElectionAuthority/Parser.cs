@@ -7,23 +7,41 @@ using System.Text;
 
 namespace ElectionAuthority
 {
+    /// <summary>
+    /// parsing messages recived form clients
+    /// </summary>
     class Parser
     {
-        //parsing messages recived form clients
-
+        
+        /// <summary>
+        /// allows to collect and display logs
+        /// </summary>
         private Logs logs;
+
+        /// <summary>
+        /// parser connected to election authority
+        /// </summary>
         private ElectionAuthority electionAuthority;
 
+        /// <summary>
+        /// parser's constructor
+        /// </summary>
+        /// <param name="logs">log instance</param>
+        /// <param name="electionAuthority">election authority instance</param>
         public Parser(Logs logs, ElectionAuthority electionAuthority)
         {
             this.logs = logs;
             this.electionAuthority = electionAuthority;
         }
 
-
+        /// <summary>
+        /// parses message
+        /// </summary>
+        /// <param name="msg">recived message</param>
+        /// <returns>parsing result</returns>
         public bool parseMessage(string msg)
         {
-            Console.WriteLine("w paresMessage mamy " + msg);
+
             string[] words = msg.Split('&');
             switch (words[0])
 

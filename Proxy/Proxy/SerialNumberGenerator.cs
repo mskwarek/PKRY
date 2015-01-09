@@ -7,13 +7,38 @@ using Org.BouncyCastle.Math;
 
 namespace Proxy
 {
+    /// <summary>
+    /// Generates serial numbers used in EA
+    /// </summary>
     class SerialNumberGenerator
     {
+        /// <summary>
+        /// instance sng (singleton)
+        /// </summary>
         private SerialNumberGenerator sng;
+
+        /// <summary>
+        /// list of serial numbers
+        /// </summary>
         private List<BigInteger> listOfSerialNumbers;
+
+        /// <summary>
+        /// counter of serials
+        /// </summary>
         int counter = 0;
 
+        /// <summary>
+        /// singleton, private constructor
+        /// </summary>
         private SerialNumberGenerator(){}
+
+
+        /// <summary>
+        /// generate SL for election
+        /// </summary>
+        /// <param name="numberOfSerials">number of serials to generate</param>
+        /// <param name="numberOfBits">bit size of serial</param>
+        /// <returns>list of serial numbers</returns>
         private SerialNumberGenerator(int numberOfSerials, int numberOfBits)
         {
             listOfSerialNumbers = new List<BigInteger>();
@@ -39,6 +64,10 @@ namespace Proxy
             Extentions.Shuffle(listOfSerialNumbers);
         }
 
+        /// <summary>
+        /// gettins sng instance
+        /// </summary>
+        /// <returns>sng instance</returns>
         public SerialNumberGenerator getInstance()
         {
             if (sng == null)
@@ -48,6 +77,10 @@ namespace Proxy
             return sng;
         }
 
+        /// <summary>
+        /// generate next SR
+        /// </summary>
+        /// <returns>SR</returns>
         public BigInteger getNextSr()
         {
            
@@ -57,7 +90,12 @@ namespace Proxy
             return nextSr;
         }
 
-
+        /// <summary>
+        /// generates list of serial numbers
+        /// </summary>
+        /// <param name="numberOfSerials">quantity of serial numbers</param>
+        /// <param name="numberOfBits">bit length of serial number</param>
+        /// <returns>list of shuffled serial numbers</returns>
         public static List<BigInteger> generateListOfSerialNumber(int numberOfSerials, int numberOfBits)
         {
 
@@ -85,6 +123,12 @@ namespace Proxy
             return listOfSerialNumber;
         }
 
+        /// <summary>
+        /// get yes/no position at ballot 
+        /// </summary>
+        /// <param name="numberOfVoters">quantity of voters</param>
+        /// <param name="numberOfCandidates"quantity of candidates></param>
+        /// <returns></returns>
         public static List<string> getYesNoPosition(int numberOfVoters, int numberOfCandidates)
         {
             Random rnd = new Random();

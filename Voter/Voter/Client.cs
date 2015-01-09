@@ -16,15 +16,28 @@ namespace Voter
         private Thread clientThread;
         private Logs logs;
         private string myName;
-        private bool connected; // set when client is conected with proxy or EA
+
+        /// <summary>
+        /// set when client is conected with proxy or EA
+        /// </summary>
+        private bool connected;
         public bool Connected
         {
             get { return connected; }
         }
         
-        private Parser parser; //parser for both EA and Proxy message, because we don't 
-        //want to create to clients class 
+        /// <summary>
+        /// parser for both EA and Proxy message, because we don't 
+        /// </summary>
+        private Parser parser;
 
+
+        /// <summary>
+        /// want to create to clients class 
+        /// </summary>
+        /// <param name="name">name of voter</param>
+        /// <param name="logs">log instance</param>
+        /// <param name="voter">Voter instance</param>
         public Client(string name, Logs logs,  Voter voter)
         {
             this.encoder = new ASCIIEncoding();

@@ -5,14 +5,17 @@ using System.Text;
 
 namespace ElectionAuthority
 {
+    /// <summary>
+    /// Constants used in project
+    /// </summary>
     class Constants
     {
-        //===========ZMIENIC = WCZYTYWAC Z PLIKU!================
+ 
         public const int BALLOT_SIZE = 4;
-
         public const int LOG_INFO = 0;
         public const int LOG_MESSAGE = 1;
         public const int LOG_ERROR = 2;
+
 
         public const string ID = "ID";
         public const string ELECTION_AUTHORITY_PORT_CLIENT = "electionAuthorityPortForClient";

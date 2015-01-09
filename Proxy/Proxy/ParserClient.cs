@@ -5,12 +5,26 @@ using System.Text;
 
 namespace Proxy
 {
+    /// <summary>
+    /// parser for messages exchanged between proxy and voter/ea
+    /// </summary>
     class ParserClient
     {
+        /// <summary>
+        /// logs instance
+        /// </summary>
         private Logs logs;
+
+        /// <summary>
+        /// parser for the proxy
+        /// </summary>
         private Proxy proxy;
 
-
+        /// <summary>
+        /// constructor
+        /// </summary>
+        /// <param name="logs">logs instance</param>
+        /// <param name="proxy">proxy instance</param>
         public ParserClient(Logs logs, Proxy proxy)
         {
 
@@ -18,7 +32,10 @@ namespace Proxy
             this.proxy = proxy;
         }
 
-
+        /// <summary>
+        /// parse recived message 
+        /// </summary>
+        /// <param name="msg">recived message</param>
         public void parseMessageFromClient(string msg)
         {
             string[] elem = msg.Split('&');

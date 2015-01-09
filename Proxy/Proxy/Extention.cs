@@ -6,8 +6,17 @@ using System.Security.Cryptography;
 
 namespace Proxy
 {
+
+    /// <summary>
+    /// extention function in program
+    /// </summary>
     public static class Extentions
     {
+        /// <summary>
+        /// shuffling list elements
+        /// </summary>
+        /// <typeparam name="T">list to shuffle</typeparam>
+        /// <param name="list">shuffled list</param>
         public static void Shuffle<T>(this IList<T> list)
         {
             RNGCryptoServiceProvider provider = new RNGCryptoServiceProvider();

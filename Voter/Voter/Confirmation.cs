@@ -7,16 +7,42 @@ using System.Windows.Forms;
 
 namespace Voter
 {
+
+    /// <summary>
+    /// confirmation for voter - proxy sends him this column which he/she has choosen
+    /// (precisely signed, explicit and token)
+    /// </summary>
     class Confirmation
     {
+        /// <summary>
+        /// number of column which was choosen
+        /// </summary>
         private int numColumn;
+
+        /// <summary>
+        /// vote as string 
+        /// </summary>
         private string column;
+
+        /// <summary>
+        /// token corresponding to choosen column
+        /// </summary>
         private BigInteger token;
+
+        /// <summary>
+        /// signed column (recived from EA)
+        /// </summary>
         private BigInteger signedColumn;
+
+        /// <summary>
+        /// list view - to represent confirmation
+        /// </summary>
         private ListView ListView;
-        private int p;
 
-
+        /// <summary>
+        /// constructor
+        /// </summary>
+        /// <param name="ListView">list view to represent confirm</param>
         public Confirmation(ListView ListView)
         {
             this.ListView = ListView;
@@ -50,6 +76,11 @@ namespace Voter
         {
             get { return numColumn; }
         }
+
+        /// <summary>
+        /// add and display confirmation
+        /// </summary>
+        /// <param name="anotherThread">thread flag</param>
         public void addConfirm( bool anotherThread = false)
         {
             ListViewItem item1 = new ListViewItem();

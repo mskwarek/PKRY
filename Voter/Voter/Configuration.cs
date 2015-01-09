@@ -6,10 +6,19 @@ using System.Xml;
 
 namespace Voter
 {
+    /// <summary>
+    /// loading config from file
+    /// </summary>
     class Configuration
     {
+        /// <summary>
+        /// allows to collect and display logs
+        /// </summary>
         private Logs logs;
 
+        /// <summary>
+        /// Voter ID 
+        /// </summary>
         private string voterID;
         public string VoterID
         {
