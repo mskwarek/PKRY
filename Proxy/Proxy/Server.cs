@@ -8,21 +8,52 @@ using System.Net;
 
 namespace Proxy
 {
+    /// <summary>
+    /// server for proxy application 
+    /// </summary>
     class Server
     {
+        /// <summary>
+        /// server socket on which server is running
+        /// </summary>
         private TcpListener serverSocket;
+
+        /// <summary>
+        /// server thread 
+        /// </summary>
         private Thread serverThread;
+
+        /// <summary>
+        /// dictionary which contains a client sockets
+        /// </summary>
         private Dictionary<TcpClient, string> clientSockets;
         public Dictionary<TcpClient, string> ClientSockets
         {
             get { return clientSockets; }
         }
+        /// <summary>
+        /// encoder used to encode a messages from bytes to string and again 
+        /// </summary>
         private ASCIIEncoding encoder;
+        /// <summary>
+        /// display logs in console
+        /// </summary>
         private Logs logs;
-
+        /// <summary>
+        /// pares message from Client
+        /// </summary>
         private ParserClient parserClient;
+
+        /// <summary>
+        /// main logic of Proxy application 
+        /// </summary>
         private Proxy proxy;
 
+        /// <summary>
+        /// defualt constructor
+        /// </summary>
+        /// <param name="logs">display messages in logs console</param>
+        /// <param name="proxy">main logic of Proxy application</param>
         public Server(Logs logs, Proxy proxy)
         {
             clientSockets = new Dictionary<TcpClient, string>();
@@ -32,7 +63,11 @@ namespace Proxy
         }
 
         
-
+        /// <summary>
+        /// starts a server 
+        /// </summary>
+        /// <param name="port">number of port on which server is running</param>
+        /// <returns>true when server started successfully</returns>
         public bool startServer(string port)
         {
             int runningPort = Convert.ToInt32(port);
@@ -50,7 +85,9 @@ namespace Proxy
                 return false;
             }
         }
-
+        /// <summary>
+        /// listen for client 
+        /// </summary>
         private void ListenForClients()
         {
             this.serverSocket.Start();
@@ -70,6 +107,11 @@ namespace Proxy
             }
         }
 
+
+        /// <summary>
+        /// display message received from clients
+        /// </summary>
+        /// <param name="client"></param>
         private void displayMessageReceived(object client)
         {
             TcpClient clientSocket = (TcpClient)client;
@@ -125,7 +167,9 @@ namespace Proxy
 
             }
         
-
+        /// <summary>
+        /// stop server 
+        /// </summary>
         public void stopServer()
         {
             foreach (TcpClient clientSocket in clientSockets.Keys.ToList())
@@ -142,6 +186,11 @@ namespace Proxy
             serverThread = null;
         }
 
+        /// <summary>
+        /// send message to client
+        /// </summary>
+        /// <param name="name">client's name</param>
+        /// <param name="msg">message</param>
         public void sendMessage(string name, string msg)
         {
             for (int i = 0; i < clientSockets.Count; i++)
@@ -175,6 +224,11 @@ namespace Proxy
             }
         }
 
+        /// <summary>
+        /// udpate client name in dictionary 
+        /// </summary>
+        /// <param name="client">TcpClient</param>
+        /// <param name="signal">client name</param>
         private void updateClientName(TcpClient client, string signal)
         {
             if (signal.Contains("//NAME// "))
@@ -184,7 +238,11 @@ namespace Proxy
             }
         }
 
-
+        /// <summary>
+        /// get's TCP Client connected with name of client
+        /// </summary>
+        /// <param name="name">client name</param>
+        /// <returns>TCP Client connected with given client name</returns>
         private TcpClient getTcpClient(string name)
         {
             TcpClient client = null;

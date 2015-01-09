@@ -17,7 +17,7 @@ namespace Voter
         private Logs logs;
 
         /// <summary>
-        /// Voter ID 
+        /// Voter ID - unique name of Voter
         /// </summary>
         private string voterID;
         public string VoterID
@@ -25,48 +25,69 @@ namespace Voter
             get { return voterID; }
         }
 
+        /// <summary>
+        /// IP of Election Authority application - it's loaded from configuration xml file
+        /// </summary>
         private string electionAuthorityIP;
         public string ElectionAuthorityIP
         {
             get { return electionAuthorityIP; }
         }
-
+        /// <summary>
+        /// port on which Election Authority application is running - it's loaded from configuration xml file
+        /// </summary>
         private string electionAuthorityPort;
         public string ElectionAuthorityPort
         {
             get { return electionAuthorityPort; }
         }
 
+        /// <summary>
+        /// IP of Proxy application - it's loaded from configuration xml file
+        /// </summary>
         private string proxyIP;
         public string ProxyIP
         {
             get { return proxyIP; }
         }
-
+        /// <summary>
+        /// port on which Proxy application is running - it's loaded from configuration xml file
+        /// </summary>
         private string proxyPort;
         public string ProxyPort
         {
             get { return proxyPort; }
         }
-
+        /// <summary>
+        /// number of candidates which are on the voting list
+        /// </summary>
         private int numberOfCandidates;
 
         public int NumberOfCandidates
         {
             get { return numberOfCandidates; }
         }
-
+        /// <summary>
+        /// name of voter - it's unique name of voter loaded from confiuration xml file
+        /// </summary>
         private string name;
         public string Name
         {
             get { return name; }
         }
-
+        /// <summary>
+        /// use to load configuration from xml file
+        /// </summary>
+        /// <param name="logs">display messages in logs</param>
         public Configuration(Logs logs)
         {
             this.logs = logs;
         }
-
+        /// <summary>
+        /// reads configuration from xml file 
+        /// </summary>
+        /// <param name="xml">file choosen by user to load configuration</param>
+        /// <returns></returns>
         private List<String> readConfig(XmlDocument xml)
         {
             
@@ -94,6 +115,11 @@ namespace Voter
 
         }
 
+        /// <summary>
+        /// save loaded configuration in parameters
+        /// </summary>
+        /// <param name="path">path to file with configuration</param>
+        /// <returns>true if configuration is loaded successfully</returns>
         public bool loadConfiguration(string path)
         {
             XmlDocument xml = new XmlDocument();

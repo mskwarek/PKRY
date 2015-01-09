@@ -48,24 +48,35 @@ namespace Voter
             this.ListView = ListView;
         }
 
-
+        /// <summary>
+        /// number of column choosen as confirmation 
+        /// </summary>
         public int ColumnNumber
         {
             set { numColumn = value; }
         }
 
+        /// <summary>
+        /// string which contains value of column 
+        /// </summary>
         public string Column
         {
             set { column = value; }
             get { return column; }
         }
 
+        /// <summary>
+        /// token received from EA as a confirmation 
+        /// </summary>
         public BigInteger Token
         {
             set { token = value; }
             get { return token;  }
         }
 
+        /// <summary>
+        /// representation of column signed by EA
+        /// </summary>
         public BigInteger SignedColumn
         {
             set { signedColumn = value; }

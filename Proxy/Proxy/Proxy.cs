@@ -297,7 +297,10 @@ namespace Proxy
             return tokens;
         }
 
-
+        /// <summary>
+        /// save singed ballot from EA
+        /// </summary>
+        /// <param name="message">signed ballot</param>
         public void saveSignedBallot(string message)
         {
             string[] words = message.Split(';');
@@ -325,6 +328,11 @@ namespace Proxy
             this.unblindSignedBallotMatrix(name);
         }
 
+
+        /// <summary>
+        /// send signed column to voter acording to his choice made during casting the vote
+        /// </summary>
+        /// <param name="name"></param>
         private void sendSignedColumnToVoter(string name)
         {
             int confirmation = this.proxyBallots[name].ConfirmationColumn;

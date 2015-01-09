@@ -14,10 +14,6 @@ namespace Proxy
     {
         private Logs logs;
 
-        //+++++++++++++++++CHANGE++++++++++++++++++++
-        public static int ballotSize = 4;
-        public static int candidates = 5;
-
         /// <summary>
         /// Proxy ID
         /// </summary>
@@ -83,7 +79,7 @@ namespace Proxy
         }
 
         /// <summary>
-        /// reads config from xml file
+        /// reads config from xml configuration file
         /// </summary>
         /// <param name="xml">xml document</param>
         /// <returns> list of string with config</returns>
@@ -113,7 +109,7 @@ namespace Proxy
         }
 
         /// <summary>
-        /// load configuration from path
+        /// load configuration from path given by user
         /// </summary>
         /// <param name="path">path to configuration</param>
         /// <returns>loading end status</returns>

@@ -8,7 +8,7 @@ namespace Proxy
 {
 
     /// <summary>
-    /// extention function in program
+    /// extention functions in program, used to more complicated operations
     /// </summary>
     public static class Extentions
     {

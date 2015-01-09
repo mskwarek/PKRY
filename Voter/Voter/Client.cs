@@ -10,11 +10,29 @@ namespace Voter
 {
     class Client
     {
+        /// <summary>
+        /// use to encode messages from bytes to string and opposite
+        /// </summary>
         private ASCIIEncoding encoder;
+        /// <summary>
+        /// represents TCP client 
+        /// </summary>
         private TcpClient client;
+        /// <summary>
+        /// network stream used to transport messages via network
+        /// </summary>
         private NetworkStream stream;
+        /// <summary>
+        /// thread on which voter client is running
+        /// </summary>
         private Thread clientThread;
+        /// <summary>
+        /// use to display information in user console - they help understand what's going on in application
+        /// </summary>
         private Logs logs;
+        /// <summary>
+        /// name of client
+        /// </summary>
         private string myName;
 
         /// <summary>
