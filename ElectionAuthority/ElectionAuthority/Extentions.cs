@@ -13,7 +13,11 @@ namespace ElectionAuthority
     {
         
 
-        //shuffling lists (used ie. for generation SL)
+        /// <summary>
+        /// shuffling lists (used ie. for generation SL)
+        /// </summary>
+        /// <typeparam name="T">type of list</typeparam>
+        /// <param name="list">list which is going to be shuffled</param>
         public static void Shuffle<T>(this IList<T> list)
         {
             RNGCryptoServiceProvider provider = new RNGCryptoServiceProvider();

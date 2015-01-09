@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Drawing;
+using System.IO;
 
 namespace ElectionAuthority
 {
@@ -19,6 +20,8 @@ namespace ElectionAuthority
         /// </summary>
         private ListView logsListView;
 
+
+
         /// <summary>
         /// Logs instance's constructor
         /// </summary>
@@ -26,6 +29,8 @@ namespace ElectionAuthority
         public Logs(ListView logsListView)
         {
             this.logsListView = logsListView;
+            //Console.WriteLine("path to file ==" + ;
+            
         }
 
         /// <summary>
@@ -38,6 +43,7 @@ namespace ElectionAuthority
         public void addLog(string log, bool time, int flag, bool anotherThread = false)
         {
             ListViewItem item = new ListViewItem();
+
             switch (flag)
             {
                 case 0:
@@ -55,23 +61,49 @@ namespace ElectionAuthority
             }
 
             if (time)
+            {
                 item.Text = "[" + DateTime.Now.ToString("HH:mm:ss") + "] " + log;
+            }
             else
+            {
                 item.Text = log;
+            }
 
             if (!anotherThread)
             {
                 logsListView.Items.Add(item);
                 logsListView.Items[logsListView.Items.Count - 1].EnsureVisible();
+                
             }
             else
             {
-                logsListView.Invoke(new MethodInvoker(delegate()
+                try
                 {
-                    logsListView.Items.Add(item);
-                    logsListView.Items[logsListView.Items.Count - 1].EnsureVisible();
-                })
+                    logsListView.Invoke(new MethodInvoker(delegate()
+                    {
+                        logsListView.Items.Add(item);
+                        logsListView.Items[logsListView.Items.Count - 1].EnsureVisible();
+                    })
                     );
+
+                }
+                catch (Exception exp)
+                {
+                    Console.WriteLine(exp);
+                }
+            }
+
+
+            try
+            {
+                using (System.IO.StreamWriter file = new StreamWriter(@"Logs\ElectionAuthority.txt", true))
+                {
+                    file.Write("[" + DateTime.Now.ToString("HH:mm:ss") + "] " + log + Environment.NewLine);
+                }
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("You should use bat file to save logs to file");
             }
         }
 

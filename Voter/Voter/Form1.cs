@@ -30,6 +30,9 @@ namespace Voter
         /// list of text boxes which are used to show candidates name and surname
         /// </summary>
         private List<TextBox> textBoxes;
+        /// <summary>
+        /// TextBoxes property which allow to get the list
+        /// </summary>
         public List<TextBox> TextBoxes
         {
             get { return textBoxes; }
@@ -42,6 +45,9 @@ namespace Voter
         /// list of buttons which are used to cast a vote
         /// </summary>
         private List<Button[]> voteButtons;
+        /// <summary>
+        /// VoteButtons property which allow to get the list
+        /// </summary>
         public List<Button[]> VoteButtons
         {
             get { return voteButtons; }
@@ -132,7 +138,7 @@ namespace Voter
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        private void Form1_FormClsing(object sender, FormClosingEventArgs e)
         {
             if (this.voter != null)
             {
@@ -214,7 +220,7 @@ namespace Voter
                     this.voteButtons[i].ElementAt(j).Name = "Candidate_nr;" + i + ";" + j;
                     this.voteButtons[i].ElementAt(j).Size = new System.Drawing.Size(70, 40);
                     this.voteButtons[i].ElementAt(j).TabIndex = 0;
-                    this.voteButtons[i].ElementAt(j).Text = "NO";
+                    this.voteButtons[i].ElementAt(j).Text = Convert.ToString(j);
                     this.voteButtons[i].ElementAt(j).Enabled = false;
                     this.voteButtons[i].ElementAt(j).UseVisualStyleBackColor = true;
                     this.voteButtons[i].ElementAt(j).Click += new System.EventHandler(voteButton_Click);
@@ -251,7 +257,6 @@ namespace Voter
         {
             this.getSLandSRButton.Enabled = false;
             this.getCandidateListButton.Enabled = true;
-            this.getYesNoPositionButton.Enabled = true;
         }
 
 
@@ -293,25 +298,6 @@ namespace Voter
             //    this.sendVoteButton.Enabled = true;
         }
 
-        /// <summary>
-        /// diable Get Yes No Positon button
-        /// </summary>
-        public void disableGetYesNoPositionButton()
-        {
-            this.getYesNoPositionButton.Enabled = false;
-            //if (this.getCandidateListButton.Enabled == false)
-            //    this.sendVoteButton.Enabled = true;
-        }
-
-        /// <summary>
-        /// send a request for YesNo position to Proxy
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void getYesNoPositionButton_Click(object sender, EventArgs e)
-        {
-            this.voter.getYesNoPosition();
-        }
 
         /// <summary>
         /// send a casted vote to Proxy
@@ -336,6 +322,9 @@ namespace Voter
             this.voter.setConfirm(this.confirmationBox.SelectedIndex);
             this.sendVoteButton.Enabled = true;
         }
+        /// <summary>
+        /// confBox property which allow to set and get value of confirmation box
+        /// </summary>
         public int confBox { get; set; }
     }
 }

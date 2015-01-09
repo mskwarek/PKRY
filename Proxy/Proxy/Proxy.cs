@@ -82,11 +82,6 @@ namespace Proxy
         /// </summary>
         private static int numOfSentSLandSR = 0;
  
-        /// <summary>
-        /// numer of YesNo position sent to voter, incremented when request comes from voter
-        /// </summary>
-        private static int numOfSentYesNo = 0; 
-
 
         /// <summary>
         /// its list which contains position of YES and NO buttons on ballot of each voter
@@ -134,6 +129,9 @@ namespace Proxy
             this.yesNoPosition = new List<string>();
             this.yesNoPosition = SerialNumberGenerator.getYesNoPosition(this.configuration.NumOfVoters, this.configuration.NumOfCandidates);
             logs.addLog(Constants.YES_NO_POSITION_GEN_SUCCESSFULL, true, Constants.LOG_INFO);
+            saveYesNoPositionToFile();
+            logs.addLog(Constants.YES_NO_POSITION_SAVED_TO_FILE, true, Constants.LOG_INFO);
+
         }
 
         /// <summary>
@@ -166,6 +164,12 @@ namespace Proxy
                 this.proxyBallots[name].TokensList = tokensList;
                 this.proxyBallots[name].ExponentsList = exponentesList;
 
+
+                //there we will save YES-NO positions - previously it was saved when user send a request but we chaged a idea of our app
+                string position = this.yesNoPosition.ElementAt(numOfSentSLandSR);
+                this.proxyBallots[name].YesNoPos = position;
+
+
                 string msg = Constants.SL_AND_SR + "&" + SL.ToString()
                      + "=" + SR.ToString();
                 numOfSentSLandSR += 1;
@@ -193,16 +197,19 @@ namespace Proxy
         /// <summary>
         /// sends yes/no position to voter
         /// </summary>
-        /// <param name="name">voter name</param>
-        public void sendYesNoPosition(string name)
+        private void saveYesNoPositionToFile()
         {
             if (this.yesNoPosition != null)
             {
-                string position = this.yesNoPosition.ElementAt(numOfSentYesNo);
-                this.proxyBallots[name].YesNoPos = position;
-                string msg = Constants.YES_NO_POSITION + "&" + position;
-                numOfSentYesNo += 1;
-                this.server.sendMessage(name, msg);
+                string[] yesNoPositionStrTable = this.yesNoPosition.ToArray();
+                System.IO.File.WriteAllLines(@"Logs\yesPositions.txt", yesNoPositionStrTable);
+
+
+                //string position = this.yesNoPosition.ElementAt(numOfSentYesNo);
+                //this.proxyBallots[name].YesNoPos = position;
+                //string msg = Constants.YES_NO_POSITION + "&" + position;
+                //numOfSentYesNo += 1;
+                //this.server.sendMessage(name, msg);
             }
         }
 

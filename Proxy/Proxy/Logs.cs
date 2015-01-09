@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Drawing;
+using System.IO;
 
 namespace Proxy
 {
@@ -64,12 +65,32 @@ namespace Proxy
             }
             else
             {
-                logsListView.Invoke(new MethodInvoker(delegate()
+                try
                 {
-                    logsListView.Items.Add(item);
-                    logsListView.Items[logsListView.Items.Count - 1].EnsureVisible();
-                })
-                    );
+                    logsListView.Invoke(new MethodInvoker(delegate()
+                    {
+                        logsListView.Items.Add(item);
+                        logsListView.Items[logsListView.Items.Count - 1].EnsureVisible();
+                    }));
+
+                }
+                catch (Exception exp)
+                {
+                    Console.WriteLine(exp);
+                }
+            }
+
+
+            try
+            {
+                using (System.IO.StreamWriter file = new StreamWriter(@"Logs\Proxy.txt", true))
+                {
+                    file.Write("[" + DateTime.Now.ToString("HH:mm:ss") + "] " + log + Environment.NewLine);
+                }
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("You should use bat file to save logs to file");
             }
         }
     }

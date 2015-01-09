@@ -127,8 +127,8 @@ namespace Proxy
         /// get yes/no position at ballot 
         /// </summary>
         /// <param name="numberOfVoters">quantity of voters</param>
-        /// <param name="numberOfCandidates"quantity of candidates></param>
-        /// <returns></returns>
+        /// <param name="numberOfCandidates">quantity of candidates></param>
+        /// <returns>list of yes no positions</returns>
         public static List<string> getYesNoPosition(int numberOfVoters, int numberOfCandidates)
         {
             Random rnd = new Random();

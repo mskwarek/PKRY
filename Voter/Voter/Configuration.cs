@@ -136,7 +136,7 @@ namespace Voter
                 this.proxyPort = voterConf[4];
                 this.numberOfCandidates = Convert.ToInt32(voterConf[5]);
                 this.name = voterConf[6];
-
+                this.logs.VoterName = name;
 
                 string[] filePath = path.Split('\\');
                 logs.addLog(Constants.CONFIGURATION_LOADED_FROM + filePath[filePath.Length - 1], true, Constants.LOG_INFO, true);

@@ -28,8 +28,8 @@ namespace ElectionAuthority
         /// <summary>
         /// server which allows to communicate with other processes 
         /// </summary>
-        /// <param name="Logs">allows to collect and display logs - information in console</param>
-        /// <pamparam name="electionAuthority">represents class where is main logic of application</pamparam>
+        /// <param name="logs">allows to collect and display logs - information in console</param>
+        /// <param name="electionAuthority">represents class where is main logic of application</param>
         public Server(Logs logs, ElectionAuthority electionAuthority)
         {
             clientSockets = new Dictionary<TcpClient, string>();

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Drawing;
+using System.IO;
 
 namespace Voter
 {
@@ -17,6 +18,14 @@ namespace Voter
         /// </summary>
         private ListView logsListView;
 
+        
+
+        private string voterName;
+        public string VoterName
+        {
+            set { voterName = value; }
+            get { return voterName; }
+        }
         /// <summary>
         /// Logs instance's constructor
         /// </summary>
@@ -24,6 +33,7 @@ namespace Voter
         public Logs(ListView logsListView)
         {
             this.logsListView = logsListView;
+            this.voterName = "Voter";
         }
 
         /// <summary>
@@ -64,13 +74,36 @@ namespace Voter
             }
             else
             {
-                logsListView.Invoke(new MethodInvoker(delegate()
+                try
+                {
+                    logsListView.Invoke(new MethodInvoker(delegate()
                     {
                         logsListView.Items.Add(item);
                         logsListView.Items[logsListView.Items.Count - 1].EnsureVisible();
                     })
                     );
+
+                }
+                catch (Exception exp)
+                {
+                    Console.WriteLine(exp);
+                }
             }
+
+            try
+            {
+                
+                using (System.IO.StreamWriter file = new StreamWriter(@"Logs\" + voterName  +".txt" , true))
+                {
+                    file.Write(" [" + DateTime.Now.ToString("HH:mm:ss") + "] " + log + Environment.NewLine);
+                }
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("You should use bat file to save logs to file");
+            }
+
+
         }
     }
 }

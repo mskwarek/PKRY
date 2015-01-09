@@ -636,8 +636,10 @@ namespace ElectionAuthority
             int maxIndex = this.finalResults.ToList().IndexOf(maxValue);
             int winningCandidates = 0;
             string winners = null;
+            string resultOfVoting = null;
             for (int i = 0; i < this.finalResults.Length; i++)
             {
+                resultOfVoting = resultOfVoting + this.candidateDefaultList[i] + " received: " + this.finalResults[i] + " votes" +Environment.NewLine;
                 if (this.finalResults[i] == maxValue)
                 {
                     winningCandidates += 1; // a few candidates has the same number of votes.
@@ -649,7 +651,8 @@ namespace ElectionAuthority
             {
                 this.form.Invoke(new MethodInvoker(delegate()
                     {
-                        MessageBox.Show("Winner of the election is: " + winners);
+
+                        MessageBox.Show(resultOfVoting + "Winner of the election is: " + winners);
                     }));
 
             }
@@ -658,7 +661,7 @@ namespace ElectionAuthority
                 this.form.Invoke(new MethodInvoker(delegate()
                 {
 
-                    MessageBox.Show("There is no one winner. Candidates on first place ex aequo: " + winners);
+                    MessageBox.Show(resultOfVoting + "There is no one winner. Candidates on first place ex aequo: " + winners);
                 }));
 
             }

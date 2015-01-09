@@ -44,10 +44,6 @@ namespace Proxy
         /// </summary>
         private ParserClient parserClient;
 
-        /// <summary>
-        /// main logic of Proxy application 
-        /// </summary>
-        private Proxy proxy;
 
         /// <summary>
         /// defualt constructor

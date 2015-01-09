@@ -73,5 +73,6 @@ namespace Proxy
         public const string CORRECT_SIGNATURE = "Correct signature!";
         public const string ALL_COLUMNS_UNBLINDED_CORRECTLY = "Correct signature! All columns unblinded correctly!";
         public const string UNBLINED_BALLOT_MATRIX = "UNBLINED_BALLOT_MATRIX";
+        public static string YES_NO_POSITION_SAVED_TO_FILE = @"YesNoPosition save to file Logs\yesNoPosition.txt";
     }
 }

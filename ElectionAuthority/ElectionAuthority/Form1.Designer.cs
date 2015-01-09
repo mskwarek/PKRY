@@ -1,5 +1,6 @@
 ﻿namespace ElectionAuthority
 {
+
     partial class Form1
     {
         /// <summary>

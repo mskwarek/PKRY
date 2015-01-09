@@ -10,13 +10,30 @@ using System.Threading;
 
 namespace ElectionAuthority
 {
+    /// <summary>
+    /// Class which shows a GUI
+    /// </summary>
     public partial class Form1 : Form
     {
+        /// <summary>
+        /// display logs in logs console
+        /// </summary>
         private Logs logs;
+
+        /// <summary>
+        /// load configuration from configuration xml file
+        /// </summary>
         private Configuration configuration;
 
+        /// <summary>
+        /// main logic of Election Authority application 
+        /// </summary>
         private ElectionAuthority electionAuthority;
 
+
+        /// <summary>
+        /// constructor which creates Graphical User interface
+        /// </summary>
         public Form1()
         {
             InitializeComponent();
@@ -26,6 +43,11 @@ namespace ElectionAuthority
             
         }
 
+        /// <summary>
+        /// starts Election Authority 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void startElectionAuthorityButton_Click(object sender, EventArgs e)
         {
             this.electionAuthority.ServerClient.startServer(configuration.ElectionAuthorityPortClient);
@@ -37,11 +59,21 @@ namespace ElectionAuthority
             this.electionAuthority.generateDate(); //method generate Serial number (SL), permutations of candidate list and tokens
         }
 
+        /// <summary>
+        /// open window to load configuration file
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void configButton_Click(object sender, EventArgs e)
         {
             openFileDialog.ShowDialog();
         }
 
+        /// <summary>
+        /// accept chosen configuration file 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void openFileDialog1_FileOk(object sender, CancelEventArgs e)
         {
             configuration.loadConfiguration(openFileDialog.FileName);
@@ -49,13 +81,20 @@ namespace ElectionAuthority
             electionAuthority = new ElectionAuthority(this.logs, this.configuration,this);
         }
 
-
+        /// <summary>
+        /// enable buttons after loading configuration 
+        /// </summary>
         private void enableButtonAfterConfiguration()
         {
             this.startElectionAuthorityButton.Enabled = true;
             this.configButton.Enabled = false;
         }
 
+        /// <summary>
+        /// actions done when form is closed
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (this.electionAuthority != null)
@@ -68,22 +107,39 @@ namespace ElectionAuthority
             
         }
 
+        /// <summary>
+        /// set width of column in log console
+        /// </summary>
         private void setColumnWidth()
         {
             this.logColumn.Width = this.logsListView.Width - 5;
         }
 
+        /// <summary>
+        /// sends SL and tokens lists to Proxy
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void button1_Click(object sender, EventArgs e)
         {
             this.electionAuthority.sendSLAndTokensToProxy();
-            this.finishVotingButton.Enabled = true;
         }
 
+
+        /// <summary>
+        /// disable sendSLAndTokensButton and enable finishVoting button
+        /// </summary>
         public void disableSendSLTokensAndTokensButton()
         {
             this.sendSLTokensAndTokensButton.Enabled = false;
+            this.finishVotingButton.Enabled = true;
         }
 
+        /// <summary>
+        /// finish voting process
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void finishVotingButton_Click(object sender, EventArgs e)
         {
             this.electionAuthority.disbaleProxy();
@@ -91,15 +147,16 @@ namespace ElectionAuthority
             this.countVotesButton.Enabled = true;
         }
 
+        /// <summary>
+        /// coutns votes after voting 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void countVotesButton_Click(object sender, EventArgs e)
         {
             this.electionAuthority.countVotes();
             this.countVotesButton.Enabled = false;
         }
 
-        private void fontDialog1_Apply(object sender, EventArgs e)
-        {
-
-        }
     }
 }

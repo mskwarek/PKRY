@@ -145,9 +145,11 @@ namespace Voter
                 this.form.Invoke(new MethodInvoker(delegate()
                     {
                         this.form.TextBoxes[i].Text = list[i];
+                        this.form.TextBoxes[i].Enabled = false;
                     }));
             }
             disableGetCandidateListButton();
+            enableVotingButtons();
         }
 
         /// <summary>
@@ -163,52 +165,27 @@ namespace Voter
         }
 
         /// <summary>
-        /// get yes/no position from proxy
-        /// </summary>
-        public void getYesNoPosition()
-        {
-            string msg = Constants.GET_YES_NO_POSITION  + "&" + this.configuration.Name;
-            this.proxyClient.sendMessage(msg);
-        }
-
-        /// <summary>
         /// save yes/no position
         /// </summary>
-        /// <param name="position">yes/no position recived as string</param>
-        public void saveYesNoPositon(string position)
+        private void enableVotingButtons()
         {
-            Console.WriteLine(position);
-            string[] str = position.Split(':');
             for (int i = 0; i < this.configuration.NumberOfCandidates; i++)
             {
                 for (int j = 0; j < 4; j++)
                 {
                     this.form.Invoke(new MethodInvoker(delegate()
                         {
-                            if (j == Convert.ToInt32(str[i]))
-                                this.form.VoteButtons[i].ElementAt(j).Text = "YES";
                             this.form.VoteButtons[i].ElementAt(j).Enabled = true;
                         }));
                 }
 
             }
 
-            disableGetYesNoPositionButton();
         }
 
-        /// <summary>
-        /// disable get yes/no position button
-        /// </summary>
-        private void disableGetYesNoPositionButton()
-        {
-            this.form.Invoke(new MethodInvoker(delegate()
-            {
-                this.form.disableGetYesNoPositionButton();
-            }));
-        }
 
         /// <summary>
-        /// sends vote to proxy (ie. message: VOTE&Voter0;1:0:0:0;1:0:0:0;0:0:0:1;0:0:0:1;0:0:0:1)
+        /// sends vote to proxy (ie. message: VOTE& Voter_name;1:0:0:0;1:0:0:0;0:0:0:1;0:0:0:1;0:0:0:1)
         /// </summary>
         public void sendVoteToProxy()
         {

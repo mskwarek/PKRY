@@ -42,7 +42,6 @@ namespace Voter
             this.getSLandSRButton = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
             this.getCandidateListButton = new System.Windows.Forms.Button();
-            this.getYesNoPositionButton = new System.Windows.Forms.Button();
             this.sendVoteButton = new System.Windows.Forms.Button();
             this.confirmationBox = new System.Windows.Forms.ComboBox();
             this.ConfBox = new System.Windows.Forms.ListView();
@@ -132,17 +131,6 @@ namespace Voter
             this.getCandidateListButton.UseVisualStyleBackColor = true;
             this.getCandidateListButton.Click += new System.EventHandler(this.getCandidateListButton_Click);
             // 
-            // getYesNoPositionButton
-            // 
-            this.getYesNoPositionButton.Enabled = false;
-            this.getYesNoPositionButton.Location = new System.Drawing.Point(12, 428);
-            this.getYesNoPositionButton.Name = "getYesNoPositionButton";
-            this.getYesNoPositionButton.Size = new System.Drawing.Size(163, 23);
-            this.getYesNoPositionButton.TabIndex = 7;
-            this.getYesNoPositionButton.Text = "Get Yes No Position ";
-            this.getYesNoPositionButton.UseVisualStyleBackColor = true;
-            this.getYesNoPositionButton.Click += new System.EventHandler(this.getYesNoPositionButton_Click);
-            // 
             // sendVoteButton
             // 
             this.sendVoteButton.Enabled = false;
@@ -195,7 +183,6 @@ namespace Voter
             this.Controls.Add(this.ConfBox);
             this.Controls.Add(this.confirmationBox);
             this.Controls.Add(this.sendVoteButton);
-            this.Controls.Add(this.getYesNoPositionButton);
             this.Controls.Add(this.getCandidateListButton);
             this.Controls.Add(this.getSLandSRButton);
             this.Controls.Add(this.panel1);
@@ -206,7 +193,6 @@ namespace Voter
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
             this.Text = "Voter";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.ResumeLayout(false);
 
         }
@@ -222,7 +208,6 @@ namespace Voter
         private Button getSLandSRButton;
         private Panel panel1;
         private Button getCandidateListButton;
-        private Button getYesNoPositionButton;
         private Button sendVoteButton;
         private ComboBox confirmationBox;
         private ListView ConfBox;

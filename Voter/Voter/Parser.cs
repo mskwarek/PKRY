@@ -57,10 +57,6 @@ namespace Voter
                 case Constants.CANDIDATE_LIST_RESPONSE:
                     saveCandidateList(elem[1]);
                     break;
-                case Constants.YES_NO_POSITION:
-                    saveYesNoPosition(elem[1]);
-                    break;
-
                 case Constants.SIGNED_COLUMNS_TOKEN:
                     saveSignedColumnAndToken(elem[1]);
                     break;
@@ -78,14 +74,6 @@ namespace Voter
             this.voter.saveSignedColumnAndToken(message);
         }
 
-        /// <summary>
-        /// saves yes/no position
-        /// </summary>
-        /// <param name="position">position as string</param>
-        private void saveYesNoPosition(string position)
-        {
-            this.voter.saveYesNoPositon(position);
-        }
 
         /// <summary>
         /// disables connection button
