@@ -7,16 +7,34 @@ using System.Drawing;
 
 namespace ElectionAuthority
 {
+    /// <summary>
+    /// allows to collect and display logs
+    /// </summary>
+
     class Logs
     {
+        
+        /// <summary>
+        /// Log list view
+        /// </summary>
         private ListView logsListView;
 
+        /// <summary>
+        /// Logs instance's constructor
+        /// </summary>
+        /// <param name="logsListView">logs list view</param>
         public Logs(ListView logsListView)
         {
             this.logsListView = logsListView;
         }
 
-
+        /// <summary>
+        /// adds log
+        /// </summary>
+        /// <param name="log">log message</param>
+        /// <param name="time">if print time</param>
+        /// <param name="flag">type of message (error, info...)</param>
+        /// <param name="anotherThread">thread flag</param>
         public void addLog(string log, bool time, int flag, bool anotherThread = false)
         {
             ListViewItem item = new ListViewItem();

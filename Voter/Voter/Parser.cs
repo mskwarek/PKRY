@@ -6,11 +6,27 @@ using Org.BouncyCastle.Math;
 
 namespace Voter
 {
+    /// <summary>
+    /// parsing recived messages
+    /// </summary>
     class Parser
     {
+        /// <summary>
+        /// parser connected with 
+        /// </summary>
         private Voter voter;
+       
+        /// <summary>
+        /// allows to collect and display logs
+        /// </summary>
         private Logs logs;
 
+        
+        /// <summary>
+        /// parser's constructor
+        /// </summary>
+        /// <param name="logs">log instance</param>
+        /// <param name="voter">voter instance</param>
         public Parser(Logs logs, Voter voter)
         {
             this.voter = voter;
@@ -18,6 +34,11 @@ namespace Voter
 
         }
 
+        /// <summary>
+        /// parses message
+        /// </summary>
+        /// <param name="msg">recived message</param>
+        /// <returns>parsing result</returns>
         public void parseMessage(string msg)
         {
             string[] elem = msg.Split('&');
@@ -44,38 +65,58 @@ namespace Voter
                     saveSignedColumnAndToken(elem[1]);
                     break;
 
-
             }
-
 
         }
 
+        /// <summary>
+        /// saves signed column and token
+        /// </summary>
+        /// <param name="message">recived message</param>
         private void saveSignedColumnAndToken(string message)
         {
             this.voter.saveSignedColumnAndToken(message);
         }
 
+        /// <summary>
+        /// saves yes/no position
+        /// </summary>
+        /// <param name="position">position as string</param>
         private void saveYesNoPosition(string position)
         {
             this.voter.saveYesNoPositon(position);
         }
 
+        /// <summary>
+        /// disables connection button
+        /// </summary>
         private void disableConnectionEAButton()
         {
             this.voter.disableConnectionEAButton(); 
         }
 
+        /// <summary>
+        /// saves candidates list
+        /// </summary>
+        /// <param name="list">list of candidates</param>
         private void saveCandidateList(string list)
         {
             this.voter.saveCandidateList(list);
         }
 
+        /// <summary>
+        /// disables connection to proxy button
+        /// </summary>
         private void disableConnectionProxyButton()
         {
             this.voter.disableConnectionProxyButton();
 
         }
 
+        /// <summary>
+        /// saves SR and SL which voter gets
+        /// </summary>
+        /// <param name="msg"></param>
         private void saveSLAndSR(string msg)
         {
             string[] elem = msg.Split('=');

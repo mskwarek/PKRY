@@ -5,6 +5,9 @@ using System.Text;
 
 namespace Voter
 {
+    /// <summary>
+    /// constants used in project
+    /// </summary>
     class Constants
     {
 

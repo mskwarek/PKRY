@@ -5,9 +5,11 @@ using System.Text;
 
 namespace Proxy
 {
+    /// <summary>
+    /// Constants used in proxy
+    /// </summary>
     class Constants
     {
-        //===========ZMIENIC = WCZYTYWAC Z PLIKU!================
         public const int BALLOT_SIZE = 4;
 
         public const int LOG_INFO = 0;

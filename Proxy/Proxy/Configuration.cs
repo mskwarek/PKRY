@@ -6,6 +6,10 @@ using System.Xml;
 
 namespace Proxy
 {
+
+    /// <summary>
+    /// Configuration class - loads configuration from file and sets up proxy 
+    /// </summary>
     class Configuration
     {
         private Logs logs;
@@ -14,46 +18,75 @@ namespace Proxy
         public static int ballotSize = 4;
         public static int candidates = 5;
 
+        /// <summary>
+        /// Proxy ID
+        /// </summary>
         private string proxyID;
         public string ProxyID
         {
             get { return proxyID; }
         }
+
+        /// <summary>
+        /// Proxy port
+        /// </summary>
         private string proxyPort;
         public string ProxyPort
         {
             get { return proxyPort; }
         }
 
+        /// <summary>
+        /// Election authority IP
+        /// </summary>
         private string electionAuthorityIP;
         public string ElectionAuthorityIP
         {
             get { return electionAuthorityIP; }
         }
 
+        /// <summary>
+        /// EA port
+        /// </summary>
         private string electionAuthorityPort;
         public string ElectionAuthorityPort
         {
             get { return electionAuthorityPort; }
         }
 
+
+        /// <summary>
+        /// number of voters for this proxy
+        /// </summary>
         private int numOfVoters;
         public int NumOfVoters
         {
             get { return numOfVoters; }
         }
 
+        /// <summary>
+        /// number of candidates in election
+        /// </summary>
         private int numOfCandidates;
         public int NumOfCandidates
         {
             get { return numOfCandidates; }
         }
 
+        /// <summary>
+        /// constructor
+        /// </summary>
+        /// <param name="logs">log instance</param>
         public Configuration(Logs logs)
         {
             this.logs = logs;
         }
 
+        /// <summary>
+        /// reads config from xml file
+        /// </summary>
+        /// <param name="xml">xml document</param>
+        /// <returns> list of string with config</returns>
         private List<String> readConfig(XmlDocument xml)
         {
 
@@ -79,6 +112,11 @@ namespace Proxy
 
         }
 
+        /// <summary>
+        /// load configuration from path
+        /// </summary>
+        /// <param name="path">path to configuration</param>
+        /// <returns>loading end status</returns>
         public bool loadConfiguration(string path)
         {
             XmlDocument xml = new XmlDocument();

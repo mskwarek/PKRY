@@ -7,30 +7,67 @@ using Org.BouncyCastle.Math;
 
 namespace Voter
 {
+
+    /// <summary>
+    /// Voter class - getting vote from person
+    /// </summary>
     class Voter
     {
+        /// <summary>
+        /// allows to collect and display logs
+        /// </summary>
         private Logs logs;
+
+        /// <summary>
+        /// Configuration from file
+        /// </summary>
         private Configuration configuration;
+
+        /// <summary>
+        /// voter proxy client class
+        /// </summary>
         private Client proxyClient;
+
+        /// <summary>
+        /// confirmation for voter
+        /// </summary>
         private Confirmation confirm;
 
         public Client ProxyClient
         {
             get { return proxyClient; }
         }
+
+        /// <summary>
+        /// election authority client for voter
+        /// </summary>
         private Client electionAuthorityClient;
         public Client ElectionAuthorityClient
         {
             get { return electionAuthorityClient; }
         }
+
+        /// <summary>
+        /// voter ballot
+        /// </summary>
         private VoterBallot voterBallot;
         public VoterBallot VoterBallot
         {
             get { return voterBallot; }
         }
 
+        /// <summary>
+        /// form application
+        /// </summary>
         private Form1 form;
 
+        /// <summary>
+        /// constructor
+        /// </summary>
+        /// <param name="logs">log instance</param>
+        /// <param name="configuration">configuration loaded</param>
+        /// <param name="form">form application</param>
+        /// <param name="confirm">confirmation for voter</param>
         public Voter(Logs logs, Configuration configuration,Form1 form, Confirmation confirm)
         {
             this.logs = logs;
@@ -42,12 +79,19 @@ namespace Voter
             this.confirm = confirm;
         }
 
+        /// <summary>
+        /// request for SL and SR (voter to proxy)
+        /// </summary>
         public void requestForSLandSR()
         {
             string msg = Constants.GET_SL_AND_SR + "&" + this.configuration.Name;
             this.proxyClient.sendMessage(msg);
         }
 
+
+        /// <summary>
+        /// disable SL and SR getting button
+        /// </summary>
         public void disableSLAndSRButton()
         {
             this.form.Invoke(new MethodInvoker(delegate()
@@ -57,12 +101,18 @@ namespace Voter
                 ));
         }
 
+        /// <summary>
+        /// request for candidate list (voter to EA)
+        /// </summary>
         public void requestForCandidatesList()
         {
             string msg = Constants.GET_CANDIDATE_LIST +"&" +this.configuration.Name+ "=" + this.voterBallot.SL.ToString();
             this.electionAuthorityClient.sendMessage(msg);
         }
 
+        /// <summary>
+        /// disable connection to proxy button
+        /// </summary>
         public void disableConnectionProxyButton()
         {
             this.form.Invoke(new MethodInvoker(delegate()
@@ -72,6 +122,9 @@ namespace Voter
                 }));
         }
 
+        /// <summary>
+        /// disable connection to ea button
+        /// </summary>
         public void disableConnectionEAButton()
         {
             this.form.Invoke(new MethodInvoker(delegate()
@@ -80,6 +133,10 @@ namespace Voter
                 }));
         }
 
+        /// <summary>
+        /// saves cadidates list
+        /// </summary>
+        /// <param name="msg">recived message</param>
         public void saveCandidateList(string msg)
         {
             string[] list = msg.Split(';');
@@ -93,6 +150,9 @@ namespace Voter
             disableGetCandidateListButton();
         }
 
+        /// <summary>
+        /// disable get candidate list button
+        /// </summary>
         private void disableGetCandidateListButton()
         {
             this.form.Invoke(new MethodInvoker(delegate()
@@ -102,14 +162,19 @@ namespace Voter
                 
         }
 
-
-
+        /// <summary>
+        /// get yes/no position from proxy
+        /// </summary>
         public void getYesNoPosition()
         {
             string msg = Constants.GET_YES_NO_POSITION  + "&" + this.configuration.Name;
             this.proxyClient.sendMessage(msg);
         }
 
+        /// <summary>
+        /// save yes/no position
+        /// </summary>
+        /// <param name="position">yes/no position recived as string</param>
         public void saveYesNoPositon(string position)
         {
             Console.WriteLine(position);
@@ -131,16 +196,20 @@ namespace Voter
             disableGetYesNoPositionButton();
         }
 
+        /// <summary>
+        /// disable get yes/no position button
+        /// </summary>
         private void disableGetYesNoPositionButton()
         {
             this.form.Invoke(new MethodInvoker(delegate()
             {
                 this.form.disableGetYesNoPositionButton();
             }));
-
-
         }
 
+        /// <summary>
+        /// sends vote to proxy (ie. message: VOTE&Voter0;1:0:0:0;1:0:0:0;0:0:0:1;0:0:0:1;0:0:0:1)
+        /// </summary>
         public void sendVoteToProxy()
         {
             int[,] table = this.voterBallot.Voted;
@@ -165,13 +234,24 @@ namespace Voter
 
         }
 
+        /// <summary>
+        /// sets confirmation
+        /// </summary>
+        /// <param name="column">confirmation column choosed by voter</param>
         public void setConfirm(int column)
         {
-            //confirm = new Confirmation(column, this.ConfBox);
+            for(int i=0; i<this.voterBallot.Voted.GetLength(0); i++){
+                this.confirm.Column += this.voterBallot.Voted[i,column];
+            }
+            
             confirm.ColumnNumber = column+1;
         }
 
 
+        /// <summary>
+        /// save signed column and token
+        /// </summary>
+        /// <param name="message">recived message</param>
         public void saveSignedColumnAndToken(string message)
         {
             string[] words = message.Split(';');
@@ -179,9 +259,6 @@ namespace Voter
             this.voterBallot.SignedBlindColumn = new BigInteger(words[0]);
             this.voterBallot.Token = new BigInteger(words[1]);
 
-            //DOŚć NIEELEGANCKO :<<<
-            // trzeba wpisać kolumne którą głosujący sobie wybrał do tego co niżej jest wykomentowane
-            //this.confirm.Column
             this.confirm.SignedColumn = this.voterBallot.SignedBlindColumn;
             this.confirm.Token = this.voterBallot.Token;
 

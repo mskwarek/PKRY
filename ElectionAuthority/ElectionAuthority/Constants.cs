@@ -5,14 +5,17 @@ using System.Text;
 
 namespace ElectionAuthority
 {
+    /// <summary>
+    /// Constants used in project
+    /// </summary>
     class Constants
     {
-        //===========ZMIENIC = WCZYTYWAC Z PLIKU!================
+ 
         public const int BALLOT_SIZE = 4;
-
         public const int LOG_INFO = 0;
         public const int LOG_MESSAGE = 1;
         public const int LOG_ERROR = 2;
+
 
         public const string ID = "ID";
         public const string ELECTION_AUTHORITY_PORT_CLIENT = "electionAuthorityPortForClient";
@@ -55,6 +58,9 @@ namespace ElectionAuthority
         public const string SL_CONNECTED_WITH_INVERSE_PERMUTATION = "Serial numbers connected with inverse permutation";
         public const string UNBLINED_BALLOT_MATRIX = "UNBLINED_BALLOT_MATRIX";
         public const string UNBLINED_BALLOT_MATRIX_RECEIVED = "Unblined ballot matrix received from Proxy.";
+
+        public const string BIT_COMMITMENT_OK = "Checking bit commitment correct";
+        public const string BIT_COMMITMENT_FAIL = "Checking bit commitment incorrect";
 
         public const string UNABLE_TO_STOP_VOTING = "UNABLE_TO_STOP_VOTING";
 

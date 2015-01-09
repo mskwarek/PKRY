@@ -10,13 +10,21 @@ using Org.BouncyCastle.Security;
 
 namespace ElectionAuthority
 {
+    /// <summary>
+    /// Generates serial numbers used in EA
+    /// </summary>
     class SerialNumberGenerator
     {
+        /// <summary>
+        /// generate SL for election
+        /// </summary>
+        /// <param name="numberOfSerials">number of serials to generate</param>
+        /// <param name="numberOfBits">bit size of serial</param>
+        /// <returns>list of serial numbers</returns>
         public static List<BigInteger> generateListOfSerialNumber(int numberOfSerials, int numberOfBits)
         {
 
             List<BigInteger> listOfSerialNumber = new List<BigInteger>();
-            //Random random = new Random();
             RNGCryptoServiceProvider random = new RNGCryptoServiceProvider();
             byte[] data = new byte[numberOfBits];
             random.GetBytes(data);
@@ -39,6 +47,12 @@ namespace ElectionAuthority
             return listOfSerialNumber;
         }
 
+        /// <summary>
+        /// generate pre tokens (key pair) for election
+        /// </summary>
+        /// <param name="numberOfSerials">number of serials to generate</param>
+        /// <param name="numberOfBits">bit size of serial</param>
+        /// <returns>list of pre tokens</returns>
         public static List<AsymmetricCipherKeyPair> generatePreTokens(int numberOfSerials, int numberOfBits)
         {
             List<AsymmetricCipherKeyPair> preTokens = new List<AsymmetricCipherKeyPair>();
