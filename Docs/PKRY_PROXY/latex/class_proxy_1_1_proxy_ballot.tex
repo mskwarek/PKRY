@@ -1,0 +1,124 @@
+\hypertarget{class_proxy_1_1_proxy_ballot}{}\section{Proxy.\+Proxy\+Ballot Class Reference}
+\label{class_proxy_1_1_proxy_ballot}\index{Proxy.\+Proxy\+Ballot@{Proxy.\+Proxy\+Ballot}}
+
+
+proxy ballot -\/ one ballot (represents one voter) with all serialns, keys and data used in election  
+
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_proxy_1_1_proxy_ballot_a42081ea06bb9cb5c0e665cfb19611d53}{Proxy\+Ballot} (\hyperlink{class_proxy_1_1_logs}{Logs} logs, Big\+Integer S\+L, Big\+Integer S\+R)
+\begin{DoxyCompactList}\small\item\em constructor \end{DoxyCompactList}\item 
+Big\+Integer\mbox{[}$\,$\mbox{]} \hyperlink{class_proxy_1_1_proxy_ballot_a3b7dede08c6d7b670b4fa5d5a9baf8a4}{prepare\+Data\+To\+Send} ()
+\begin{DoxyCompactList}\small\item\em prepares data to send \end{DoxyCompactList}\item 
+string\mbox{[}$\,$\mbox{]} \hyperlink{class_proxy_1_1_proxy_ballot_af595adcd28b0248f75aa80c897919dd5}{unblind\+Signed\+Data} (Big\+Integer\mbox{[}$\,$\mbox{]} signed\+Data)
+\begin{DoxyCompactList}\small\item\em unblind signed data (for one ballot) \end{DoxyCompactList}\item 
+void \hyperlink{class_proxy_1_1_proxy_ballot_aae56f2cd8edf07ef42fc750ac380f84f}{generate\+And\+Split\+Ballot\+Matrix} ()
+\begin{DoxyCompactList}\small\item\em generate ballot martix and split it (in column order) \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Properties}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_proxy_1_1_proxy_ballot_a01c96c456852f9b8c6ab2a8a5233a4ac}{}Big\+Integer {\bfseries S\+L}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}\label{class_proxy_1_1_proxy_ballot_a01c96c456852f9b8c6ab2a8a5233a4ac}
+
+\item 
+\hypertarget{class_proxy_1_1_proxy_ballot_a50c1a32a705f074c80a6800a75319f33}{}string {\bfseries Yes\+No\+Pos}\hspace{0.3cm}{\ttfamily  \mbox{[}set\mbox{]}}\label{class_proxy_1_1_proxy_ballot_a50c1a32a705f074c80a6800a75319f33}
+
+\item 
+\hypertarget{class_proxy_1_1_proxy_ballot_ac72d3b8e5c7457b534ac967e678070c7}{}int\mbox{[},\mbox{]} {\bfseries Vote}\hspace{0.3cm}{\ttfamily  \mbox{[}set\mbox{]}}\label{class_proxy_1_1_proxy_ballot_ac72d3b8e5c7457b534ac967e678070c7}
+
+\item 
+\hypertarget{class_proxy_1_1_proxy_ballot_a5d147ca1039682e91fb6eb2f758b064c}{}List$<$ Big\+Integer $>$ {\bfseries Signed\+Columns}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}\label{class_proxy_1_1_proxy_ballot_a5d147ca1039682e91fb6eb2f758b064c}
+
+\item 
+\hypertarget{class_proxy_1_1_proxy_ballot_a45bde250ecfa9393a774f030e46008cd}{}int {\bfseries Confirmation\+Column}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}\label{class_proxy_1_1_proxy_ballot_a45bde250ecfa9393a774f030e46008cd}
+
+\item 
+\hypertarget{class_proxy_1_1_proxy_ballot_a6e6fad961aa6ecf641d2487fac785a7e}{}List$<$ Big\+Integer $>$ {\bfseries Tokens\+List}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}\label{class_proxy_1_1_proxy_ballot_a6e6fad961aa6ecf641d2487fac785a7e}
+
+\item 
+\hypertarget{class_proxy_1_1_proxy_ballot_a5c2f637029f17f6555097f142b15402c}{}List$<$ Big\+Integer $>$ {\bfseries Exponents\+List}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}\label{class_proxy_1_1_proxy_ballot_a5c2f637029f17f6555097f142b15402c}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+proxy ballot -\/ one ballot (represents one voter) with all serialns, keys and data used in election 
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_proxy_1_1_proxy_ballot_a42081ea06bb9cb5c0e665cfb19611d53}{}\index{Proxy\+::\+Proxy\+Ballot@{Proxy\+::\+Proxy\+Ballot}!Proxy\+Ballot@{Proxy\+Ballot}}
+\index{Proxy\+Ballot@{Proxy\+Ballot}!Proxy\+::\+Proxy\+Ballot@{Proxy\+::\+Proxy\+Ballot}}
+\subsubsection[{Proxy\+Ballot}]{\setlength{\rightskip}{0pt plus 5cm}Proxy.\+Proxy\+Ballot.\+Proxy\+Ballot (
+\begin{DoxyParamCaption}
+\item[{{\bf Logs}}]{logs, }
+\item[{Big\+Integer}]{S\+L, }
+\item[{Big\+Integer}]{S\+R}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\label{class_proxy_1_1_proxy_ballot_a42081ea06bb9cb5c0e665cfb19611d53}
+
+
+constructor 
+
+
+\begin{DoxyParams}{Parameters}
+{\em logs} & log instance\\
+\hline
+{\em S\+L} & S\+L number which will connected to the proxy ballot\\
+\hline
+{\em S\+R} & S\+R number which will connected to the proxy ballot\\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_proxy_1_1_proxy_ballot_aae56f2cd8edf07ef42fc750ac380f84f}{}\index{Proxy\+::\+Proxy\+Ballot@{Proxy\+::\+Proxy\+Ballot}!generate\+And\+Split\+Ballot\+Matrix@{generate\+And\+Split\+Ballot\+Matrix}}
+\index{generate\+And\+Split\+Ballot\+Matrix@{generate\+And\+Split\+Ballot\+Matrix}!Proxy\+::\+Proxy\+Ballot@{Proxy\+::\+Proxy\+Ballot}}
+\subsubsection[{generate\+And\+Split\+Ballot\+Matrix}]{\setlength{\rightskip}{0pt plus 5cm}void Proxy.\+Proxy\+Ballot.\+generate\+And\+Split\+Ballot\+Matrix (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\label{class_proxy_1_1_proxy_ballot_aae56f2cd8edf07ef42fc750ac380f84f}
+
+
+generate ballot martix and split it (in column order) 
+
+\hypertarget{class_proxy_1_1_proxy_ballot_a3b7dede08c6d7b670b4fa5d5a9baf8a4}{}\index{Proxy\+::\+Proxy\+Ballot@{Proxy\+::\+Proxy\+Ballot}!prepare\+Data\+To\+Send@{prepare\+Data\+To\+Send}}
+\index{prepare\+Data\+To\+Send@{prepare\+Data\+To\+Send}!Proxy\+::\+Proxy\+Ballot@{Proxy\+::\+Proxy\+Ballot}}
+\subsubsection[{prepare\+Data\+To\+Send}]{\setlength{\rightskip}{0pt plus 5cm}Big\+Integer \mbox{[}$\,$\mbox{]} Proxy.\+Proxy\+Ballot.\+prepare\+Data\+To\+Send (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\label{class_proxy_1_1_proxy_ballot_a3b7dede08c6d7b670b4fa5d5a9baf8a4}
+
+
+prepares data to send 
+
+\begin{DoxyReturn}{Returns}
+blinded columns 
+\end{DoxyReturn}
+\hypertarget{class_proxy_1_1_proxy_ballot_af595adcd28b0248f75aa80c897919dd5}{}\index{Proxy\+::\+Proxy\+Ballot@{Proxy\+::\+Proxy\+Ballot}!unblind\+Signed\+Data@{unblind\+Signed\+Data}}
+\index{unblind\+Signed\+Data@{unblind\+Signed\+Data}!Proxy\+::\+Proxy\+Ballot@{Proxy\+::\+Proxy\+Ballot}}
+\subsubsection[{unblind\+Signed\+Data}]{\setlength{\rightskip}{0pt plus 5cm}string \mbox{[}$\,$\mbox{]} Proxy.\+Proxy\+Ballot.\+unblind\+Signed\+Data (
+\begin{DoxyParamCaption}
+\item[{Big\+Integer\mbox{[}$\,$\mbox{]}}]{signed\+Data}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\label{class_proxy_1_1_proxy_ballot_af595adcd28b0248f75aa80c897919dd5}
+
+
+unblind signed data (for one ballot) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em signed\+Data} & signed data recived from E\+A\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+unblinded data (columns)
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+Proxy/\+Proxy/Proxy\+Ballot.\+cs\end{DoxyCompactItemize}

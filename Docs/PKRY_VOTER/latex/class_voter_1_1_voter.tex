@@ -1,0 +1,197 @@
+\hypertarget{class_voter_1_1_voter}{}\section{Voter.\+Voter Class Reference}
+\label{class_voter_1_1_voter}\index{Voter.\+Voter@{Voter.\+Voter}}
+
+
+\hyperlink{class_voter_1_1_voter}{Voter} class -\/ getting vote from person  
+
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_voter_1_1_voter_a659d64924100badf22d6e4ab6b27b10b}{Voter} (\hyperlink{class_voter_1_1_logs}{Logs} logs, \hyperlink{class_voter_1_1_configuration}{Configuration} configuration, \hyperlink{class_voter_1_1_form1}{Form1} form, \hyperlink{class_voter_1_1_confirmation}{Confirmation} confirm)
+\begin{DoxyCompactList}\small\item\em constructor \end{DoxyCompactList}\item 
+void \hyperlink{class_voter_1_1_voter_a4c06e89ca81067c0f8e405bc3bbc1946}{request\+For\+S\+Land\+S\+R} ()
+\begin{DoxyCompactList}\small\item\em request for S\+L and S\+R (voter to proxy) \end{DoxyCompactList}\item 
+void \hyperlink{class_voter_1_1_voter_ad45bb52a29505df92a2a8d877cb75c03}{disable\+S\+L\+And\+S\+R\+Button} ()
+\begin{DoxyCompactList}\small\item\em disable S\+L and S\+R getting button \end{DoxyCompactList}\item 
+void \hyperlink{class_voter_1_1_voter_a15b6ebde39984a8447164bffdabf2718}{request\+For\+Candidates\+List} ()
+\begin{DoxyCompactList}\small\item\em request for candidate list (voter to E\+A) \end{DoxyCompactList}\item 
+void \hyperlink{class_voter_1_1_voter_a75978572b738eddd7af0e74823683585}{disable\+Connection\+Proxy\+Button} ()
+\begin{DoxyCompactList}\small\item\em disable connection to proxy button \end{DoxyCompactList}\item 
+void \hyperlink{class_voter_1_1_voter_a3e4b06943a2792a4c39de67e431ed6af}{disable\+Connection\+E\+A\+Button} ()
+\begin{DoxyCompactList}\small\item\em disable connection to ea button \end{DoxyCompactList}\item 
+void \hyperlink{class_voter_1_1_voter_a254426e5a240b96c33a8291b1ea75a87}{save\+Candidate\+List} (string msg)
+\begin{DoxyCompactList}\small\item\em saves cadidates list \end{DoxyCompactList}\item 
+void \hyperlink{class_voter_1_1_voter_a127f8b0f9a0e29e2153f95f669ed60bb}{send\+Vote\+To\+Proxy} ()
+\begin{DoxyCompactList}\small\item\em sends vote to proxy (ie. message\+: V\+O\+T\+E\& Voter\+\_\+name;1\+:0\+:0\+:0;1\+:0\+:0\+:0;0\+:0\+:0\+:1;0\+:0\+:0\+:1;0\+:0\+:0\+:1) \end{DoxyCompactList}\item 
+void \hyperlink{class_voter_1_1_voter_afd102d94d3bb4bc3e3b5369e0de299f8}{set\+Confirm} (int column)
+\begin{DoxyCompactList}\small\item\em sets confirmation \end{DoxyCompactList}\item 
+void \hyperlink{class_voter_1_1_voter_a533531950023f29d27d8f676f6a290bb}{save\+Signed\+Column\+And\+Token} (string message)
+\begin{DoxyCompactList}\small\item\em save signed column and token \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Properties}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_voter_1_1_voter_a7472e51003adaa6d920ff9554ef53067}{}\hyperlink{class_voter_1_1_client}{Client} {\bfseries Proxy\+Client}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}\label{class_voter_1_1_voter_a7472e51003adaa6d920ff9554ef53067}
+
+\item 
+\hypertarget{class_voter_1_1_voter_a4487e93cfddf755f140b53f5c03c920b}{}\hyperlink{class_voter_1_1_client}{Client} {\bfseries Election\+Authority\+Client}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}\label{class_voter_1_1_voter_a4487e93cfddf755f140b53f5c03c920b}
+
+\item 
+\hypertarget{class_voter_1_1_voter_ad36bc1966b65f0b94cf135d172b93c02}{}\hyperlink{class_voter_1_1_voter_ballot}{Voter\+Ballot} {\bfseries Voter\+Ballot}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}\label{class_voter_1_1_voter_ad36bc1966b65f0b94cf135d172b93c02}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\hyperlink{class_voter_1_1_voter}{Voter} class -\/ getting vote from person 
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_voter_1_1_voter_a659d64924100badf22d6e4ab6b27b10b}{}\index{Voter\+::\+Voter@{Voter\+::\+Voter}!Voter@{Voter}}
+\index{Voter@{Voter}!Voter\+::\+Voter@{Voter\+::\+Voter}}
+\subsubsection[{Voter}]{\setlength{\rightskip}{0pt plus 5cm}Voter.\+Voter.\+Voter (
+\begin{DoxyParamCaption}
+\item[{{\bf Logs}}]{logs, }
+\item[{{\bf Configuration}}]{configuration, }
+\item[{{\bf Form1}}]{form, }
+\item[{{\bf Confirmation}}]{confirm}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\label{class_voter_1_1_voter_a659d64924100badf22d6e4ab6b27b10b}
+
+
+constructor 
+
+
+\begin{DoxyParams}{Parameters}
+{\em logs} & log instance\\
+\hline
+{\em configuration} & configuration loaded\\
+\hline
+{\em form} & form application\\
+\hline
+{\em confirm} & confirmation for voter\\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_voter_1_1_voter_a3e4b06943a2792a4c39de67e431ed6af}{}\index{Voter\+::\+Voter@{Voter\+::\+Voter}!disable\+Connection\+E\+A\+Button@{disable\+Connection\+E\+A\+Button}}
+\index{disable\+Connection\+E\+A\+Button@{disable\+Connection\+E\+A\+Button}!Voter\+::\+Voter@{Voter\+::\+Voter}}
+\subsubsection[{disable\+Connection\+E\+A\+Button}]{\setlength{\rightskip}{0pt plus 5cm}void Voter.\+Voter.\+disable\+Connection\+E\+A\+Button (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\label{class_voter_1_1_voter_a3e4b06943a2792a4c39de67e431ed6af}
+
+
+disable connection to ea button 
+
+\hypertarget{class_voter_1_1_voter_a75978572b738eddd7af0e74823683585}{}\index{Voter\+::\+Voter@{Voter\+::\+Voter}!disable\+Connection\+Proxy\+Button@{disable\+Connection\+Proxy\+Button}}
+\index{disable\+Connection\+Proxy\+Button@{disable\+Connection\+Proxy\+Button}!Voter\+::\+Voter@{Voter\+::\+Voter}}
+\subsubsection[{disable\+Connection\+Proxy\+Button}]{\setlength{\rightskip}{0pt plus 5cm}void Voter.\+Voter.\+disable\+Connection\+Proxy\+Button (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\label{class_voter_1_1_voter_a75978572b738eddd7af0e74823683585}
+
+
+disable connection to proxy button 
+
+\hypertarget{class_voter_1_1_voter_ad45bb52a29505df92a2a8d877cb75c03}{}\index{Voter\+::\+Voter@{Voter\+::\+Voter}!disable\+S\+L\+And\+S\+R\+Button@{disable\+S\+L\+And\+S\+R\+Button}}
+\index{disable\+S\+L\+And\+S\+R\+Button@{disable\+S\+L\+And\+S\+R\+Button}!Voter\+::\+Voter@{Voter\+::\+Voter}}
+\subsubsection[{disable\+S\+L\+And\+S\+R\+Button}]{\setlength{\rightskip}{0pt plus 5cm}void Voter.\+Voter.\+disable\+S\+L\+And\+S\+R\+Button (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\label{class_voter_1_1_voter_ad45bb52a29505df92a2a8d877cb75c03}
+
+
+disable S\+L and S\+R getting button 
+
+\hypertarget{class_voter_1_1_voter_a15b6ebde39984a8447164bffdabf2718}{}\index{Voter\+::\+Voter@{Voter\+::\+Voter}!request\+For\+Candidates\+List@{request\+For\+Candidates\+List}}
+\index{request\+For\+Candidates\+List@{request\+For\+Candidates\+List}!Voter\+::\+Voter@{Voter\+::\+Voter}}
+\subsubsection[{request\+For\+Candidates\+List}]{\setlength{\rightskip}{0pt plus 5cm}void Voter.\+Voter.\+request\+For\+Candidates\+List (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\label{class_voter_1_1_voter_a15b6ebde39984a8447164bffdabf2718}
+
+
+request for candidate list (voter to E\+A) 
+
+\hypertarget{class_voter_1_1_voter_a4c06e89ca81067c0f8e405bc3bbc1946}{}\index{Voter\+::\+Voter@{Voter\+::\+Voter}!request\+For\+S\+Land\+S\+R@{request\+For\+S\+Land\+S\+R}}
+\index{request\+For\+S\+Land\+S\+R@{request\+For\+S\+Land\+S\+R}!Voter\+::\+Voter@{Voter\+::\+Voter}}
+\subsubsection[{request\+For\+S\+Land\+S\+R}]{\setlength{\rightskip}{0pt plus 5cm}void Voter.\+Voter.\+request\+For\+S\+Land\+S\+R (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\label{class_voter_1_1_voter_a4c06e89ca81067c0f8e405bc3bbc1946}
+
+
+request for S\+L and S\+R (voter to proxy) 
+
+\hypertarget{class_voter_1_1_voter_a254426e5a240b96c33a8291b1ea75a87}{}\index{Voter\+::\+Voter@{Voter\+::\+Voter}!save\+Candidate\+List@{save\+Candidate\+List}}
+\index{save\+Candidate\+List@{save\+Candidate\+List}!Voter\+::\+Voter@{Voter\+::\+Voter}}
+\subsubsection[{save\+Candidate\+List}]{\setlength{\rightskip}{0pt plus 5cm}void Voter.\+Voter.\+save\+Candidate\+List (
+\begin{DoxyParamCaption}
+\item[{string}]{msg}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\label{class_voter_1_1_voter_a254426e5a240b96c33a8291b1ea75a87}
+
+
+saves cadidates list 
+
+
+\begin{DoxyParams}{Parameters}
+{\em msg} & recived message\\
+\hline
+\end{DoxyParams}
+\hypertarget{class_voter_1_1_voter_a533531950023f29d27d8f676f6a290bb}{}\index{Voter\+::\+Voter@{Voter\+::\+Voter}!save\+Signed\+Column\+And\+Token@{save\+Signed\+Column\+And\+Token}}
+\index{save\+Signed\+Column\+And\+Token@{save\+Signed\+Column\+And\+Token}!Voter\+::\+Voter@{Voter\+::\+Voter}}
+\subsubsection[{save\+Signed\+Column\+And\+Token}]{\setlength{\rightskip}{0pt plus 5cm}void Voter.\+Voter.\+save\+Signed\+Column\+And\+Token (
+\begin{DoxyParamCaption}
+\item[{string}]{message}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\label{class_voter_1_1_voter_a533531950023f29d27d8f676f6a290bb}
+
+
+save signed column and token 
+
+
+\begin{DoxyParams}{Parameters}
+{\em message} & recived message\\
+\hline
+\end{DoxyParams}
+\hypertarget{class_voter_1_1_voter_a127f8b0f9a0e29e2153f95f669ed60bb}{}\index{Voter\+::\+Voter@{Voter\+::\+Voter}!send\+Vote\+To\+Proxy@{send\+Vote\+To\+Proxy}}
+\index{send\+Vote\+To\+Proxy@{send\+Vote\+To\+Proxy}!Voter\+::\+Voter@{Voter\+::\+Voter}}
+\subsubsection[{send\+Vote\+To\+Proxy}]{\setlength{\rightskip}{0pt plus 5cm}void Voter.\+Voter.\+send\+Vote\+To\+Proxy (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\label{class_voter_1_1_voter_a127f8b0f9a0e29e2153f95f669ed60bb}
+
+
+sends vote to proxy (ie. message\+: V\+O\+T\+E\& Voter\+\_\+name;1\+:0\+:0\+:0;1\+:0\+:0\+:0;0\+:0\+:0\+:1;0\+:0\+:0\+:1;0\+:0\+:0\+:1) 
+
+\hypertarget{class_voter_1_1_voter_afd102d94d3bb4bc3e3b5369e0de299f8}{}\index{Voter\+::\+Voter@{Voter\+::\+Voter}!set\+Confirm@{set\+Confirm}}
+\index{set\+Confirm@{set\+Confirm}!Voter\+::\+Voter@{Voter\+::\+Voter}}
+\subsubsection[{set\+Confirm}]{\setlength{\rightskip}{0pt plus 5cm}void Voter.\+Voter.\+set\+Confirm (
+\begin{DoxyParamCaption}
+\item[{int}]{column}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\label{class_voter_1_1_voter_afd102d94d3bb4bc3e3b5369e0de299f8}
+
+
+sets confirmation 
+
+
+\begin{DoxyParams}{Parameters}
+{\em column} & confirmation column choosed by voter\\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+Voter/\+Voter/Voter.\+cs\end{DoxyCompactItemize}

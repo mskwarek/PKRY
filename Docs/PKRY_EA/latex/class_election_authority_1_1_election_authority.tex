@@ -1,0 +1,235 @@
+\hypertarget{class_election_authority_1_1_election_authority}{}\section{Election\+Authority.\+Election\+Authority Class Reference}
+\label{class_election_authority_1_1_election_authority}\index{Election\+Authority.\+Election\+Authority@{Election\+Authority.\+Election\+Authority}}
+
+
+Election authority class -\/ responsible for generating serial numbers(\+S\+L, S\+R and numbers connected to them) and counting votes; main class in e-\/voting project  
+
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_election_authority_1_1_election_authority_a89f48ec7d1263afdadd76a3aa2f4d605}{Election\+Authority} (\hyperlink{class_election_authority_1_1_logs}{Logs} logs, \hyperlink{class_election_authority_1_1_configuration}{Configuration} configuration, \hyperlink{class_election_authority_1_1_form1}{Form1} form)
+\begin{DoxyCompactList}\small\item\em Constructor of E\+A \end{DoxyCompactList}\item 
+void \hyperlink{class_election_authority_1_1_election_authority_af48efaf2878996d108602169cec9ec18}{load\+Candidate\+List} (string path\+To\+Election\+Authority\+Config)
+\begin{DoxyCompactList}\small\item\em loading cadidate list from file \end{DoxyCompactList}\item 
+void \hyperlink{class_election_authority_1_1_election_authority_a667063e255f7df060841cc95624a25ad}{generate\+Date} ()
+\begin{DoxyCompactList}\small\item\em generates data for voting (serial numbers, tokens, permutations) \end{DoxyCompactList}\item 
+void \hyperlink{class_election_authority_1_1_election_authority_a11b2ee561bc38220f0307ad1825c1c6d}{send\+S\+L\+And\+Tokens\+To\+Proxy} ()
+\begin{DoxyCompactList}\small\item\em Sends S\+L and Tokens to proxy \end{DoxyCompactList}\item 
+void \hyperlink{class_election_authority_1_1_election_authority_a7bfaa19d5fa5df0c6f58722fe84118fa}{disable\+Send\+S\+L\+Tokens\+And\+Tokens\+Button} ()
+\begin{DoxyCompactList}\small\item\em disable button causes sending tokens an S\+Ls \end{DoxyCompactList}\item 
+void \hyperlink{class_election_authority_1_1_election_authority_a95ac22df9074035ddbea9684624dcc39}{get\+Candidate\+List\+Permuated} (string name, Big\+Integer S\+L)
+\begin{DoxyCompactList}\small\item\em permutes candidate list for concrete voter and for his/her S\+L number \end{DoxyCompactList}\item 
+void \hyperlink{class_election_authority_1_1_election_authority_a41b612f6ed7d21f20617553cba76fe6d}{save\+Blind\+Ballot\+Matrix} (string message)
+\begin{DoxyCompactList}\small\item\em saves blind ballot matrix recived from proxy \end{DoxyCompactList}\item 
+void \hyperlink{class_election_authority_1_1_election_authority_a11803904b13e67f9bd30bfa383b45e57}{save\+Unblinded\+Ballot\+Matrix} (string message)
+\begin{DoxyCompactList}\small\item\em saves unblinded ballot matrix (vote) \end{DoxyCompactList}\item 
+void \hyperlink{class_election_authority_1_1_election_authority_aafbbeb5ba306a21fbce27890035b7eea}{disbale\+Proxy} ()
+\begin{DoxyCompactList}\small\item\em disables proxy \end{DoxyCompactList}\item 
+void \hyperlink{class_election_authority_1_1_election_authority_a61dd05bfc9b5df0940e4cd9232f77bc3}{count\+Votes} ()
+\begin{DoxyCompactList}\small\item\em counting votes E\+A send to voter unblinded permutation (and then private key) so Audiotr can check R\+S\+A formula \end{DoxyCompactList}\item 
+void \hyperlink{class_election_authority_1_1_election_authority_a55b1f4a8ec8a22506efdc174d393134a}{blind\+Permutation} (List$<$ List$<$ Big\+Integer $>$$>$ permutation\+List)
+\begin{DoxyCompactList}\small\item\em blinds permutations (all of them), R\+S\+A formula (bit commitment) \end{DoxyCompactList}\item 
+void \hyperlink{class_election_authority_1_1_election_authority_a6930718863021ac8dd7fb247ccb283d9}{unblind\+Permutation} (List$<$ List$<$ Big\+Integer $>$$>$ permutation\+List)
+\begin{DoxyCompactList}\small\item\em unblind permutation, checking permutations R\+S\+A (auditor checks all of the permutations) \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Properties}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_election_authority_1_1_election_authority_a693f1314521ea0c1e46ce3941c19fe4f}{}\hyperlink{class_election_authority_1_1_server}{Server} {\bfseries Server\+Client}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}\label{class_election_authority_1_1_election_authority_a693f1314521ea0c1e46ce3941c19fe4f}
+
+\item 
+\hypertarget{class_election_authority_1_1_election_authority_aa79380053bbecc6376b7e31dcb3fdb99}{}\hyperlink{class_election_authority_1_1_server}{Server} {\bfseries Server\+Proxy}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}\label{class_election_authority_1_1_election_authority_aa79380053bbecc6376b7e31dcb3fdb99}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Election authority class -\/ responsible for generating serial numbers(\+S\+L, S\+R and numbers connected to them) and counting votes; main class in e-\/voting project 
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_election_authority_1_1_election_authority_a89f48ec7d1263afdadd76a3aa2f4d605}{}\index{Election\+Authority\+::\+Election\+Authority@{Election\+Authority\+::\+Election\+Authority}!Election\+Authority@{Election\+Authority}}
+\index{Election\+Authority@{Election\+Authority}!Election\+Authority\+::\+Election\+Authority@{Election\+Authority\+::\+Election\+Authority}}
+\subsubsection[{Election\+Authority}]{\setlength{\rightskip}{0pt plus 5cm}Election\+Authority.\+Election\+Authority.\+Election\+Authority (
+\begin{DoxyParamCaption}
+\item[{{\bf Logs}}]{logs, }
+\item[{{\bf Configuration}}]{configuration, }
+\item[{{\bf Form1}}]{form}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\label{class_election_authority_1_1_election_authority_a89f48ec7d1263afdadd76a3aa2f4d605}
+
+
+Constructor of E\+A 
+
+
+\begin{DoxyParams}{Parameters}
+{\em logs} & logs instance\\
+\hline
+{\em configuration} & configuration loaded\\
+\hline
+{\em form} & application form\\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_election_authority_1_1_election_authority_a55b1f4a8ec8a22506efdc174d393134a}{}\index{Election\+Authority\+::\+Election\+Authority@{Election\+Authority\+::\+Election\+Authority}!blind\+Permutation@{blind\+Permutation}}
+\index{blind\+Permutation@{blind\+Permutation}!Election\+Authority\+::\+Election\+Authority@{Election\+Authority\+::\+Election\+Authority}}
+\subsubsection[{blind\+Permutation}]{\setlength{\rightskip}{0pt plus 5cm}void Election\+Authority.\+Election\+Authority.\+blind\+Permutation (
+\begin{DoxyParamCaption}
+\item[{List$<$ List$<$ Big\+Integer $>$$>$}]{permutation\+List}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\label{class_election_authority_1_1_election_authority_a55b1f4a8ec8a22506efdc174d393134a}
+
+
+blinds permutations (all of them), R\+S\+A formula (bit commitment) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em permutation\+List} & permutation list\\
+\hline
+\end{DoxyParams}
+\hypertarget{class_election_authority_1_1_election_authority_a61dd05bfc9b5df0940e4cd9232f77bc3}{}\index{Election\+Authority\+::\+Election\+Authority@{Election\+Authority\+::\+Election\+Authority}!count\+Votes@{count\+Votes}}
+\index{count\+Votes@{count\+Votes}!Election\+Authority\+::\+Election\+Authority@{Election\+Authority\+::\+Election\+Authority}}
+\subsubsection[{count\+Votes}]{\setlength{\rightskip}{0pt plus 5cm}void Election\+Authority.\+Election\+Authority.\+count\+Votes (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\label{class_election_authority_1_1_election_authority_a61dd05bfc9b5df0940e4cd9232f77bc3}
+
+
+counting votes E\+A send to voter unblinded permutation (and then private key) so Audiotr can check R\+S\+A formula 
+
+\hypertarget{class_election_authority_1_1_election_authority_a7bfaa19d5fa5df0c6f58722fe84118fa}{}\index{Election\+Authority\+::\+Election\+Authority@{Election\+Authority\+::\+Election\+Authority}!disable\+Send\+S\+L\+Tokens\+And\+Tokens\+Button@{disable\+Send\+S\+L\+Tokens\+And\+Tokens\+Button}}
+\index{disable\+Send\+S\+L\+Tokens\+And\+Tokens\+Button@{disable\+Send\+S\+L\+Tokens\+And\+Tokens\+Button}!Election\+Authority\+::\+Election\+Authority@{Election\+Authority\+::\+Election\+Authority}}
+\subsubsection[{disable\+Send\+S\+L\+Tokens\+And\+Tokens\+Button}]{\setlength{\rightskip}{0pt plus 5cm}void Election\+Authority.\+Election\+Authority.\+disable\+Send\+S\+L\+Tokens\+And\+Tokens\+Button (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\label{class_election_authority_1_1_election_authority_a7bfaa19d5fa5df0c6f58722fe84118fa}
+
+
+disable button causes sending tokens an S\+Ls 
+
+\hypertarget{class_election_authority_1_1_election_authority_aafbbeb5ba306a21fbce27890035b7eea}{}\index{Election\+Authority\+::\+Election\+Authority@{Election\+Authority\+::\+Election\+Authority}!disbale\+Proxy@{disbale\+Proxy}}
+\index{disbale\+Proxy@{disbale\+Proxy}!Election\+Authority\+::\+Election\+Authority@{Election\+Authority\+::\+Election\+Authority}}
+\subsubsection[{disbale\+Proxy}]{\setlength{\rightskip}{0pt plus 5cm}void Election\+Authority.\+Election\+Authority.\+disbale\+Proxy (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\label{class_election_authority_1_1_election_authority_aafbbeb5ba306a21fbce27890035b7eea}
+
+
+disables proxy 
+
+\hypertarget{class_election_authority_1_1_election_authority_a667063e255f7df060841cc95624a25ad}{}\index{Election\+Authority\+::\+Election\+Authority@{Election\+Authority\+::\+Election\+Authority}!generate\+Date@{generate\+Date}}
+\index{generate\+Date@{generate\+Date}!Election\+Authority\+::\+Election\+Authority@{Election\+Authority\+::\+Election\+Authority}}
+\subsubsection[{generate\+Date}]{\setlength{\rightskip}{0pt plus 5cm}void Election\+Authority.\+Election\+Authority.\+generate\+Date (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\label{class_election_authority_1_1_election_authority_a667063e255f7df060841cc95624a25ad}
+
+
+generates data for voting (serial numbers, tokens, permutations) 
+
+\hypertarget{class_election_authority_1_1_election_authority_a95ac22df9074035ddbea9684624dcc39}{}\index{Election\+Authority\+::\+Election\+Authority@{Election\+Authority\+::\+Election\+Authority}!get\+Candidate\+List\+Permuated@{get\+Candidate\+List\+Permuated}}
+\index{get\+Candidate\+List\+Permuated@{get\+Candidate\+List\+Permuated}!Election\+Authority\+::\+Election\+Authority@{Election\+Authority\+::\+Election\+Authority}}
+\subsubsection[{get\+Candidate\+List\+Permuated}]{\setlength{\rightskip}{0pt plus 5cm}void Election\+Authority.\+Election\+Authority.\+get\+Candidate\+List\+Permuated (
+\begin{DoxyParamCaption}
+\item[{string}]{name, }
+\item[{Big\+Integer}]{S\+L}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\label{class_election_authority_1_1_election_authority_a95ac22df9074035ddbea9684624dcc39}
+
+
+permutes candidate list for concrete voter and for his/her S\+L number 
+
+
+\begin{DoxyParams}{Parameters}
+{\em name} & \\
+\hline
+{\em S\+L} & \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_election_authority_1_1_election_authority_af48efaf2878996d108602169cec9ec18}{}\index{Election\+Authority\+::\+Election\+Authority@{Election\+Authority\+::\+Election\+Authority}!load\+Candidate\+List@{load\+Candidate\+List}}
+\index{load\+Candidate\+List@{load\+Candidate\+List}!Election\+Authority\+::\+Election\+Authority@{Election\+Authority\+::\+Election\+Authority}}
+\subsubsection[{load\+Candidate\+List}]{\setlength{\rightskip}{0pt plus 5cm}void Election\+Authority.\+Election\+Authority.\+load\+Candidate\+List (
+\begin{DoxyParamCaption}
+\item[{string}]{path\+To\+Election\+Authority\+Config}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\label{class_election_authority_1_1_election_authority_af48efaf2878996d108602169cec9ec18}
+
+
+loading cadidate list from file 
+
+
+\begin{DoxyParams}{Parameters}
+{\em path\+To\+Election\+Authority\+Config} & path to E\+A configuration file\\
+\hline
+\end{DoxyParams}
+\hypertarget{class_election_authority_1_1_election_authority_a41b612f6ed7d21f20617553cba76fe6d}{}\index{Election\+Authority\+::\+Election\+Authority@{Election\+Authority\+::\+Election\+Authority}!save\+Blind\+Ballot\+Matrix@{save\+Blind\+Ballot\+Matrix}}
+\index{save\+Blind\+Ballot\+Matrix@{save\+Blind\+Ballot\+Matrix}!Election\+Authority\+::\+Election\+Authority@{Election\+Authority\+::\+Election\+Authority}}
+\subsubsection[{save\+Blind\+Ballot\+Matrix}]{\setlength{\rightskip}{0pt plus 5cm}void Election\+Authority.\+Election\+Authority.\+save\+Blind\+Ballot\+Matrix (
+\begin{DoxyParamCaption}
+\item[{string}]{message}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\label{class_election_authority_1_1_election_authority_a41b612f6ed7d21f20617553cba76fe6d}
+
+
+saves blind ballot matrix recived from proxy 
+
+
+\begin{DoxyParams}{Parameters}
+{\em message} & \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_election_authority_1_1_election_authority_a11803904b13e67f9bd30bfa383b45e57}{}\index{Election\+Authority\+::\+Election\+Authority@{Election\+Authority\+::\+Election\+Authority}!save\+Unblinded\+Ballot\+Matrix@{save\+Unblinded\+Ballot\+Matrix}}
+\index{save\+Unblinded\+Ballot\+Matrix@{save\+Unblinded\+Ballot\+Matrix}!Election\+Authority\+::\+Election\+Authority@{Election\+Authority\+::\+Election\+Authority}}
+\subsubsection[{save\+Unblinded\+Ballot\+Matrix}]{\setlength{\rightskip}{0pt plus 5cm}void Election\+Authority.\+Election\+Authority.\+save\+Unblinded\+Ballot\+Matrix (
+\begin{DoxyParamCaption}
+\item[{string}]{message}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\label{class_election_authority_1_1_election_authority_a11803904b13e67f9bd30bfa383b45e57}
+
+
+saves unblinded ballot matrix (vote) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em message} & string message recived from proxy\\
+\hline
+\end{DoxyParams}
+\hypertarget{class_election_authority_1_1_election_authority_a11b2ee561bc38220f0307ad1825c1c6d}{}\index{Election\+Authority\+::\+Election\+Authority@{Election\+Authority\+::\+Election\+Authority}!send\+S\+L\+And\+Tokens\+To\+Proxy@{send\+S\+L\+And\+Tokens\+To\+Proxy}}
+\index{send\+S\+L\+And\+Tokens\+To\+Proxy@{send\+S\+L\+And\+Tokens\+To\+Proxy}!Election\+Authority\+::\+Election\+Authority@{Election\+Authority\+::\+Election\+Authority}}
+\subsubsection[{send\+S\+L\+And\+Tokens\+To\+Proxy}]{\setlength{\rightskip}{0pt plus 5cm}void Election\+Authority.\+Election\+Authority.\+send\+S\+L\+And\+Tokens\+To\+Proxy (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\label{class_election_authority_1_1_election_authority_a11b2ee561bc38220f0307ad1825c1c6d}
+
+
+Sends S\+L and Tokens to proxy 
+
+\hypertarget{class_election_authority_1_1_election_authority_a6930718863021ac8dd7fb247ccb283d9}{}\index{Election\+Authority\+::\+Election\+Authority@{Election\+Authority\+::\+Election\+Authority}!unblind\+Permutation@{unblind\+Permutation}}
+\index{unblind\+Permutation@{unblind\+Permutation}!Election\+Authority\+::\+Election\+Authority@{Election\+Authority\+::\+Election\+Authority}}
+\subsubsection[{unblind\+Permutation}]{\setlength{\rightskip}{0pt plus 5cm}void Election\+Authority.\+Election\+Authority.\+unblind\+Permutation (
+\begin{DoxyParamCaption}
+\item[{List$<$ List$<$ Big\+Integer $>$$>$}]{permutation\+List}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\label{class_election_authority_1_1_election_authority_a6930718863021ac8dd7fb247ccb283d9}
+
+
+unblind permutation, checking permutations R\+S\+A (auditor checks all of the permutations) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em permutation\+List} & permutation list\\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+Election\+Authority/\+Election\+Authority/Election\+Authority.\+cs\end{DoxyCompactItemize}

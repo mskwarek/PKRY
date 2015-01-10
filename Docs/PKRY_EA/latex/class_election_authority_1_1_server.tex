@@ -1,0 +1,92 @@
+\hypertarget{class_election_authority_1_1_server}{}\section{Election\+Authority.\+Server Class Reference}
+\label{class_election_authority_1_1_server}\index{Election\+Authority.\+Server@{Election\+Authority.\+Server}}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_election_authority_1_1_server_a60c4762524e5a2beb79b1305eb750ec6}{Server} (\hyperlink{class_election_authority_1_1_logs}{Logs} logs, \hyperlink{class_election_authority_1_1_election_authority}{Election\+Authority} election\+Authority)
+\begin{DoxyCompactList}\small\item\em server which allows to communicate with other processes \end{DoxyCompactList}\item 
+bool \hyperlink{class_election_authority_1_1_server_a24b27b5540dafbfc8e47d28e797daabe}{start\+Server} (string port)
+\begin{DoxyCompactList}\small\item\em allow to start server \end{DoxyCompactList}\item 
+void \hyperlink{class_election_authority_1_1_server_a4e68a6b5d8a483fe1f3064981558c2c5}{stop\+Server} ()
+\begin{DoxyCompactList}\small\item\em stops server \end{DoxyCompactList}\item 
+void \hyperlink{class_election_authority_1_1_server_ae7470865c5780cb90bf0ca53d6098f32}{send\+Message} (string name, string msg)
+\begin{DoxyCompactList}\small\item\em sends message to client \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_election_authority_1_1_server_a60c4762524e5a2beb79b1305eb750ec6}{}\index{Election\+Authority\+::\+Server@{Election\+Authority\+::\+Server}!Server@{Server}}
+\index{Server@{Server}!Election\+Authority\+::\+Server@{Election\+Authority\+::\+Server}}
+\subsubsection[{Server}]{\setlength{\rightskip}{0pt plus 5cm}Election\+Authority.\+Server.\+Server (
+\begin{DoxyParamCaption}
+\item[{{\bf Logs}}]{logs, }
+\item[{{\bf Election\+Authority}}]{election\+Authority}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\label{class_election_authority_1_1_server_a60c4762524e5a2beb79b1305eb750ec6}
+
+
+server which allows to communicate with other processes 
+
+
+\begin{DoxyParams}{Parameters}
+{\em logs} & allows to collect and display logs -\/ information in console\\
+\hline
+{\em election\+Authority} & represents class where is main logic of application\\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_election_authority_1_1_server_ae7470865c5780cb90bf0ca53d6098f32}{}\index{Election\+Authority\+::\+Server@{Election\+Authority\+::\+Server}!send\+Message@{send\+Message}}
+\index{send\+Message@{send\+Message}!Election\+Authority\+::\+Server@{Election\+Authority\+::\+Server}}
+\subsubsection[{send\+Message}]{\setlength{\rightskip}{0pt plus 5cm}void Election\+Authority.\+Server.\+send\+Message (
+\begin{DoxyParamCaption}
+\item[{string}]{name, }
+\item[{string}]{msg}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\label{class_election_authority_1_1_server_ae7470865c5780cb90bf0ca53d6098f32}
+
+
+sends message to client 
+
+
+\begin{DoxyParams}{Parameters}
+{\em name} & name of client which we want to send a message\\
+\hline
+{\em msg} & message which we want to send\\
+\hline
+\end{DoxyParams}
+\hypertarget{class_election_authority_1_1_server_a24b27b5540dafbfc8e47d28e797daabe}{}\index{Election\+Authority\+::\+Server@{Election\+Authority\+::\+Server}!start\+Server@{start\+Server}}
+\index{start\+Server@{start\+Server}!Election\+Authority\+::\+Server@{Election\+Authority\+::\+Server}}
+\subsubsection[{start\+Server}]{\setlength{\rightskip}{0pt plus 5cm}bool Election\+Authority.\+Server.\+start\+Server (
+\begin{DoxyParamCaption}
+\item[{string}]{port}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\label{class_election_authority_1_1_server_a24b27b5540dafbfc8e47d28e797daabe}
+
+
+allow to start server 
+
+
+\begin{DoxyParams}{Parameters}
+{\em port} & number of port on which server is running, this information comes from configuration xml file\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+returns true when server started successfully
+\end{DoxyReturn}
+\hypertarget{class_election_authority_1_1_server_a4e68a6b5d8a483fe1f3064981558c2c5}{}\index{Election\+Authority\+::\+Server@{Election\+Authority\+::\+Server}!stop\+Server@{stop\+Server}}
+\index{stop\+Server@{stop\+Server}!Election\+Authority\+::\+Server@{Election\+Authority\+::\+Server}}
+\subsubsection[{stop\+Server}]{\setlength{\rightskip}{0pt plus 5cm}void Election\+Authority.\+Server.\+stop\+Server (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\label{class_election_authority_1_1_server_a4e68a6b5d8a483fe1f3064981558c2c5}
+
+
+stops server 
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+Election\+Authority/\+Election\+Authority/Server.\+cs\end{DoxyCompactItemize}
