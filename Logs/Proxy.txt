@@ -202,3 +202,23 @@
 [12:23:32] Correct signature!
 [12:23:32] Correct signature!
 [12:23:35] Error occured during disconnecting Proxy from Election Authority
+[15:01:05] Configuration loaded from file: Proxy.xml
+[15:01:31] Proxy started working correctly
+[15:01:31] Serial numers SR generated successfully
+[15:01:31] Yes and No position generated successfully
+[15:01:31] YesNoPosition save to file Logs\yesNoPosition.txt
+[15:01:54] Proxy connected with Election Authority correctly
+[15:01:54] Proxy connected successfully to EA
+[15:01:55] SR connected with serial numbers SL
+[15:01:55] Proxy received SL from EA
+[15:02:07] Voter connected successfully to Proxy
+[15:02:09] GET_SL_AND_SR&Voter0
+[15:04:51] Vote received from voter with ID: Voter0
+[15:04:51] Ballot matrix generated for voter with ID: Voter0
+[15:04:51] VOTE&Voter0;0:1:0:0;0:1:0:0;0:1:0:0;0:1:0:0;0:1:0:0;1
+[15:04:51] Signed columns received from EA and saved.
+[15:04:51] Correct signature!
+[15:04:51] Correct signature!
+[15:04:51] Correct signature!
+[15:04:51] Correct signature!
+[15:05:01] Error occured during disconnecting Proxy from Election Authority
