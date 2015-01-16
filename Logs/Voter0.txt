@@ -125,3 +125,5 @@
  [15:04:46] Process of voting done. Congratulations!
  [15:04:51] SIGNED_COLUMNS_TOKEN&0;6926505662813688015604376003437038933296734544590880328415147757960468878440926614643901422444644388042412014812493087850021118196124422973123163254400211
  [15:04:51] Signed blind columns received from Proxy.
+ [15:10:31] Error occured during disconnecting Voter from Election Authority
+ [15:10:37] Error occured during disconnecting Voter from Election Authority
