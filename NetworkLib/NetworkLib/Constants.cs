@@ -2,15 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
-namespace Voter
+namespace NetworkLib
 {
-    /// <summary>
-    /// constants used in project
-    /// </summary>
-    class Constants
+    public class Constants
     {
-
         public const int LOG_INFO = 0;
         public const int LOG_MESSAGE = 1;
         public const int LOG_ERROR = 2;
@@ -35,9 +32,9 @@ namespace Voter
         public const string NUMBEROFVOTERS = "numberOfVoters";
         public const string VOTE_DONE = "Vote accepted.";
         public const string VOTE_ERROR = "Vote error, you've already voted to this candidate";
-        
-        
-        public const string GET_SL_AND_SR="GET_SL_AND_SR";
+
+
+        public const string GET_SL_AND_SR = "GET_SL_AND_SR";
         public const string SL_AND_SR = "SL_AND_SR";
         public const string SR_AND_SR_RECEIVED = "SL and SR received correctly from Proxy";
         public const string GET_CANDIDATE_LIST = "GET_CANDIDATE_LIST";
@@ -50,5 +47,6 @@ namespace Voter
         public const string VOTE = "VOTE";
         public const string SIGNED_COLUMNS_TOKEN = "SIGNED_COLUMNS_TOKEN";
         public const string SIGNED_COLUMNS_TOKEN_RECEIVED = "Signed blind columns received from Proxy.";
+
     }
 }

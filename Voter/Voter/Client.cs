@@ -5,57 +5,28 @@ using System.Text;
 using System.Net.Sockets;
 using System.Net;
 using System.Threading;
+using NetworkLib;
 
 namespace Voter
 {
     class Client
     {
-        /// <summary>
-        /// use to encode messages from bytes to string and opposite
-        /// </summary>
+
         private ASCIIEncoding encoder;
-        /// <summary>
-        /// represents TCP client 
-        /// </summary>
         private TcpClient client;
-        /// <summary>
-        /// network stream used to transport messages via network
-        /// </summary>
         private NetworkStream stream;
-        /// <summary>
-        /// thread on which voter client is running
-        /// </summary>
         private Thread clientThread;
-        /// <summary>
-        /// use to display information in user console - they help understand what's going on in application
-        /// </summary>
         private Logs logs;
-        /// <summary>
-        /// name of client
-        /// </summary>
         private string myName;
 
-        /// <summary>
-        /// set when client is conected with proxy or EA
-        /// </summary>
         private bool connected;
         public bool Connected
         {
             get { return connected; }
         }
-        
-        /// <summary>
-        /// parser for both EA and Proxy message, because we don't 
-        /// </summary>
+
         private Parser parser;
 
-
-        /// <summary>
-        /// want to create to clients class 
-        /// </summary>
-        /// <param name="name">name of voter</param>
-        /// <param name="logs">log instance</param>
-        /// <param name="voter">Voter instance</param>
         public Client(string name, Logs logs,  Voter voter)
         {
             this.encoder = new ASCIIEncoding();
@@ -71,7 +42,7 @@ namespace Voter
 
             client = new TcpClient();
             IPAddress ipAddress;
-            if (ip.Contains(Constants.LOCALHOST))
+            if (ip.Contains(NetworkLib.Constants.LOCALHOST))
             {
                 ipAddress = IPAddress.Loopback;
             }

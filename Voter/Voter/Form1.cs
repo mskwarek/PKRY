@@ -75,7 +75,7 @@ namespace Voter
         /// <param name="e"></param>
         private void EAConnectButton_Click(object sender, EventArgs e)
         {
-            this.voter.ElectionAuthorityClient.connect(this.configuration.ElectionAuthorityIP, this.configuration.ElectionAuthorityPort, Constants.ELECTION_AUTHORITY);
+            this.voter.ElectionAuthorityClient.connect(this.configuration.ElectionAuthorityIP, this.configuration.ElectionAuthorityPort, NetworkLib.Constants.ELECTION_AUTHORITY);
             this.configButton.Enabled = false;
             
         }
@@ -92,10 +92,10 @@ namespace Voter
             String[] words = clickedButton.Name.Split(';');
             if (this.voter.VoterBallot.vote(Convert.ToInt32(words[1]), Convert.ToInt32(words[2])))
             {
-                logs.addLog(Constants.VOTE_DONE, true, Constants.LOG_INFO, true);
+                logs.addLog(NetworkLib.Constants.VOTE_DONE, true, NetworkLib.Constants.LOG_INFO, true);
                 if (this.voter.VoterBallot.voteDone())
                 {
-                    logs.addLog(Constants.VOTE_FINISH, true, Constants.LOG_INFO, true);
+                    logs.addLog(NetworkLib.Constants.VOTE_FINISH, true, NetworkLib.Constants.LOG_INFO, true);
                     this.disableVoteButtons();
                     this.confirmationBox.Enabled = true;
 
@@ -104,7 +104,7 @@ namespace Voter
             }
             else
             {
-                logs.addLog(Constants.VOTE_ERROR, true, Constants.LOG_ERROR, true);
+                logs.addLog(NetworkLib.Constants.VOTE_ERROR, true, NetworkLib.Constants.LOG_ERROR, true);
             }
 
             //Console.WriteLine(words[0] );
@@ -158,7 +158,7 @@ namespace Voter
         /// <param name="e"></param>
         private void ProxyConnectButton_Click(object sender, EventArgs e)
         {
-            this.voter.ProxyClient.connect(configuration.ProxyIP, configuration.ProxyPort, Constants.PROXY);
+            this.voter.ProxyClient.connect(configuration.ProxyIP, configuration.ProxyPort, NetworkLib.Constants.PROXY);
             this.getSLandSRButton.Enabled = true;
         }
 
@@ -198,8 +198,8 @@ namespace Voter
                 TextBox newTextBox = new TextBox();
                 textBoxes.Add(newTextBox);
 
-                Button[] newVoteButtons = new Button[Constants.BALLOTSIZE];
-                for (int it = 0; it < Constants.BALLOTSIZE; it++)
+                Button[] newVoteButtons = new Button[NetworkLib.Constants.BALLOTSIZE];
+                for (int it = 0; it < NetworkLib.Constants.BALLOTSIZE; it++)
                 {
                     Button newCandidateButton = new Button();
                     newVoteButtons[it] = newCandidateButton;
@@ -213,7 +213,7 @@ namespace Voter
                 this.textBoxes[i].Size = new System.Drawing.Size(200, 40);
                 this.textBoxes[i].TabIndex = 0;
 
-                for (int j = 0; j < Constants.BALLOTSIZE; j++)
+                for (int j = 0; j < NetworkLib.Constants.BALLOTSIZE; j++)
                 {
                     //this.EAConnectButton.Enabled = false;
                     this.voteButtons[i].ElementAt(j).Location = new System.Drawing.Point(240 + j * 75, 17 + i * 40);
