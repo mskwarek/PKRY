@@ -41,13 +41,7 @@ namespace Voter
         private void EAConnectButton_Click(object sender, EventArgs e)
         {
             this.voter.ElectionAuthorityClient.connect(this.configuration.ElectionAuthorityIP, this.configuration.ElectionAuthorityPort, NetworkLib.Constants.ELECTION_AUTHORITY);
-        //    var EA = new NetworkLib.Client(this.configuration.ElectionAuthorityIP, this.configuration.ElectionAuthorityPort);
-          //  newMessageHandler = new NetworkLib.Client.NewMsgHandler(newMessageRecived);
-           // EA.OnNewMessageRecived += newMessageHandler;
-
-
-            this.configButton.Enabled = false;
-            
+            this.configButton.Enabled = false;         
         }
 
 

@@ -8,7 +8,7 @@ using System.Threading;
 
 namespace NetworkLib
 {
-    class Server
+    public class Server
     {
         public ASCIIEncoding encoder;
         public NetworkStream stream;

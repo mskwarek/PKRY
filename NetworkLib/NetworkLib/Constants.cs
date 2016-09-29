@@ -48,5 +48,54 @@ namespace NetworkLib
         public const string SIGNED_COLUMNS_TOKEN = "SIGNED_COLUMNS_TOKEN";
         public const string SIGNED_COLUMNS_TOKEN_RECEIVED = "Signed blind columns received from Proxy.";
         public static string NEW_MSG_RECIVED;
+
+        public const int BALLOT_SIZE = 4;
+
+       
+        public const string NUMBER_OF_VOTERS = "numberOfVoters";
+        public const string NUMBER_OF_CANDIDATES = "numberOfCandidates";
+
+
+
+        public const string PATH_TO_CONFIG = @"Config\ElectionAuthority.xml";
+
+        public const string SERVER_STARTED_CORRECTLY = "Proxy started working correctly";
+        public const string SERVER_UNABLE_TO_START = "Proxy unable to start working";
+        public const string UNKNOWN = "Unknown";
+        public const string DISCONNECTED_NODE = "Someone has been disconnected";
+
+        public const string SR_GEN_SUCCESSFULLY = "Serial numers SR generated successfully";
+
+
+        public const int NUMBER_OF_BITS_SR = 64;
+        public const int NUM_OF_CANDIDATES = 5;
+
+
+
+        public const string SL_TOKENS = "SL_TOKENS"; //used to recognize message from EA
+        public const string RECEIVED_FROM_EA = "Date received from EA";
+        public const string SR_CONNECTED_WITH_SL = "SR connected with serial numbers SL";
+
+        public const string ERROR_SEND_SL_AND_SR = "Unable to send SL and SR, because they are not ready";
+        public const string SL_RECEIVED_SUCCESSFULLY = "SL_RECEIVED_SUCCESSFULLY";
+
+        public const string VOTER_CONNECTED = "Voter connected successfully to Proxy";
+
+        public const string PROXY_CONNECTED_TO_EA = "Proxy connected successfully to EA";
+        public const string SL_RECEIVED = "Proxy received SL from EA";
+
+        public const string YES_NO_POSITION_GEN_SUCCESSFULL = "Yes and No position generated successfully";
+
+        public const string VOTE_RECEIVED = "Vote received from voter with ID: ";
+        public const string BALLOT_MATRIX_GEN = "Ballot matrix generated for voter with ID: ";
+        public const string BLIND_PROXY_BALLOT = "BLIND_PROXY_BALLOT";
+        public const string SIGNED_PROXY_BALLOT = "SIGNED_PROXY_BALLOT";
+        public const string SIGNED_COLUMNS_RECEIVED = "Signed columns received from EA and saved.";
+
+        public const string WRONG_SIGNATURE = "Wrong signature!";
+        public const string CORRECT_SIGNATURE = "Correct signature!";
+        public const string ALL_COLUMNS_UNBLINDED_CORRECTLY = "Correct signature! All columns unblinded correctly!";
+        public const string UNBLINED_BALLOT_MATRIX = "UNBLINED_BALLOT_MATRIX";
+        public static string YES_NO_POSITION_SAVED_TO_FILE = @"YesNoPosition save to file Logs\yesNoPosition.txt";
     }
 }
