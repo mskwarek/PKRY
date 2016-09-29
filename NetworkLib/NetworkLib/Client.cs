@@ -8,7 +8,7 @@ using System.Threading;
 
 namespace NetworkLib
 {
-    class Client
+    public class Client
     {
         private TcpClient client;
         private Thread clientThread;

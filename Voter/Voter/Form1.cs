@@ -9,53 +9,22 @@ using System.Windows.Forms;
 
 namespace Voter
 {
-    /// <summary>
-    /// graphical user interface 
-    /// </summary>
     public partial class Form1 : Form
     {
-        /// <summary>
-        /// display logs information in console, allow user to undestand what's going on in application 
-        /// </summary>
         private Logs logs;
-        /// <summary>
-        /// load configuration from xml file
-        /// </summary>
         private Configuration configuration;
-        /// <summary>
-        /// contains logic of voter application 
-        /// </summary>
         private Voter voter;
-        /// <summary>
-        /// list of text boxes which are used to show candidates name and surname
-        /// </summary>
         private List<TextBox> textBoxes;
-        /// <summary>
-        /// TextBoxes property which allow to get the list
-        /// </summary>
         public List<TextBox> TextBoxes
         {
             get { return textBoxes; }
         }
-        /// <summary>
-        /// confirmation of casted vote
-        /// </summary>
         private Confirmation confirmation;
-        /// <summary>
-        /// list of buttons which are used to cast a vote
-        /// </summary>
         private List<Button[]> voteButtons;
-        /// <summary>
-        /// VoteButtons property which allow to get the list
-        /// </summary>
         public List<Button[]> VoteButtons
         {
             get { return voteButtons; }
         }
-
-        /// <summary>
-        /// constructor of form
-        /// </summary>
         public Form1()
         {
             
@@ -68,23 +37,20 @@ namespace Voter
             this.voteButtons = new List<Button[]>();
 
         }
-        /// <summary>
-        /// connects with Eletion Authority application 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+
         private void EAConnectButton_Click(object sender, EventArgs e)
         {
             this.voter.ElectionAuthorityClient.connect(this.configuration.ElectionAuthorityIP, this.configuration.ElectionAuthorityPort, NetworkLib.Constants.ELECTION_AUTHORITY);
+        //    var EA = new NetworkLib.Client(this.configuration.ElectionAuthorityIP, this.configuration.ElectionAuthorityPort);
+          //  newMessageHandler = new NetworkLib.Client.NewMsgHandler(newMessageRecived);
+           // EA.OnNewMessageRecived += newMessageHandler;
+
+
             this.configButton.Enabled = false;
             
         }
 
-        /// <summary>
-        /// click on user vote button 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+
         private void voteButton_Click(object sender, EventArgs e)
         {
             Button clickedButton = sender as Button;
@@ -111,9 +77,6 @@ namespace Voter
 
         }
 
-        /// <summary>
-        /// disabled voting buttons
-        /// </summary>
         private void disableVoteButtons()
         {
             for (int i=0; i<this.voteButtons.Count; i++)
@@ -125,19 +88,11 @@ namespace Voter
             }
         }
 
-        /// <summary>
-        /// set width of columns in log console
-        /// </summary>
         private void setColumnWidth()
         {
             this.logColumn.Width = this.logsListView.Width - 5;
         }
 
-        /// <summary>
-        /// form closing actions
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void Form1_FormClsing(object sender, FormClosingEventArgs e)
         {
             if (this.voter != null)
@@ -151,32 +106,17 @@ namespace Voter
             }
         }
 
-        /// <summary>
-        /// connectes with Proxy application 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void ProxyConnectButton_Click(object sender, EventArgs e)
         {
             this.voter.ProxyClient.connect(configuration.ProxyIP, configuration.ProxyPort, NetworkLib.Constants.PROXY);
             this.getSLandSRButton.Enabled = true;
         }
 
-        /// <summary>
-        /// load configuration from xml file
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void configButton_Click(object sender, EventArgs e)
         {
             openFileDialog.ShowDialog();
         }
 
-        /// <summary>
-        /// accept xml file which was choosen a configuration file
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void openFileDialog_FileOk(object sender, CancelEventArgs e)
         {
             configuration.loadConfiguration(openFileDialog.FileName);
@@ -187,10 +127,6 @@ namespace Voter
 
         }
 
-        /// <summary>
-        /// load a candidates detailes to text boxes
-        /// </summary>
-        /// <param name="NumberOfCandidates"></param>
         private void addFieldsForCandidates(int NumberOfCandidates)
         {
             for (int i = 0; i < NumberOfCandidates; i++)
@@ -230,67 +166,41 @@ namespace Voter
 
 
         }
-        /// <summary>
-        /// enable buttons after loading configuration 
-        /// </summary>
+
         private void enableButtonsAfterLoadingConfiguration()
         {
             this.ProxyConnectButton.Enabled = true;
             this.EAConnectButton.Enabled = true;
                
         }
-        /// <summary>
-        /// sent request to get SL and SR number to Proxy
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+
         private void getSLandSRButton_Click(object sender, EventArgs e)
         {
             this.voter.requestForSLandSR();
         }
 
-
-        /// <summary>
-        /// disable SL and SR buttons
-        /// </summary>
         public void disableSLAndSRButton()
         {
             this.getSLandSRButton.Enabled = false;
             this.getCandidateListButton.Enabled = true;
         }
 
-
-        /// <summary>
-        /// send request for a candidate list to Proxy 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void getCandidateListButton_Click(object sender, EventArgs e)
         {
             this.voter.requestForCandidatesList();
         }
 
-        /// <summary>
-        /// disable connection with Proxy button 
-        /// </summary>
         public void disableConectionProxyButton()
         {
             this.ProxyConnectButton.Enabled = false;
 
         }
 
-        /// <summary>
-        /// disable connection with Election Authority button
-        /// </summary>
         public void disableConnectionEAButton()
         {
             this.EAConnectButton.Enabled = false;
         }
 
-
-        /// <summary>
-        /// disable Get Candidate List button 
-        /// </summary>
         public void disableGetCandidateListButton()
         {
             this.getCandidateListButton.Enabled = false;
@@ -298,12 +208,6 @@ namespace Voter
             //    this.sendVoteButton.Enabled = true;
         }
 
-
-        /// <summary>
-        /// send a casted vote to Proxy
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void sendVoteButton_Click(object sender, EventArgs e)
         {
             this.voter.sendVoteToProxy();
@@ -312,19 +216,12 @@ namespace Voter
                  
         }
 
-        /// <summary>
-        /// represents a confirmation combo box click
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             this.voter.setConfirm(this.confirmationBox.SelectedIndex);
             this.sendVoteButton.Enabled = true;
         }
-        /// <summary>
-        /// confBox property which allow to set and get value of confirmation box
-        /// </summary>
+
         public int confBox { get; set; }
     }
 }

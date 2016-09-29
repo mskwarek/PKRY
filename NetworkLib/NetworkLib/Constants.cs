@@ -47,6 +47,6 @@ namespace NetworkLib
         public const string VOTE = "VOTE";
         public const string SIGNED_COLUMNS_TOKEN = "SIGNED_COLUMNS_TOKEN";
         public const string SIGNED_COLUMNS_TOKEN_RECEIVED = "Signed blind columns received from Proxy.";
-
+        public static string NEW_MSG_RECIVED;
     }
 }

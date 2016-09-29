@@ -222,3 +222,46 @@
 [15:04:51] Correct signature!
 [15:04:51] Correct signature!
 [15:05:01] Error occured during disconnecting Proxy from Election Authority
+[22:45:50] Configuration loaded from file: Proxy.xml
+[22:46:13] Proxy started working correctly
+[22:46:13] Serial numers SR generated successfully
+[22:46:14] Yes and No position generated successfully
+[22:46:14] YesNoPosition save to file Logs\yesNoPosition.txt
+[22:46:20] Proxy connected with Election Authority correctly
+[22:46:20] Proxy connected successfully to EA
+[22:46:22] SR connected with serial numbers SL
+[22:46:22] Proxy received SL from EA
+[22:46:28] Voter connected successfully to Proxy
+[22:46:30] GET_SL_AND_SR&Voter0
+[22:46:51] Error occured during disconnecting Proxy from Election Authority
+[17:47:40] Configuration loaded from file: Proxy.xml
+[17:47:41] Proxy started working correctly
+[17:47:41] Serial numers SR generated successfully
+[17:47:41] Yes and No position generated successfully
+[17:47:41] YesNoPosition save to file Logs\yesNoPosition.txt
+[17:47:43] Proxy connected with Election Authority correctly
+[17:47:43] Proxy connected successfully to EA
+[17:47:46] SR connected with serial numbers SL
+[17:47:46] Proxy received SL from EA
+[17:48:39] Someone has been disconnected
+[17:48:39] Someone has been disconnected
+[17:51:17] Configuration loaded from file: Proxy.xml
+[17:51:20] Proxy started working correctly
+[17:51:20] Serial numers SR generated successfully
+[17:51:20] Yes and No position generated successfully
+[17:51:20] YesNoPosition save to file Logs\yesNoPosition.txt
+[17:51:25] Proxy connected with Election Authority correctly
+[17:51:25] Proxy connected successfully to EA
+[17:51:26] SR connected with serial numbers SL
+[17:51:26] Proxy received SL from EA
+[17:51:32] Voter connected successfully to Proxy
+[17:51:36] GET_SL_AND_SR&Voter0
+[17:51:56] Vote received from voter with ID: Voter0
+[17:51:56] Ballot matrix generated for voter with ID: Voter0
+[17:51:56] VOTE&Voter0;1:0:0:0;0:1:0:0;0:1:0:0;1:0:0:0;1:0:0:0;2
+[17:51:56] Signed columns received from EA and saved.
+[17:51:56] Correct signature!
+[17:51:56] Correct signature!
+[17:51:56] Correct signature!
+[17:51:56] Correct signature!
+[17:52:04] Error occured during disconnecting Proxy from Election Authority

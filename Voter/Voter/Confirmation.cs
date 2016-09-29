@@ -24,6 +24,7 @@ namespace Voter
         public int ColumnNumber
         {
             set { numColumn = value; }
+            get { return numColumn;  }
         }
 
         public string Column
