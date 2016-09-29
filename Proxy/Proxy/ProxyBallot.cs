@@ -13,76 +13,35 @@ using Org.BouncyCastle.Crypto.Digests;
 
 namespace Proxy
 {
-    /// <summary>
-    /// proxy ballot - one ballot (represents one voter) with all serialns, keys and data used in election
-    /// </summary>
     class ProxyBallot
     {
-        /// <summary>
-        /// logs 
-        /// </summary>
-        private Logs logs;                                              
-
-        /// <summary>
-        /// pub key to blind sign
-        /// </summary>
+        private Utils.Logs logs;                                              
         private RsaKeyParameters pubKey;                                
-    
-        /// <summary>
-        /// priv Key to blind signature
-        /// </summary>
         private RsaKeyParameters privKey;                             
-
-        /// <summary>
-        /// random blinding factor
-        /// </summary>
         private BigInteger[] r;    
         
-        /// <summary>
-        /// SL connected to proxy ballot
-        /// </summary>
         private BigInteger sl;
         public BigInteger SL
         {
             get { return sl; }
         }
-        /// <summary>
-        /// SR connected to proxy ballot
-        /// </summary>
         private BigInteger sr;
-
-        /// <summary>
-        /// position of "yes" answer
-        /// </summary>
         private string yesNoPos;                                          
         public string YesNoPos
         {
             set { yesNoPos = value; }
         }
-        
-        /// <summary>
-        /// vote from voter
-        /// </summary>
+
         private int[,] vote;                                            
         public int[,] Vote
         {
             set { vote = value; }
         }
-        
 
-        /// <summary>
-        /// ballot matrix (select every "no" which was not clicked by voter)
-        /// </summary>
         private int[,] ballotMatrix;    
-        
-        /// <summary>
-        /// columns as string
-        /// </summary>                
+            
         private List<string> columns;
 
-        /// <summary>
-        /// signed columns recived from EA
-        /// </summary>
         private List<BigInteger> signedColumns;
         public List<BigInteger> SignedColumns
         {
@@ -91,19 +50,13 @@ namespace Proxy
 
         }
 
-        /// <summary>
-        /// Confirmation which was chosen by voter
-        /// </summary>
         private int confirmationColumn;
         public int ConfirmationColumn
         {
             get { return confirmationColumn; }
             set { confirmationColumn = value; }
         }
-        
-        /// <summary>
-        /// List of tokens connected with SL
-        /// </summary>
+
         private List<BigInteger> tokensList;
         public List<BigInteger> TokensList
         {
@@ -111,9 +64,6 @@ namespace Proxy
             get { return tokensList; }
         }
 
-        /// <summary>
-        /// exponent list (parameters) connected to the SL
-        /// </summary>
         private List<BigInteger> exponentsList;
         public List<BigInteger> ExponentsList
         {
@@ -121,23 +71,14 @@ namespace Proxy
             get { return exponentsList; }
         }
 
-        /// <summary>
-        /// constructor
-        /// </summary>
-        /// <param name="logs">log instance</param>
-        /// <param name="SL">SL number which will connected to the proxy ballot</param>
-        /// <param name="SR">SR number which will connected to the proxy ballot</param>
-        public ProxyBallot(Logs logs, BigInteger SL, BigInteger SR)
+        public ProxyBallot(Utils.Logs logs, BigInteger SL, BigInteger SR)
         {
             this.sl =  SL;
             this.sr = SR;
             this.logs = logs;
             this.tokensList = new List<BigInteger>();
             this.exponentsList = new List<BigInteger>();
-            
-            //sng = sng.getInstance();
-            //this.SR = sng.getNextSr();
-            //init keyPair generator
+
             KeyGenerationParameters para = new KeyGenerationParameters(new SecureRandom(), 1024);
             RsaKeyPairGenerator keyGen = new RsaKeyPairGenerator();
             keyGen.Init(para);
@@ -150,15 +91,10 @@ namespace Proxy
 
         }
 
-        
-        /// <summary>
-        /// prepares data to send
-        /// </summary>
-        /// <returns>blinded columns </returns>
         public BigInteger[] prepareDataToSend()
         {
-            BigInteger[] toSend = new BigInteger[Constants.BALLOT_SIZE];
-            r = new BigInteger[Constants.BALLOT_SIZE];
+            BigInteger[] toSend = new BigInteger[NetworkLib.Constants.BALLOT_SIZE];
+            r = new BigInteger[NetworkLib.Constants.BALLOT_SIZE];
             //blinding columns, prepare to signature
 
             int i=0;
@@ -195,14 +131,9 @@ namespace Proxy
             return toSend;
         }
 
-        /// <summary>
-        /// unblind signed data (for one ballot)
-        /// </summary>
-        /// <param name="signedData">signed data recived from EA</param>
-        /// <returns>unblinded data (columns)</returns>
         public string[] unblindSignedData(BigInteger[] signedData)
         {
-            string[] unblinded = new string[Constants.BALLOT_SIZE];
+            string[] unblinded = new string[NetworkLib.Constants.BALLOT_SIZE];
 
             for (int i = 0; i < signedData.Length; i++)
             {
@@ -221,27 +152,21 @@ namespace Proxy
                     String str = check.ToString();
                     String correctString =  checkZeros(str);
                     unblinded[i] = correctString;
-                    Console.WriteLine("Odslepiona co marcinek zapomniał: " + unblinded[i]);
 
                     //WYSŁAć NORMALNA KOLUMNE, BO WIEMY ZE NIE OSZUKA
-                    if (correctUnblindedColumns == Constants.BALLOT_SIZE)
-                        this.logs.addLog(Constants.ALL_COLUMNS_UNBLINDED_CORRECTLY, true, Constants.LOG_INFO, true);
+                    if (correctUnblindedColumns == NetworkLib.Constants.BALLOT_SIZE)
+                        this.logs.addLog(NetworkLib.Constants.ALL_COLUMNS_UNBLINDED_CORRECTLY, true, NetworkLib.Constants.LOG_INFO, true);
                     else
-                        this.logs.addLog(Constants.CORRECT_SIGNATURE, true, Constants.LOG_INFO, true);
+                        this.logs.addLog(NetworkLib.Constants.CORRECT_SIGNATURE, true, NetworkLib.Constants.LOG_INFO, true);
 
                 }
                 else{
-                    this.logs.addLog(Constants.WRONG_SIGNATURE, true, Constants.LOG_ERROR, true);
+                    this.logs.addLog(NetworkLib.Constants.WRONG_SIGNATURE, true, NetworkLib.Constants.LOG_ERROR, true);
                 }
             }
             return unblinded;
         }
 
-        /// <summary>
-        /// complete vote with 0 at the begin
-        /// </summary>
-        /// <param name="str">message</param>
-        /// <returns>correct message</returns>
         private string checkZeros(string str)
         {
             if (str.Length == this.vote.GetLength(0))
@@ -260,19 +185,15 @@ namespace Proxy
             }       
         }
 
-
-        /// <summary>
-        /// generate ballot martix and split it (in column order)
-        /// </summary>
         public void generateAndSplitBallotMatrix()
         {
             
             string[] position = this.yesNoPos.Split(':');
             this.ballotMatrix = new int[this.vote.GetLength(0), this.vote.GetLength(1)];
             this.columns = new List<string>();
-            for (int i = 0; i < Constants.NUM_OF_CANDIDATES; i++)
+            for (int i = 0; i < NetworkLib.Constants.NUM_OF_CANDIDATES; i++)
             {
-                for (int j = 0; j < Constants.BALLOT_SIZE; j++)
+                for (int j = 0; j < NetworkLib.Constants.BALLOT_SIZE; j++)
                 {
                     //mark every non-clicked "No" button
                     if (vote[i, j] != 1 && j != Convert.ToInt32(position[i]))
@@ -283,10 +204,10 @@ namespace Proxy
             }
 
             //rewrite colums from ballot matrix to another array
-            for (int j = 0; j < Constants.BALLOT_SIZE; j++)
+            for (int j = 0; j < NetworkLib.Constants.BALLOT_SIZE; j++)
             {
                 string temp = null;
-                for (int i = 0; i < Constants.NUM_OF_CANDIDATES; i++)
+                for (int i = 0; i < NetworkLib.Constants.NUM_OF_CANDIDATES; i++)
                 {
                     temp += ballotMatrix[i, j];
                 }

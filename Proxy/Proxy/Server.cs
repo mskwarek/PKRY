@@ -8,49 +8,25 @@ using System.Net;
 
 namespace Proxy
 {
-    /// <summary>
-    /// server for proxy application 
-    /// </summary>
     class Server
     {
-        /// <summary>
-        /// server socket on which server is running
-        /// </summary>
+        private NetworkLib.Server server;
+        private List<TcpClient> sockests;
+        NetworkLib.Server.NewClientHandler reqListener;
+        NetworkLib.Server.NewMsgHandler msgListener;
+
         private TcpListener serverSocket;
-
-        /// <summary>
-        /// server thread 
-        /// </summary>
         private Thread serverThread;
-
-        /// <summary>
-        /// dictionary which contains a client sockets
-        /// </summary>
         private Dictionary<TcpClient, string> clientSockets;
         public Dictionary<TcpClient, string> ClientSockets
         {
             get { return clientSockets; }
         }
-        /// <summary>
-        /// encoder used to encode a messages from bytes to string and again 
-        /// </summary>
         private ASCIIEncoding encoder;
-        /// <summary>
-        /// display logs in console
-        /// </summary>
-        private Logs logs;
-        /// <summary>
-        /// pares message from Client
-        /// </summary>
+        private Utils.Logs logs;
         private ParserClient parserClient;
 
-
-        /// <summary>
-        /// defualt constructor
-        /// </summary>
-        /// <param name="logs">display messages in logs console</param>
-        /// <param name="proxy">main logic of Proxy application</param>
-        public Server(Logs logs, Proxy proxy)
+        public Server(Utils.Logs logs, Proxy proxy)
         {
             clientSockets = new Dictionary<TcpClient, string>();
             this.encoder = new ASCIIEncoding();
@@ -58,32 +34,67 @@ namespace Proxy
             this.parserClient = new ParserClient(this.logs, proxy);
         }
 
-        
-        /// <summary>
-        /// starts a server 
-        /// </summary>
-        /// <param name="port">number of port on which server is running</param>
-        /// <returns>true when server started successfully</returns>
         public bool startServer(string port)
         {
-            int runningPort = Convert.ToInt32(port);
-            if (serverSocket == null && serverThread == null)
+            try
             {
-                this.serverSocket = new TcpListener(IPAddress.Any, runningPort);
-                this.serverThread = new Thread(new ThreadStart(ListenForClients));
-                this.serverThread.Start();
-                logs.addLog(Constants.SERVER_STARTED_CORRECTLY, true, Constants.LOG_INFO, true);
-                return true;
+                Console.WriteLine(Convert.ToInt32(port));
+                server = new NetworkLib.Server(Convert.ToInt32(port));
+                sockests = new List<TcpClient>();
+                reqListener = new NetworkLib.Server.NewClientHandler(newClientRequest);
+                msgListener = new NetworkLib.Server.NewMsgHandler(newMessageRecived);
+                server.OnNewClientRequest += reqListener;
+                server.OnNewMessageRecived += msgListener;
+                if (server.isStarted())
+                {
+                    logs.addLog(NetworkLib.Constants.SERVER_STARTED_CORRECTLY, true, NetworkLib.Constants.LOG_INFO, true);
+                }
+                else
+                {
+                    logs.addLog(NetworkLib.Constants.SERVER_UNABLE_TO_START, true, NetworkLib.Constants.LOG_ERROR, true);
+                }
             }
-            else
+            catch
             {
-                logs.addLog(Constants.SERVER_UNABLE_TO_START, true, Constants.LOG_ERROR, true);
-                return false;
+                logs.addLog(NetworkLib.Constants.SERVER_UNABLE_TO_START, true, NetworkLib.Constants.LOG_ERROR, true);
             }
+
+            return true;
         }
-        /// <summary>
-        /// listen for client 
-        /// </summary>
+
+        private void newClientRequest(object a, NetworkLib.ClientArgs e)
+        {
+
+        }
+
+        private void newMessageRecived(object a, NetworkLib.MessageArgs e)
+        {
+            try
+            {
+                if (clientSockets[e.ID].Equals(NetworkLib.Constants.UNKNOWN))
+                {
+                    updateClientName(e.ID, e.Message); //clients as first message send his id
+                    string msg = NetworkLib.Constants.CONNECTION_SUCCESSFUL + "&";
+                    sendMessage(clientSockets[e.ID], msg);
+                    logs.addLog(NetworkLib.Constants.VOTER_CONNECTED, true, NetworkLib.Constants.LOG_MESSAGE, true);
+                }
+            }
+    
+            catch
+            {
+                updateClientName(e.ID, e.Message); //clients as first message send his id
+                string msg = NetworkLib.Constants.CONNECTION_SUCCESSFUL + "&";
+                sendMessage(clientSockets[e.ID], msg);
+                logs.addLog(NetworkLib.Constants.VOTER_CONNECTED, true, NetworkLib.Constants.LOG_MESSAGE, true);
+
+                return;
+            }     
+               
+            this.parserClient.parseMessageFromClient(e.Message);
+            logs.addLog(e.Message, true, NetworkLib.Constants.LOG_MESSAGE, true);
+            
+        }
+
         private void ListenForClients()
         {
             this.serverSocket.Start();
@@ -92,7 +103,7 @@ namespace Proxy
                 try
                 {
                     TcpClient clientSocket = this.serverSocket.AcceptTcpClient();
-                    clientSockets.Add(clientSocket, Constants.UNKNOWN);
+                    clientSockets.Add(clientSocket, NetworkLib.Constants.UNKNOWN);
                     Thread clientThread = new Thread(new ParameterizedThreadStart(displayMessageReceived));
                     clientThread.Start(clientSocket);
                 }
@@ -103,11 +114,6 @@ namespace Proxy
             }
         }
 
-
-        /// <summary>
-        /// display message received from clients
-        /// </summary>
-        /// <param name="client"></param>
         private void displayMessageReceived(object client)
         {
             TcpClient clientSocket = (TcpClient)client;
@@ -133,19 +139,7 @@ namespace Proxy
                     break;
                 }
 
-                string signal = encoder.GetString(message, 0, bytesRead);
-                if (clientSockets[clientSocket].Equals(Constants.UNKNOWN))
-                {
-                    updateClientName(clientSocket, signal); //clients as first message send his id
-                    string msg = Constants.CONNECTION_SUCCESSFUL + "&";
-                    sendMessage(clientSockets[clientSocket], msg);
-                    logs.addLog(Constants.VOTER_CONNECTED, true, Constants.LOG_MESSAGE, true);
-                }
-                else
-                {
-                    this.parserClient.parseMessageFromClient(signal);
-                    logs.addLog(signal, true, Constants.LOG_MESSAGE, true);
-                }
+                
             }
             if (serverSocket != null)
             {
@@ -158,14 +152,11 @@ namespace Proxy
                 catch
                 {
                 }
-                logs.addLog(Constants.DISCONNECTED_NODE, true, Constants.LOG_ERROR, true);
+                logs.addLog(NetworkLib.Constants.DISCONNECTED_NODE, true, NetworkLib.Constants.LOG_ERROR, true);
             }
 
             }
-        
-        /// <summary>
-        /// stop server 
-        /// </summary>
+
         public void stopServer()
         {
             foreach (TcpClient clientSocket in clientSockets.Keys.ToList())
@@ -182,11 +173,6 @@ namespace Proxy
             serverThread = null;
         }
 
-        /// <summary>
-        /// send message to client
-        /// </summary>
-        /// <param name="name">client's name</param>
-        /// <param name="msg">message</param>
         public void sendMessage(string name, string msg)
         {
             for (int i = 0; i < clientSockets.Count; i++)
@@ -220,11 +206,6 @@ namespace Proxy
             }
         }
 
-        /// <summary>
-        /// udpate client name in dictionary 
-        /// </summary>
-        /// <param name="client">TcpClient</param>
-        /// <param name="signal">client name</param>
         private void updateClientName(TcpClient client, string signal)
         {
             if (signal.Contains("//NAME// "))
@@ -234,11 +215,6 @@ namespace Proxy
             }
         }
 
-        /// <summary>
-        /// get's TCP Client connected with name of client
-        /// </summary>
-        /// <param name="name">client name</param>
-        /// <returns>TCP Client connected with given client name</returns>
         private TcpClient getTcpClient(string name)
         {
             TcpClient client = null;
@@ -253,8 +229,5 @@ namespace Proxy
             }
             return null;
         }
-
-
-
     }
 }

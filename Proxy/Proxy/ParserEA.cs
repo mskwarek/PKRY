@@ -6,42 +6,19 @@ using Org.BouncyCastle.Math;
 
 namespace Proxy
 {
-
-    /// <summary>
-    /// parser message from EA
-    /// </summary>
     class ParserEA
     {
-
-        /// <summary>
-        /// logs instance
-        /// </summary>
-        Logs logs;
-
-        /// <summary>
-        /// proxy instance
-        /// </summary>
+        Utils.Logs logs;
         Proxy proxy;
 
-        /// <summary>
-        /// constructor
-        /// </summary>
-        /// <param name="logs">logs instance</param>
-        /// <param name="proxy">proxy instance</param>
-        public ParserEA(Logs logs, Proxy proxy)
+        public ParserEA(Utils.Logs logs, Proxy proxy)
         {
             this.logs = logs;
             this.proxy = proxy;
         }
 
-        /// <summary>
-        /// parsing SL and tokens recived from EA
-        /// </summary>
-        /// <param name="msg">message</param>
-        /// <returns>result of parsing process</returns>
         private bool parseSLTokensDictionaryFromEA(string msg)
         {
-            //msg = FIRST_SL=tokensList[0],tokensList[1],tokensList[2]....:exponentsList[0],exponentsList[1],exponentsList[2]....;SECOND_SL
             Dictionary<BigInteger, List<List<BigInteger>>> dict = new Dictionary<BigInteger, List<List<BigInteger>>>();
 
             string[] dictionaryElem = msg.Split(';');
@@ -53,8 +30,6 @@ namespace Proxy
                 List<List<BigInteger>> mainList = new List<List<BigInteger>>();
 
                 string[] token = words[1].Split(':');
-                //token[0] contains tokenList 
-                //token[1] contains exponentsList
 
 
                 string[] tokenList = token[0].Split(',');
@@ -85,33 +60,24 @@ namespace Proxy
             return true;
         }
 
-
-        /// <summary>
-        /// parsing message from ea
-        /// </summary>
-        /// <param name="msg">message</param>
         public void parseMessageFromEA(string msg)
         {
             string[] elem = msg.Split('&');
             switch (elem[0])
             {
-                case Constants.SL_TOKENS:
+                case NetworkLib.Constants.SL_TOKENS:
                     if (parseSLTokensDictionaryFromEA(elem[1]))
-                        this.proxy.Client.sendMessage(Constants.SL_RECEIVED_SUCCESSFULLY + "&");
-                    this.logs.addLog(Constants.SL_RECEIVED, true, Constants.LOG_INFO, true);
+                        this.proxy.Client.sendMessage(NetworkLib.Constants.SL_RECEIVED_SUCCESSFULLY + "&");
+                    this.logs.addLog(NetworkLib.Constants.SL_RECEIVED, true, NetworkLib.Constants.LOG_INFO, true);
                     break;
-                case Constants.CONNECTED:
+                case NetworkLib.Constants.CONNECTED:
                     this.proxy.disableConnectElectionAuthorityButton();
-                    this.logs.addLog(Constants.PROXY_CONNECTED_TO_EA, true, Constants.LOG_INFO, true);
+                    this.logs.addLog(NetworkLib.Constants.PROXY_CONNECTED_TO_EA, true, NetworkLib.Constants.LOG_INFO, true);
                     break;
-
-
-                case Constants.SIGNED_PROXY_BALLOT:
+                case NetworkLib.Constants.SIGNED_PROXY_BALLOT:
                     this.proxy.saveSignedBallot(elem[1]);
                     break;
             }
-
-
         }
     }
 }

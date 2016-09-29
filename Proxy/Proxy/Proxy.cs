@@ -8,93 +8,37 @@ using System.Windows.Forms;
 
 namespace Proxy
 {
-
-    /// <summary>
-    /// Proxy class - broker between EA and voter, generate SR and another part of voter ballot;
-    /// is responsible ie. for blinding voter data
-    /// </summary>
     class Proxy
     {
-        /// <summary>
-        /// logs instance
-        /// </summary>
-        private Logs logs;
-
-        /// <summary>
-        /// configuration loaded from file
-        /// </summary>
+        private Utils.Logs logs;
         private Configuration configuration;
-
-        /// <summary>
-        /// form application
-        /// </summary>
         private Form1 form;
-
-        /// <summary>
-        /// server instance
-        /// </summary>
         private Server server;
         public Server Server
         {
             get { return server; }
         }
 
-        /// <summary>
-        /// client instance (client for EA)
-        /// </summary>
         private Client client;
         public Client Client
         {
             get { return client; }
         }
-        /// <summary>
-        /// serial numbers SR
-        /// </summary>
+
         private List<BigInteger> SRList;
-
-        /// <summary>
-        /// string is a name of voter, ProxyBallot contains all necesary information like SL, SR, yesNoPosition etc.
-        /// </summary>
         private Dictionary<string, ProxyBallot> proxyBallots; 
-
-        /// <summary>
-        /// number of voters connected to proxy
-        /// </summary>
         private int numberOfVoters;
-
-        /// <summary>
-        /// dictionary contains serialNumber and tokens connected with that SL
-        /// </summary>
         private Dictionary<BigInteger, List<List<BigInteger>>> serialNumberTokens; 
         public Dictionary<BigInteger, List<List<BigInteger>>> SerialNumberTokens
         {
             get { return this.serialNumberTokens; }
             set {this.serialNumberTokens = value;}
         }
-
-        /// <summary>
-        /// connects serialNumbers SL and SR 
-        /// </summary>
         private Dictionary<BigInteger, BigInteger> serialNumberAndSR;
- 
-        /// <summary>
-        /// number of SL and SR sent to voter, incremented when request comes from voter
-        /// </summary>
         private static int numOfSentSLandSR = 0;
- 
-
-        /// <summary>
-        /// its list which contains position of YES and NO buttons on ballot of each voter
-        /// </summary>
         private List<string> yesNoPosition; 
 
-        /// <summary>
-        /// constructor
-        /// </summary>
-        /// <param name="logs">logs instance</param>
-        /// <param name="conf">laoded configuration</param>
-        /// <param name="form">form appplication</param>
-        public Proxy(Logs logs, Configuration conf, Form1 form)
+        public Proxy(Utils.Logs logs, Configuration conf, Form1 form)
         {
             this.logs = logs;
             this.configuration = conf;
@@ -110,47 +54,34 @@ namespace Proxy
             this.proxyBallots = new Dictionary<string, ProxyBallot>();
         }
 
-        /// <summary>
-        /// generates SR for voters connected to proxy
-        /// </summary>
         public void generateSR()
         {
             this.numberOfVoters = this.configuration.NumOfVoters;
-            this.SRList = SerialNumberGenerator.generateListOfSerialNumber(this.numberOfVoters, Constants.NUMBER_OF_BITS_SR);
-            logs.addLog(Constants.SR_GEN_SUCCESSFULLY, true, Constants.LOG_INFO);
+            this.SRList = SerialNumberGenerator.generateListOfSerialNumber(this.numberOfVoters, NetworkLib.Constants.NUMBER_OF_BITS_SR);
+            logs.addLog(NetworkLib.Constants.SR_GEN_SUCCESSFULLY, true, NetworkLib.Constants.LOG_INFO);
 
         }
 
-        /// <summary>
-        /// generates random yes/no position at ballot
-        /// </summary>
         public void generateYesNoPosition()
         {
             this.yesNoPosition = new List<string>();
             this.yesNoPosition = SerialNumberGenerator.getYesNoPosition(this.configuration.NumOfVoters, this.configuration.NumOfCandidates);
-            logs.addLog(Constants.YES_NO_POSITION_GEN_SUCCESSFULL, true, Constants.LOG_INFO);
+            logs.addLog(NetworkLib.Constants.YES_NO_POSITION_GEN_SUCCESSFULL, true, NetworkLib.Constants.LOG_INFO);
             saveYesNoPositionToFile();
-            logs.addLog(Constants.YES_NO_POSITION_SAVED_TO_FILE, true, Constants.LOG_INFO);
+            logs.addLog(NetworkLib.Constants.YES_NO_POSITION_SAVED_TO_FILE, true, NetworkLib.Constants.LOG_INFO);
 
         }
 
-        /// <summary>
-        /// connects SR and SL
-        /// </summary>
         public void connectSRandSL()
         {
             for(int i=0; i<this.SRList.Count; i++)
             {
                 this.serialNumberAndSR.Add(serialNumberTokens.ElementAt(i).Key, SRList[i]);
             }
-            logs.addLog(Constants.SR_CONNECTED_WITH_SL, true, Constants.LOG_INFO, true);
+            logs.addLog(NetworkLib.Constants.SR_CONNECTED_WITH_SL, true, NetworkLib.Constants.LOG_INFO, true);
 
         }
 
-        /// <summary>
-        /// sends SR and SL to voter
-        /// </summary>
-        /// <param name="name">voter ID</param>
         public void sendSLAndSR(string name)
         {
             if (this.serialNumberAndSR != null && this.serialNumberAndSR.Count != 0)
@@ -170,22 +101,19 @@ namespace Proxy
                 this.proxyBallots[name].YesNoPos = position;
 
 
-                string msg = Constants.SL_AND_SR + "&" + SL.ToString()
+                string msg = NetworkLib.Constants.SL_AND_SR + "&" + SL.ToString()
                      + "=" + SR.ToString();
                 numOfSentSLandSR += 1;
                 this.server.sendMessage(name, msg);
             }
             else
             {
-                this.logs.addLog(Constants.ERROR_SEND_SL_AND_SR, true, Constants.LOG_ERROR, true);
+                this.logs.addLog(NetworkLib.Constants.ERROR_SEND_SL_AND_SR, true, NetworkLib.Constants.LOG_ERROR, true);
             }
             
 
         }
 
-        /// <summary>
-        /// disables EA connect button
-        /// </summary>
         public void disableConnectElectionAuthorityButton()
         {
             this.form.Invoke(new MethodInvoker(delegate()
@@ -194,33 +122,20 @@ namespace Proxy
                 }));
         }
 
-        /// <summary>
-        /// sends yes/no position to voter
-        /// </summary>
         private void saveYesNoPositionToFile()
         {
-            if (this.yesNoPosition != null)
-            {
-                string[] yesNoPositionStrTable = this.yesNoPosition.ToArray();
-                System.IO.File.WriteAllLines(@"Logs\yesPositions.txt", yesNoPositionStrTable);
-
-
-                //string position = this.yesNoPosition.ElementAt(numOfSentYesNo);
-                //this.proxyBallots[name].YesNoPos = position;
-                //string msg = Constants.YES_NO_POSITION + "&" + position;
-                //numOfSentYesNo += 1;
-                //this.server.sendMessage(name, msg);
+            try {
+                if (this.yesNoPosition != null)
+                {
+                    string[] yesNoPositionStrTable = this.yesNoPosition.ToArray();
+                    System.IO.File.WriteAllLines(@"Logs\yesPositions.txt", yesNoPositionStrTable);
+                }
             }
+            catch { }
         }
 
-        /// <summary>
-        /// send vote (to EA)
-        /// </summary>
-        /// <param name="message">prepared message to send (message = 'name;first_row;second_row .....;last_row')</param>
         public void saveVote(string message)
         {
-            //message = 'name;first_row;second_row .....;last_row'
-            //first_row = 'x:y:z:v'
             int[,] vote = new int[this.configuration.NumOfCandidates, 4];
             string[] words = message.Split(';');
             string name = words[0];
@@ -238,29 +153,20 @@ namespace Proxy
 
             this.proxyBallots[name].Vote = vote;
             this.proxyBallots[name].ConfirmationColumn = Convert.ToInt32(words[words.Length - 1]);
-            this.logs.addLog(Constants.VOTE_RECEIVED + name, true, Constants.LOG_INFO, true);
+            this.logs.addLog(NetworkLib.Constants.VOTE_RECEIVED + name, true, NetworkLib.Constants.LOG_INFO, true);
             this.proxyBallots[name].generateAndSplitBallotMatrix();
-            this.logs.addLog(Constants.BALLOT_MATRIX_GEN + name, true, Constants.LOG_INFO, true);
+            this.logs.addLog(NetworkLib.Constants.BALLOT_MATRIX_GEN + name, true, NetworkLib.Constants.LOG_INFO, true);
             BigInteger[] blindProxyBallot = this.proxyBallots[name].prepareDataToSend();
-            //Console.WriteLine("blind proxy ballot = " + blindProxyBallot);
             
             string SL = this.proxyBallots[name].SL.ToString();
             string tokens = prepareTokens(this.proxyBallots[name].SL);
             string columns = prepareBlindProxyBallot(blindProxyBallot);
-            //Console.WriteLine(columns);
-            //string pubKeyModulus = this.proxyBallots[name].PubKey.Modulus.ToString();
-            //msg = BLIND_PROXY_BALLOT&name;pubKeyModulus;SL_number;token1,token2,token3,token4;col1,col2,col3,col4
-            string msg = Constants.BLIND_PROXY_BALLOT + "&" + name + ";"  + SL + ";" + tokens + columns ;
+
+            string msg = NetworkLib.Constants.BLIND_PROXY_BALLOT + "&" + name + ";"  + SL + ";" + tokens + columns ;
 
             this.client.sendMessage(msg);
         }
 
-
-        /// <summary>
-        /// prepares blind proxy ballot to send
-        /// </summary>
-        /// <param name="blindProxyBallot">proxy ballot</param>
-        /// <returns>proxy ballot as string (ready to send)</returns>
         private string prepareBlindProxyBallot(BigInteger[] blindProxyBallot)
         {
             string columns = null;
@@ -275,11 +181,6 @@ namespace Proxy
             return columns;
         }
 
-        /// <summary>
-        /// prepares tokens to send
-        /// </summary>
-        /// <param name="SL">serial number (SL) which tokens will be send</param>
-        /// <returns>tokens as message </returns>
         private string prepareTokens(BigInteger SL)
         {
             string tokens = null;
@@ -304,10 +205,6 @@ namespace Proxy
             return tokens;
         }
 
-        /// <summary>
-        /// save singed ballot from EA
-        /// </summary>
-        /// <param name="message">signed ballot</param>
         public void saveSignedBallot(string message)
         {
             string[] words = message.Split(';');
@@ -329,17 +226,12 @@ namespace Proxy
             }
 
             this.proxyBallots[name].SignedColumns = signedColumnsList;
-            this.logs.addLog(Constants.SIGNED_COLUMNS_RECEIVED, true, Constants.LOG_INFO, true);
+            this.logs.addLog(NetworkLib.Constants.SIGNED_COLUMNS_RECEIVED, true, NetworkLib.Constants.LOG_INFO, true);
 
             this.sendSignedColumnToVoter(name);
             this.unblindSignedBallotMatrix(name);
         }
 
-
-        /// <summary>
-        /// send signed column to voter acording to his choice made during casting the vote
-        /// </summary>
-        /// <param name="name"></param>
         private void sendSignedColumnToVoter(string name)
         {
             int confirmation = this.proxyBallots[name].ConfirmationColumn;
@@ -347,14 +239,10 @@ namespace Proxy
 
             BigInteger signedBlindColumn = this.proxyBallots[name].SignedColumns[confirmation];
             string signedBlindColumnStr = signedBlindColumn.ToString();
-            string message = Constants.SIGNED_COLUMNS_TOKEN + "&" + signedBlindColumnStr + ";" + token;
+            string message = NetworkLib.Constants.SIGNED_COLUMNS_TOKEN + "&" + signedBlindColumnStr + ";" + token;
             this.server.sendMessage(name, message);
         }
 
-        /// <summary>
-        /// unblindes signed ballot matrix (if RSA signature is correct)
-        /// </summary>
-        /// <param name="name">voter name</param>
         private void unblindSignedBallotMatrix(string name)
         {
 
@@ -372,7 +260,7 @@ namespace Proxy
             }
 
 
-            string message = Constants.UNBLINED_BALLOT_MATRIX + "&" + name + ";" + unblinedColumns;
+            string message = NetworkLib.Constants.UNBLINED_BALLOT_MATRIX + "&" + name + ";" + unblinedColumns;
 
             this.client.sendMessage(message);
         }
