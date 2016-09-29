@@ -6,20 +6,10 @@ using System.Xml;
 
 namespace ElectionAuthority
 {
-    /// <summary>
-    /// loading config from txt file
-    /// </summary>
     class Configuration
     {
-
-        /// <summary>
-        /// allows to collect and display logs
-        /// </summary>
         private Logs logs;
 
-        /// <summary>
-        /// Election Authority ID 
-        /// </summary>
         private string electionAuthorityID;
         public string ElectionAuthorityID
         {
@@ -57,13 +47,13 @@ namespace ElectionAuthority
 
             foreach (XmlNode xnode in xml.SelectNodes("//ElectionAuthority[@ID]"))
             {
-                string voterId = xnode.Attributes[Constants.ID].Value;
+                string voterId = xnode.Attributes[NetworkLib.Constants.ID].Value;
                 list.Add(voterId);
-                string electionAuthorityPortClient = xnode.Attributes[Constants.ELECTION_AUTHORITY_PORT_CLIENT].Value;
+                string electionAuthorityPortClient = xnode.Attributes[NetworkLib.Constants.ELECTION_AUTHORITY_PORT_CLIENT].Value;
                 list.Add(electionAuthorityPortClient);
-                string electionAuthorityPortProxy = xnode.Attributes[Constants.ELECTION_AUTHORITY_PORT_PROXY].Value;
+                string electionAuthorityPortProxy = xnode.Attributes[NetworkLib.Constants.ELECTION_AUTHORITY_PORT_PROXY].Value;
                 list.Add(electionAuthorityPortProxy);
-                string numberOfVoters = xnode.Attributes[Constants.NUMBER_OF_VOTERS].Value;
+                string numberOfVoters = xnode.Attributes[NetworkLib.Constants.NUMBER_OF_VOTERS].Value;
                 list.Add(numberOfVoters);
             }
 
@@ -86,7 +76,7 @@ namespace ElectionAuthority
                 this.numberOfVoters = conf[3];
 
                 string[] filePath = path.Split('\\');
-                logs.addLog(Constants.CONFIGURATION_LOADED_FROM + filePath[filePath.Length - 1], true, Constants.LOG_INFO);
+                logs.addLog(NetworkLib.Constants.CONFIGURATION_LOADED_FROM + filePath[filePath.Length - 1], true, NetworkLib.Constants.LOG_INFO);
                 return true;
             }
             catch (Exception exp)

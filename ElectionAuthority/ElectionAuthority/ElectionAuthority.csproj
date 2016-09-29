@@ -41,6 +41,9 @@
     <Reference Include="crypto">
       <HintPath>..\..\..\..\..\..\Desktop\csharp\crypto\bin\Debug\crypto.dll</HintPath>
     </Reference>
+    <Reference Include="NetworkLib">
+      <HintPath>..\..\NetworkLib\NetworkLib\bin\Debug\NetworkLib.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Numerics" />
@@ -52,15 +55,16 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="Utils">
+      <HintPath>..\..\Utils\bin\Debug\Utils.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Auditor.cs" />
     <Compile Include="Ballot.cs" />
     <Compile Include="CandidateList.cs" />
     <Compile Include="Configuration.cs" />
-    <Compile Include="Constants.cs" />
     <Compile Include="ElectionAuthority.cs" />
-    <Compile Include="Extentions.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>

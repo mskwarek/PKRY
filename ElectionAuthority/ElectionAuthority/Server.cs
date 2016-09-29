@@ -58,12 +58,12 @@ namespace ElectionAuthority
                 {
                     Console.WriteLine("Exception during starting server -  ElectionAuthority");
                 }
-                logs.addLog(Constants.SERVER_STARTED_CORRECTLY, true, Constants.LOG_INFO, true);
+                logs.addLog(NetworkLib.Constants.SERVER_STARTED_CORRECTLY, true, NetworkLib.Constants.LOG_INFO, true);
                 return true;
             }
             else
             {
-                logs.addLog(Constants.SERVER_UNABLE_TO_START, true, Constants.LOG_ERROR, true);
+                logs.addLog(NetworkLib.Constants.SERVER_UNABLE_TO_START, true, NetworkLib.Constants.LOG_ERROR, true);
                 return false;
             }
         }
@@ -85,7 +85,7 @@ namespace ElectionAuthority
                 try
                 {
                     TcpClient clientSocket = this.serverSocket.AcceptTcpClient();
-                    clientSockets.Add(clientSocket, Constants.UNKNOWN);
+                    clientSockets.Add(clientSocket, NetworkLib.Constants.UNKNOWN);
                     Thread clientThread = new Thread(new ParameterizedThreadStart(displayMessageReceived));
                     clientThread.Start(clientSocket);
                 }
@@ -125,14 +125,14 @@ namespace ElectionAuthority
                 }
 
                 string signal = encoder.GetString(message, 0, bytesRead);
-                if (clientSockets[clientSocket].Equals(Constants.UNKNOWN))
+                if (clientSockets[clientSocket].Equals(NetworkLib.Constants.UNKNOWN))
                 {
                     updateClientName(clientSocket, signal);
-                    sendMessage(clientSockets[clientSocket], Constants.CONNECTED);
+                    sendMessage(clientSockets[clientSocket], NetworkLib.Constants.CONNECTED);
                 }
                 else
                 {
-                    logs.addLog(signal, true, Constants.LOG_MESSAGE, true); //do usuniecia ale narazie widzim co leci w komuniakcji
+                    logs.addLog(signal, true, NetworkLib.Constants.LOG_MESSAGE, true); //do usuniecia ale narazie widzim co leci w komuniakcji
                     this.parser.parseMessage(signal);
                 }
             }
@@ -149,7 +149,7 @@ namespace ElectionAuthority
                     Console.WriteLine("Troubles with displaying received message");
                 }
 
-                logs.addLog(Constants.DISCONNECTED_NODE, true, Constants.LOG_ERROR, true);
+                logs.addLog(NetworkLib.Constants.DISCONNECTED_NODE, true, NetworkLib.Constants.LOG_ERROR, true);
             }
 
         }

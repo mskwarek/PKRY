@@ -231,7 +231,7 @@ namespace ElectionAuthority
             generateInversePermutation();
             generatePermutationTokens();
             blindPermutation(permutationsList);              //Send commited permutation to Auditor
-            logs.addLog(Constants.PERMUTATION_GEN_SUCCESSFULLY, true, Constants.LOG_INFO);
+            logs.addLog(NetworkLib.Constants.PERMUTATION_GEN_SUCCESSFULLY, true, NetworkLib.Constants.LOG_INFO);
 
         }
 
@@ -247,7 +247,7 @@ namespace ElectionAuthority
 
             for (int i = 0; i < this.numberOfVoters; i++)
             { // we use the same method like to generate serial number, there is another random generator used inside this method
-                List<AsymmetricCipherKeyPair> preToken = new List<AsymmetricCipherKeyPair>(SerialNumberGenerator.generatePreTokens(1, Constants.NUMBER_OF_BITS_TOKEN));
+                List<AsymmetricCipherKeyPair> preToken = new List<AsymmetricCipherKeyPair>(SerialNumberGenerator.generatePreTokens(1, NetworkLib.Constants.NUMBER_OF_BITS_TOKEN));
 
                 RsaKeyParameters publicKey = (RsaKeyParameters)preToken[0].Public;
                 RsaKeyParameters privKey = (RsaKeyParameters)preToken[0].Private;
@@ -268,7 +268,7 @@ namespace ElectionAuthority
             {
                 this.inversePermutationList.Add(this.permutation.getInversePermutation(this.permutationsList[i]));
             }
-            logs.addLog(Constants.GENERATE_INVERSE_PERMUTATION, true, Constants.LOG_INFO, true);
+            logs.addLog(NetworkLib.Constants.GENERATE_INVERSE_PERMUTATION, true, NetworkLib.Constants.LOG_INFO, true);
             connectSerialNumberAndInversePermutation();
 
         }
@@ -283,7 +283,7 @@ namespace ElectionAuthority
             {
                 dictionarySLInversePermutation.Add(this.serialNumberList[i], this.inversePermutationList[i]);
             }
-            logs.addLog(Constants.SL_CONNECTED_WITH_INVERSE_PERMUTATION, true, Constants.LOG_INFO, true);
+            logs.addLog(NetworkLib.Constants.SL_CONNECTED_WITH_INVERSE_PERMUTATION, true, NetworkLib.Constants.LOG_INFO, true);
         }
 
 
@@ -294,9 +294,9 @@ namespace ElectionAuthority
         {
             //Generating serial numbers (SL)
             serialNumberList = new List<BigInteger>();
-            serialNumberList = SerialNumberGenerator.generateListOfSerialNumber(this.numberOfVoters, Constants.NUMBER_OF_BITS_SL);
+            serialNumberList = SerialNumberGenerator.generateListOfSerialNumber(this.numberOfVoters, NetworkLib.Constants.NUMBER_OF_BITS_SL);
 
-            logs.addLog(Constants.SERIAL_NUMBER_GEN_SUCCESSFULLY, true, Constants.LOG_INFO, true);
+            logs.addLog(NetworkLib.Constants.SERIAL_NUMBER_GEN_SUCCESSFULLY, true, NetworkLib.Constants.LOG_INFO, true);
         }
 
         /// <summary>
@@ -313,7 +313,7 @@ namespace ElectionAuthority
 
             for (int i = 0; i < this.numberOfVoters; i++)
             { // we use the same method like to generate serial number, there is another random generator used inside this method
-                List<AsymmetricCipherKeyPair> preToken = new List<AsymmetricCipherKeyPair>(SerialNumberGenerator.generatePreTokens(4, Constants.NUMBER_OF_BITS_TOKEN));
+                List<AsymmetricCipherKeyPair> preToken = new List<AsymmetricCipherKeyPair>(SerialNumberGenerator.generatePreTokens(4, NetworkLib.Constants.NUMBER_OF_BITS_TOKEN));
                 List<BigInteger> tokens = new List<BigInteger>();
                 List<BigInteger> exps = new List<BigInteger>();
                 List<BigInteger> signFactor = new List<BigInteger>();
@@ -332,7 +332,7 @@ namespace ElectionAuthority
             }
 
 
-            logs.addLog(Constants.TOKENS_GENERATED_SUCCESSFULLY, true, Constants.LOG_INFO, true);
+            logs.addLog(NetworkLib.Constants.TOKENS_GENERATED_SUCCESSFULLY, true, NetworkLib.Constants.LOG_INFO, true);
             connectSerialNumberAndTokens();
 
         }
@@ -347,7 +347,7 @@ namespace ElectionAuthority
             {
                 dictionarySLPermuation.Add(this.serialNumberList[i], this.permutationsList[i]);
             }
-            logs.addLog(Constants.SL_CONNECTED_WITH_PERMUTATION, true, Constants.LOG_INFO);
+            logs.addLog(NetworkLib.Constants.SL_CONNECTED_WITH_PERMUTATION, true, NetworkLib.Constants.LOG_INFO);
 
         }
 
@@ -366,7 +366,7 @@ namespace ElectionAuthority
                 this.dictionarySLTokens.Add(this.serialNumberList[i], tokens);
             }
 
-            logs.addLog(Constants.SL_CONNECTED_WITH_TOKENS, true, Constants.LOG_INFO);
+            logs.addLog(NetworkLib.Constants.SL_CONNECTED_WITH_TOKENS, true, NetworkLib.Constants.LOG_INFO);
         }
 
         /// <summary>
@@ -388,7 +388,7 @@ namespace ElectionAuthority
         {
             //before sending we have to convert dictionary to string. We use our own conversion to recoginize message in proxy and reparse it to dictionary
 
-            string msg = Constants.SL_TOKENS + "&";
+            string msg = NetworkLib.Constants.SL_TOKENS + "&";
             for (int i = 0; i < this.serialNumberList.Count; i++)
             {
 
@@ -417,7 +417,7 @@ namespace ElectionAuthority
                     msg += ";";
 
             }
-            this.serverProxy.sendMessage(Constants.PROXY, msg);
+            this.serverProxy.sendMessage(NetworkLib.Constants.PROXY, msg);
         }
 
         /// <summary>
@@ -450,7 +450,7 @@ namespace ElectionAuthority
                 candidateList.Add(candidateDefaultList[index - 1]);
             }
 
-            string candidateListString = Constants.CANDIDATE_LIST_RESPONSE + "&";
+            string candidateListString = NetworkLib.Constants.CANDIDATE_LIST_RESPONSE + "&";
 
             for (int i = 0; i < candidateList.Count; i++)
             {
@@ -513,7 +513,7 @@ namespace ElectionAuthority
             this.ballots[name].ExponentsList = exponentList;
             this.ballots[name].SignatureFactor = this.dictionarySLTokens[SL][2];
 
-            this.logs.addLog(Constants.BLIND_PROXY_BALLOT_RECEIVED + name, true, Constants.LOG_INFO, true);
+            this.logs.addLog(NetworkLib.Constants.BLIND_PROXY_BALLOT_RECEIVED + name, true, NetworkLib.Constants.LOG_INFO, true);
 
             this.signColumn(name);
         }
@@ -536,9 +536,9 @@ namespace ElectionAuthority
                     signColumns = signColumns + this.ballots[name].SignedColumn[i].ToString() + ",";
             }
 
-            string msg = Constants.SIGNED_PROXY_BALLOT + "&" + name + ";" + signColumns;
-            this.serverProxy.sendMessage(Constants.PROXY, msg);
-            this.logs.addLog(Constants.SIGNED_BALLOT_MATRIX_SENT, true, Constants.LOG_INFO, true);
+            string msg = NetworkLib.Constants.SIGNED_PROXY_BALLOT + "&" + name + ";" + signColumns;
+            this.serverProxy.sendMessage(NetworkLib.Constants.PROXY, msg);
+            this.logs.addLog(NetworkLib.Constants.SIGNED_BALLOT_MATRIX_SENT, true, NetworkLib.Constants.LOG_INFO, true);
         }
 
 
@@ -554,7 +554,7 @@ namespace ElectionAuthority
             string name = words[0];
             string[] strUnblinedColumns = words[1].Split(',');
 
-            string[,] unblindedBallot = new string[this.candidateDefaultList.Count, Constants.BALLOT_SIZE];
+            string[,] unblindedBallot = new string[this.candidateDefaultList.Count, NetworkLib.Constants.BALLOT_SIZE];
             for (int i = 0; i < strUnblinedColumns.Length; i++)
             {
                 for (int j = 0; j < strUnblinedColumns[i].Length; j++)
@@ -563,7 +563,7 @@ namespace ElectionAuthority
                 }
             }
 
-            string[,] unblindedUnpermuatedBallot = new string[this.candidateDefaultList.Count, Constants.BALLOT_SIZE];
+            string[,] unblindedUnpermuatedBallot = new string[this.candidateDefaultList.Count, NetworkLib.Constants.BALLOT_SIZE];
             BigInteger[] inversePermutation = this.ballots[name].InversePermutation.ToArray();
 
             for (int i = 0; i < unblindedUnpermuatedBallot.GetLength(0); i++)
@@ -577,7 +577,7 @@ namespace ElectionAuthority
             }
 
             this.ballots[name].UnblindedBallot = unblindedUnpermuatedBallot;
-            this.logs.addLog(Constants.UNBLINED_BALLOT_MATRIX_RECEIVED, true, Constants.LOG_INFO, true);
+            this.logs.addLog(NetworkLib.Constants.UNBLINED_BALLOT_MATRIX_RECEIVED, true, NetworkLib.Constants.LOG_INFO, true);
         }
 
 
@@ -592,10 +592,10 @@ namespace ElectionAuthority
             }
             catch (Exception)
             {
-                this.logs.addLog(Constants.UNABLE_TO_STOP_VOTING, true, Constants.LOG_ERROR, true);
+                this.logs.addLog(NetworkLib.Constants.UNABLE_TO_STOP_VOTING, true, NetworkLib.Constants.LOG_ERROR, true);
             }
 
-            this.logs.addLog(Constants.VOTIGN_STOPPED, true, Constants.LOG_INFO, true);
+            this.logs.addLog(NetworkLib.Constants.VOTIGN_STOPPED, true, NetworkLib.Constants.LOG_INFO, true);
 
         }
 
@@ -788,11 +788,11 @@ namespace ElectionAuthority
             //checking permutations RSA (auditor checks all of the permutations)
             if (this.auditor.checkPermutation(this.privKey, this.pubKey, toSend))
             {
-                logs.addLog(Constants.BIT_COMMITMENT_OK, true, Constants.LOG_INFO, true);
+                logs.addLog(NetworkLib.Constants.BIT_COMMITMENT_OK, true, NetworkLib.Constants.LOG_INFO, true);
             }
             else
             {
-                logs.addLog(Constants.BIT_COMMITMENT_FAIL, true, Constants.LOG_ERROR, true);
+                logs.addLog(NetworkLib.Constants.BIT_COMMITMENT_FAIL, true, NetworkLib.Constants.LOG_ERROR, true);
             }
         }
     }

@@ -40,7 +40,7 @@ namespace ElectionAuthority
                 permutation.Add(new BigInteger(i.ToString()));
             }
             //shuffle BigInt List
-            Extentions.Shuffle(permutation);
+            Utils.Extentions.Shuffle(permutation);
             return permutation;
         }
 

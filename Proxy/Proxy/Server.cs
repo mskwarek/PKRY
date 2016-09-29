@@ -15,21 +15,19 @@ namespace Proxy
         NetworkLib.Server.NewClientHandler reqListener;
         NetworkLib.Server.NewMsgHandler msgListener;
 
-        private TcpListener serverSocket;
-        private Thread serverThread;
+
         private Dictionary<TcpClient, string> clientSockets;
         public Dictionary<TcpClient, string> ClientSockets
         {
             get { return clientSockets; }
         }
-        private ASCIIEncoding encoder;
+
         private Utils.Logs logs;
         private ParserClient parserClient;
 
         public Server(Utils.Logs logs, Proxy proxy)
         {
             clientSockets = new Dictionary<TcpClient, string>();
-            this.encoder = new ASCIIEncoding();
             this.logs = logs;
             this.parserClient = new ParserClient(this.logs, proxy);
         }
@@ -38,13 +36,16 @@ namespace Proxy
         {
             try
             {
-                Console.WriteLine(Convert.ToInt32(port));
                 server = new NetworkLib.Server(Convert.ToInt32(port));
                 sockests = new List<TcpClient>();
+
                 reqListener = new NetworkLib.Server.NewClientHandler(newClientRequest);
                 msgListener = new NetworkLib.Server.NewMsgHandler(newMessageRecived);
+
                 server.OnNewClientRequest += reqListener;
                 server.OnNewMessageRecived += msgListener;
+
+
                 if (server.isStarted())
                 {
                     logs.addLog(NetworkLib.Constants.SERVER_STARTED_CORRECTLY, true, NetworkLib.Constants.LOG_INFO, true);

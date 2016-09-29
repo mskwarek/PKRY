@@ -36,7 +36,7 @@ namespace Proxy
 
             }
 
-            Extentions.Shuffle(listOfSerialNumbers);
+            Utils.Extentions.Shuffle(listOfSerialNumbers);
         }
 
         public SerialNumberGenerator getInstance()
@@ -78,7 +78,7 @@ namespace Proxy
 
             }
 
-            Extentions.Shuffle(listOfSerialNumber);
+            Utils.Extentions.Shuffle(listOfSerialNumber);
             return listOfSerialNumber;
         }
 
@@ -94,10 +94,13 @@ namespace Proxy
                 {
                     int random = rnd.Next(0, range);
                     if (i != numberOfCandidates - 1) // we use this if to create string looks like "number:number:number:number". 
-                                        //It will be easy to split
+                    {                  //It will be easy to split
                         str = str + random.ToString() + ":";
+                    }
                     else
+                    {
                         str += random.ToString();
+                    }
                 }
                 list.Add(str);
             }

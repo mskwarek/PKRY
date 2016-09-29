@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Security.Cryptography;
+using System.Text;
 
-namespace Proxy
+namespace Utils
 {
-
     public static class Extentions
     {
         public static void Shuffle<T>(this IList<T> list)
