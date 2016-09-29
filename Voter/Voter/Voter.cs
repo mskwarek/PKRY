@@ -10,7 +10,7 @@ namespace Voter
 
     class Voter
     {
-        private Logs logs;
+        private Utils.Logs logs;
         private Configuration configuration;
         private Client proxyClient;
         private Confirmation confirm;
@@ -34,7 +34,7 @@ namespace Voter
 
         private Form1 form;
 
-        public Voter(Logs logs, Configuration configuration,Form1 form, Confirmation confirm)
+        public Voter(Utils.Logs logs, Configuration configuration,Form1 form, Confirmation confirm)
         {
             this.logs = logs;
             this.configuration = configuration;
@@ -56,8 +56,8 @@ namespace Voter
             this.form.Invoke(new MethodInvoker(delegate()
                 {
                     this.form.disableSLAndSRButton();
-                }
-                ));
+                })
+            );
         }
 
         public void requestForCandidatesList()
@@ -118,9 +118,7 @@ namespace Voter
                             this.form.VoteButtons[i].ElementAt(j).Enabled = true;
                         }));
                 }
-
             }
-
         }
 
         public void sendVoteToProxy()
@@ -132,12 +130,18 @@ namespace Voter
 
                 for (int j = 0; j < table.GetLength(1); j++)
                 {
-                    if (j == table.GetLength(1) - 1 && i == table.GetLength(0)-1)
+                    if (j == table.GetLength(1) - 1 && i == table.GetLength(0) - 1)
+                    {
                         message = message + table[i, j].ToString();
-                    else if (j == table.GetLength(1) - 1 && i != table.GetLength(0)-1)
-                        message = message + table[i, j].ToString()+ ";";
+                    }
+                    else if (j == table.GetLength(1) - 1 && i != table.GetLength(0) - 1)
+                    {
+                        message = message + table[i, j].ToString() + ";";
+                    }
                     else
+                    {
                         message = message + table[i, j].ToString() + ":";
+                    }
                 }
                 //vote wyglada tak: VOTE&Voter0;1:0:0:0;1:0:0:0;0:0:0:1;0:0:0:1;0:0:0:1
             }
@@ -149,7 +153,8 @@ namespace Voter
 
         public void setConfirm(int column)
         {
-            for(int i=0; i<this.voterBallot.Voted.GetLength(0); i++){
+            for(int i=0; i<this.voterBallot.Voted.GetLength(0); i++)
+            {
                 this.confirm.Column += this.voterBallot.Voted[i,column];
             }
             

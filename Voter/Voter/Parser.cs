@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Org.BouncyCastle.Math;
 
 namespace Voter
@@ -10,9 +7,9 @@ namespace Voter
     class Parser
     {
         private Voter voter;
-        private Logs logs;
+        private Utils.Logs logs;
 
-        public Parser(Logs logs, Voter voter)
+        public Parser(Utils.Logs logs, Voter voter)
         {
             this.voter = voter;
             this.logs = logs;

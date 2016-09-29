@@ -9,7 +9,7 @@ namespace Voter
   
     class Configuration
     {
-        private Logs logs;
+        private Utils.Logs logs;
         private string voterID;
         public string VoterID
         {
@@ -53,7 +53,7 @@ namespace Voter
             get { return name; }
         }
 
-        public Configuration(Logs logs)
+        public Configuration(Utils.Logs logs)
         {
             this.logs = logs;
         }

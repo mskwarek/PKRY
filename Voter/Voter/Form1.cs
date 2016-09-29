@@ -11,7 +11,7 @@ namespace Voter
 {
     public partial class Form1 : Form
     {
-        private Logs logs;
+        private Utils.Logs logs;
         private Configuration configuration;
         private Voter voter;
         private List<TextBox> textBoxes;
@@ -30,7 +30,7 @@ namespace Voter
             
             InitializeComponent();
             setColumnWidth();
-            this.logs = new Logs(this.logsListView);
+            this.logs = new Utils.Logs(this.logsListView);
             this.confirmation = new Confirmation(this.ConfBox);
             this.configuration = new Configuration(this.logs);
             this.textBoxes = new List<TextBox>();

@@ -6,7 +6,7 @@ using System.Windows.Forms;
 using System.Drawing;
 using System.IO;
 
-namespace Voter
+namespace Utils
 {
     public class Logs
     {
@@ -29,14 +29,18 @@ namespace Voter
             ListViewItem item = new ListViewItem();
             item.ForeColor = int_get_log_color(flag);
             item.Text = int_get_log_message(time, log);
-        
-            int_add_log_to_ui(anotherThread, item);
 
+            int_add_log_to_ui(anotherThread, item);
+            int_write_log_to_file(int_get_log_message(time, log));
+        }
+
+        private void int_write_log_to_file(string log_line)
+        {
             try
-            {               
-                using (System.IO.StreamWriter file = new StreamWriter(@"Logs\" + voterName  +".txt" , true))
+            {
+                using (System.IO.StreamWriter file = new StreamWriter(@"Logs\" + voterName + ".txt", true))
                 {
-                    file.Write(" [" + DateTime.Now.ToString("HH:mm:ss") + "] " + log + Environment.NewLine);
+                    file.Write(log_line + Environment.NewLine);
                 }
             }
             catch (Exception)

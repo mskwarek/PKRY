@@ -1,18 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Net.Sockets;
-using System.Net;
-using System.Threading;
-using NetworkLib;
+﻿using NetworkLib;
+using Utils;
 
 namespace Voter
 {
     class Client
     {
         private NetworkLib.Client client;
-        private Logs logs;
+        private Utils.Logs logs;
         private string myName;
 
         public NetworkLib.Client.NewMsgHandler newMessageHandler { get; set; }
@@ -25,7 +19,7 @@ namespace Voter
 
         private Parser parser;
 
-        public Client(string name, Logs logs,  Voter voter)
+        public Client(string name, Utils.Logs logs,  Voter voter)
         {
             this.logs = logs;
             this.myName = name;

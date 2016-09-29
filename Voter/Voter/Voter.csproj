@@ -63,7 +63,6 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="Logs.cs" />
     <Compile Include="Parser.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -95,6 +94,10 @@
     <ProjectReference Include="..\..\NetworkLib\NetworkLib\NetworkLib.csproj">
       <Project>{310651c3-a886-452e-81bb-91df565f2718}</Project>
       <Name>NetworkLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Utils\Utils.csproj">
+      <Project>{c3d2c802-4266-4237-a524-630163e7cd96}</Project>
+      <Name>Utils</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
