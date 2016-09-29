@@ -64,11 +64,26 @@ namespace Proxy
 
         private void newClientRequest(object a, NetworkLib.ClientArgs e)
         {
+            logs.addLog(NetworkLib.Constants.VOTER_CONNECTED, true, NetworkLib.Constants.LOG_MESSAGE, true);
+
+            try
+            {
+                updateClientName(e.ID, e.NodeName); //clients as first message send his id
+                string msg = NetworkLib.Constants.CONNECTION_SUCCESSFUL + "&";
+                sendMessage(clientSockets[e.ID], msg);
+                logs.addLog(NetworkLib.Constants.VOTER_CONNECTED, true, NetworkLib.Constants.LOG_MESSAGE, true);
+            }
+            catch
+            {
+
+            }
 
         }
 
         private void newMessageRecived(object a, NetworkLib.MessageArgs e)
         {
+            logs.addLog(NetworkLib.Constants.VOTER_CONNECTED, true, NetworkLib.Constants.LOG_MESSAGE, true);
+
             try
             {
                 if (clientSockets[e.ID].Equals(NetworkLib.Constants.UNKNOWN))
@@ -95,115 +110,15 @@ namespace Proxy
             
         }
 
-        private void ListenForClients()
-        {
-            this.serverSocket.Start();
-            while (true)
-            {
-                try
-                {
-                    TcpClient clientSocket = this.serverSocket.AcceptTcpClient();
-                    clientSockets.Add(clientSocket, NetworkLib.Constants.UNKNOWN);
-                    Thread clientThread = new Thread(new ParameterizedThreadStart(displayMessageReceived));
-                    clientThread.Start(clientSocket);
-                }
-                catch
-                {
-                    break;
-                }
-            }
-        }
-
-        private void displayMessageReceived(object client)
-        {
-            TcpClient clientSocket = (TcpClient)client;
-            NetworkStream stream = clientSocket.GetStream();
-
-            byte[] message = new byte[4096];
-            int bytesRead;
-
-            while (stream.CanRead)
-            {
-                bytesRead = 0;
-                try
-                {
-                    bytesRead = stream.Read(message, 0, 4096);
-                }
-                catch
-                {
-                    break;
-                }
-
-                if (bytesRead == 0)
-                {
-                    break;
-                }
-
-                
-            }
-            if (serverSocket != null)
-            {
-                try
-                {
-                    clientSocket.GetStream().Close();
-                    clientSocket.Close();
-                    clientSockets.Remove(clientSocket);
-                }
-                catch
-                {
-                }
-                logs.addLog(NetworkLib.Constants.DISCONNECTED_NODE, true, NetworkLib.Constants.LOG_ERROR, true);
-            }
-
-            }
 
         public void stopServer()
         {
-            foreach (TcpClient clientSocket in clientSockets.Keys.ToList())
-            {
-                clientSocket.GetStream().Close();
-                clientSocket.Close();
-                clientSockets.Remove(clientSocket);
-            }
-            if (serverSocket != null)
-            {
-                serverSocket.Stop();
-            }
-            serverSocket = null;
-            serverThread = null;
+            this.server.stopServer();
         }
 
         public void sendMessage(string name, string msg)
         {
-            for (int i = 0; i < clientSockets.Count; i++)
-            {
-                Console.WriteLine("nazwy clientow " + clientSockets.ElementAt(i).Value.ToString()); 
-            }
-
-
-            if (serverSocket != null)
-            {
-                NetworkStream stream = null;
-                TcpClient client = getTcpClient(name);
-                
-                
-
-                if (client != null)
-                {
-                    if (client.Connected)
-                    {
-                        stream = client.GetStream();
-                        byte[] buffer = encoder.GetBytes(msg);
-                        stream.Write(buffer, 0, buffer.Length);
-                        stream.Flush();
-                    }
-                    else
-                    {
-                        stream.Close();
-                        clientSockets.Remove(client);
-                    }
-                }
-            }
+            server.sendMessage(getTcpClient(name), msg);
         }
 
         private void updateClientName(TcpClient client, string signal)
