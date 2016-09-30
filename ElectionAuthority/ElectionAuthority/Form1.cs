@@ -15,10 +15,6 @@ namespace ElectionAuthority
     /// </summary>
     public partial class Form1 : Form
     {
-        /// <summary>
-        /// display logs in logs console
-        /// </summary>
-        private Logs logs;
 
         /// <summary>
         /// load configuration from configuration xml file
@@ -38,8 +34,7 @@ namespace ElectionAuthority
         {
             InitializeComponent();
             setColumnWidth();            
-            logs = new Logs(this.logsListView);
-            configuration = new Configuration(this.logs);
+            configuration = new Configuration();
             
         }
 
@@ -78,7 +73,7 @@ namespace ElectionAuthority
         {
             configuration.loadConfiguration(openFileDialog.FileName);
             enableButtonAfterConfiguration();
-            electionAuthority = new ElectionAuthority(this.logs, this.configuration,this);
+            electionAuthority = new ElectionAuthority(this.configuration,this);
         }
 
         /// <summary>

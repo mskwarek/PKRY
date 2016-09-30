@@ -14,8 +14,7 @@ using Org.BouncyCastle.Crypto.Digests;
 namespace Proxy
 {
     class ProxyBallot
-    {
-        private Utils.Logs logs;                                              
+    {                                 
         private RsaKeyParameters pubKey;                                
         private RsaKeyParameters privKey;                             
         private BigInteger[] r;    
@@ -71,11 +70,10 @@ namespace Proxy
             get { return exponentsList; }
         }
 
-        public ProxyBallot(Utils.Logs logs, BigInteger SL, BigInteger SR)
+        public ProxyBallot(BigInteger SL, BigInteger SR)
         {
             this.sl =  SL;
             this.sr = SR;
-            this.logs = logs;
             this.tokensList = new List<BigInteger>();
             this.exponentsList = new List<BigInteger>();
 
@@ -155,13 +153,13 @@ namespace Proxy
 
                     //WYSŁAć NORMALNA KOLUMNE, BO WIEMY ZE NIE OSZUKA
                     if (correctUnblindedColumns == NetworkLib.Constants.BALLOT_SIZE)
-                        this.logs.addLog(NetworkLib.Constants.ALL_COLUMNS_UNBLINDED_CORRECTLY, true, NetworkLib.Constants.LOG_INFO, true);
+                        Utils.Logs.addLog("Proxy", NetworkLib.Constants.ALL_COLUMNS_UNBLINDED_CORRECTLY, true, NetworkLib.Constants.LOG_INFO, true);
                     else
-                        this.logs.addLog(NetworkLib.Constants.CORRECT_SIGNATURE, true, NetworkLib.Constants.LOG_INFO, true);
+                        Utils.Logs.addLog("Proxy", NetworkLib.Constants.CORRECT_SIGNATURE, true, NetworkLib.Constants.LOG_INFO, true);
 
                 }
                 else{
-                    this.logs.addLog(NetworkLib.Constants.WRONG_SIGNATURE, true, NetworkLib.Constants.LOG_ERROR, true);
+                    Utils.Logs.addLog("Proxy", NetworkLib.Constants.WRONG_SIGNATURE, true, NetworkLib.Constants.LOG_ERROR, true);
                 }
             }
             return unblinded;

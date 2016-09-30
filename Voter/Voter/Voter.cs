@@ -10,7 +10,6 @@ namespace Voter
 
     class Voter
     {
-        private Utils.Logs logs;
         private Configuration configuration;
         private Client proxyClient;
         private Confirmation confirm;
@@ -34,13 +33,12 @@ namespace Voter
 
         private Form1 form;
 
-        public Voter(Utils.Logs logs, Configuration configuration,Form1 form, Confirmation confirm)
+        public Voter(Configuration configuration,Form1 form, Confirmation confirm)
         {
-            this.logs = logs;
             this.configuration = configuration;
             this.form = form;
-            this.proxyClient = new Client(this.configuration.Name, this.logs, this);
-            this.electionAuthorityClient = new Client(this.configuration.Name, this.logs, this);
+            this.proxyClient = new Client(this.configuration.Name, this);
+            this.electionAuthorityClient = new Client(this.configuration.Name, this);
             this.voterBallot = new VoterBallot(this.configuration.NumberOfCandidates);
             this.confirm = confirm;
         }
@@ -171,7 +169,7 @@ namespace Voter
             this.confirm.SignedColumn = this.voterBallot.SignedBlindColumn;
             this.confirm.Token = this.voterBallot.Token;
 
-            this.logs.addLog(NetworkLib.Constants.SIGNED_COLUMNS_TOKEN_RECEIVED, true, NetworkLib.Constants.LOG_INFO, true);
+            Utils.Logs.addLog("Client", NetworkLib.Constants.SIGNED_COLUMNS_TOKEN_RECEIVED, true, NetworkLib.Constants.LOG_INFO, true);
 
             this.confirm.addConfirm(true);
         }

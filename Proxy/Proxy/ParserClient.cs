@@ -7,12 +7,10 @@ namespace Proxy
 {
     class ParserClient
     {
-        private Utils.Logs logs;
         private Proxy proxy;
 
-        public ParserClient(Utils.Logs logs, Proxy proxy)
+        public ParserClient(Proxy proxy)
         {
-            this.logs = logs;
             this.proxy = proxy;
         }
 

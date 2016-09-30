@@ -11,7 +11,6 @@ namespace ElectionAuthority
 {
     class Auditor
     {
-        private Logs logs;
         private BigInteger[] commitedPermutation;
 
         public BigInteger[] CommitedPermatation
@@ -20,9 +19,8 @@ namespace ElectionAuthority
             get { return commitedPermutation; }
         }
 
-        public Auditor(Logs logs)
+        public Auditor()
         {
-            this.logs = logs;
         }
 
         public bool checkPermutation(RsaKeyParameters privateKey, RsaKeyParameters publicKey, BigInteger[] explicitPermutation)

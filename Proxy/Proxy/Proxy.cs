@@ -10,7 +10,6 @@ namespace Proxy
 {
     class Proxy
     {
-        private Utils.Logs logs;
         private Configuration configuration;
         private Form1 form;
         private Server server;
@@ -38,13 +37,12 @@ namespace Proxy
         private static int numOfSentSLandSR = 0;
         private List<string> yesNoPosition; 
 
-        public Proxy(Utils.Logs logs, Configuration conf, Form1 form)
+        public Proxy(Configuration conf, Form1 form)
         {
-            this.logs = logs;
             this.configuration = conf;
             this.form = form;
-            this.server = new Server(this.logs,this);
-            this.client = new Client(this.logs, this);
+            this.server = new Server(this);
+            this.client = new Client(this);
 
 
 
@@ -58,7 +56,7 @@ namespace Proxy
         {
             this.numberOfVoters = this.configuration.NumOfVoters;
             this.SRList = SerialNumberGenerator.generateListOfSerialNumber(this.numberOfVoters, NetworkLib.Constants.NUMBER_OF_BITS_SR);
-            logs.addLog(NetworkLib.Constants.SR_GEN_SUCCESSFULLY, true, NetworkLib.Constants.LOG_INFO);
+            Utils.Logs.addLog("Proxy", NetworkLib.Constants.SR_GEN_SUCCESSFULLY, true, NetworkLib.Constants.LOG_INFO);
 
         }
 
@@ -66,9 +64,9 @@ namespace Proxy
         {
             this.yesNoPosition = new List<string>();
             this.yesNoPosition = SerialNumberGenerator.getYesNoPosition(this.configuration.NumOfVoters, this.configuration.NumOfCandidates);
-            logs.addLog(NetworkLib.Constants.YES_NO_POSITION_GEN_SUCCESSFULL, true, NetworkLib.Constants.LOG_INFO);
+            Utils.Logs.addLog("Proxy", NetworkLib.Constants.YES_NO_POSITION_GEN_SUCCESSFULL, true, NetworkLib.Constants.LOG_INFO);
             saveYesNoPositionToFile();
-            logs.addLog(NetworkLib.Constants.YES_NO_POSITION_SAVED_TO_FILE, true, NetworkLib.Constants.LOG_INFO);
+            Utils.Logs.addLog("Proxy", NetworkLib.Constants.YES_NO_POSITION_SAVED_TO_FILE, true, NetworkLib.Constants.LOG_INFO);
 
         }
 
@@ -78,7 +76,7 @@ namespace Proxy
             {
                 this.serialNumberAndSR.Add(serialNumberTokens.ElementAt(i).Key, SRList[i]);
             }
-            logs.addLog(NetworkLib.Constants.SR_CONNECTED_WITH_SL, true, NetworkLib.Constants.LOG_INFO, true);
+            Utils.Logs.addLog("Proxy", NetworkLib.Constants.SR_CONNECTED_WITH_SL, true, NetworkLib.Constants.LOG_INFO, true);
 
         }
 
@@ -91,7 +89,7 @@ namespace Proxy
                 List<BigInteger> tokensList = this.serialNumberTokens[SL][0];
                 List<BigInteger> exponentesList = this.serialNumberTokens[SL][1];
 
-                this.proxyBallots.Add(name, new ProxyBallot(this.logs, SL, SR));
+                this.proxyBallots.Add(name, new ProxyBallot(SL, SR));
                 this.proxyBallots[name].TokensList = tokensList;
                 this.proxyBallots[name].ExponentsList = exponentesList;
 
@@ -108,7 +106,7 @@ namespace Proxy
             }
             else
             {
-                this.logs.addLog(NetworkLib.Constants.ERROR_SEND_SL_AND_SR, true, NetworkLib.Constants.LOG_ERROR, true);
+                Utils.Logs.addLog("Proxy", NetworkLib.Constants.ERROR_SEND_SL_AND_SR, true, NetworkLib.Constants.LOG_ERROR, true);
             }
             
 
@@ -153,9 +151,9 @@ namespace Proxy
 
             this.proxyBallots[name].Vote = vote;
             this.proxyBallots[name].ConfirmationColumn = Convert.ToInt32(words[words.Length - 1]);
-            this.logs.addLog(NetworkLib.Constants.VOTE_RECEIVED + name, true, NetworkLib.Constants.LOG_INFO, true);
+            Utils.Logs.addLog("Proxy", NetworkLib.Constants.VOTE_RECEIVED + name, true, NetworkLib.Constants.LOG_INFO, true);
             this.proxyBallots[name].generateAndSplitBallotMatrix();
-            this.logs.addLog(NetworkLib.Constants.BALLOT_MATRIX_GEN + name, true, NetworkLib.Constants.LOG_INFO, true);
+            Utils.Logs.addLog("Proxy", NetworkLib.Constants.BALLOT_MATRIX_GEN + name, true, NetworkLib.Constants.LOG_INFO, true);
             BigInteger[] blindProxyBallot = this.proxyBallots[name].prepareDataToSend();
             
             string SL = this.proxyBallots[name].SL.ToString();
@@ -226,7 +224,7 @@ namespace Proxy
             }
 
             this.proxyBallots[name].SignedColumns = signedColumnsList;
-            this.logs.addLog(NetworkLib.Constants.SIGNED_COLUMNS_RECEIVED, true, NetworkLib.Constants.LOG_INFO, true);
+            Utils.Logs.addLog("Proxy", NetworkLib.Constants.SIGNED_COLUMNS_RECEIVED, true, NetworkLib.Constants.LOG_INFO, true);
 
             this.sendSignedColumnToVoter(name);
             this.unblindSignedBallotMatrix(name);

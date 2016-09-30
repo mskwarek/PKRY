@@ -9,7 +9,6 @@ namespace Voter
   
     class Configuration
     {
-        private Utils.Logs logs;
         private string voterID;
         public string VoterID
         {
@@ -53,9 +52,8 @@ namespace Voter
             get { return name; }
         }
 
-        public Configuration(Utils.Logs logs)
+        public Configuration()
         {
-            this.logs = logs;
         }
 
         private List<String> readConfig(XmlDocument xml)
@@ -101,10 +99,9 @@ namespace Voter
                 this.proxyPort = voterConf[4];
                 this.numberOfCandidates = Convert.ToInt32(voterConf[5]);
                 this.name = voterConf[6];
-                this.logs.VoterName = name;
 
                 string[] filePath = path.Split('\\');
-                logs.addLog(NetworkLib.Constants.CONFIGURATION_LOADED_FROM + filePath[filePath.Length - 1], true, NetworkLib.Constants.LOG_INFO, true);
+                Utils.Logs.addLog("Client", NetworkLib.Constants.CONFIGURATION_LOADED_FROM + filePath[filePath.Length - 1], true, NetworkLib.Constants.LOG_INFO, true);
                 return true;
             }
             catch(Exception exp)

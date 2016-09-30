@@ -8,7 +8,6 @@ namespace ElectionAuthority
 {
     class Configuration
     {
-        private Logs logs;
 
         private string electionAuthorityID;
         public string ElectionAuthorityID
@@ -35,9 +34,8 @@ namespace ElectionAuthority
         }
 
 
-        public Configuration(Logs logs)
+        public Configuration()
         {
-            this.logs = logs;
         }
 
         private List<String> readConfig(XmlDocument xml)
@@ -76,7 +74,7 @@ namespace ElectionAuthority
                 this.numberOfVoters = conf[3];
 
                 string[] filePath = path.Split('\\');
-                logs.addLog(NetworkLib.Constants.CONFIGURATION_LOADED_FROM + filePath[filePath.Length - 1], true, NetworkLib.Constants.LOG_INFO);
+                Utils.Logs.addLog(NetworkLib.Constants.CONFIGURATION_LOADED_FROM + filePath[filePath.Length - 1], true, NetworkLib.Constants.LOG_INFO);
                 return true;
             }
             catch (Exception exp)

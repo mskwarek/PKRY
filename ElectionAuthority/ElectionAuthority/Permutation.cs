@@ -14,17 +14,11 @@ namespace ElectionAuthority
     class Permutation
     {
         /// <summary>
-        /// allows to collect and display logs
-        /// </summary>
-        private Logs logs;
-
-        /// <summary>
         /// constructor
         /// </summary>
         /// <param name="logs">logs instance</param>
-        public Permutation(Logs logs)
+        public Permutation()
         {
-            this.logs = logs;
         }
 
         /// <summary>

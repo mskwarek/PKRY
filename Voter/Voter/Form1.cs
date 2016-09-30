@@ -11,7 +11,6 @@ namespace Voter
 {
     public partial class Form1 : Form
     {
-        private Utils.Logs logs;
         private Configuration configuration;
         private Voter voter;
         private List<TextBox> textBoxes;
@@ -30,9 +29,8 @@ namespace Voter
             
             InitializeComponent();
             setColumnWidth();
-            this.logs = new Utils.Logs(this.logsListView);
             this.confirmation = new Confirmation(this.ConfBox);
-            this.configuration = new Configuration(this.logs);
+            this.configuration = new Configuration();
             this.textBoxes = new List<TextBox>();
             this.voteButtons = new List<Button[]>();
 
@@ -52,19 +50,18 @@ namespace Voter
             String[] words = clickedButton.Name.Split(';');
             if (this.voter.VoterBallot.vote(Convert.ToInt32(words[1]), Convert.ToInt32(words[2])))
             {
-                logs.addLog(NetworkLib.Constants.VOTE_DONE, true, NetworkLib.Constants.LOG_INFO, true);
+                Utils.Logs.addLog("Client", NetworkLib.Constants.VOTE_DONE, true, NetworkLib.Constants.LOG_INFO, true);
                 if (this.voter.VoterBallot.voteDone())
                 {
-                    logs.addLog(NetworkLib.Constants.VOTE_FINISH, true, NetworkLib.Constants.LOG_INFO, true);
+                    Utils.Logs.addLog("Client", NetworkLib.Constants.VOTE_FINISH, true, NetworkLib.Constants.LOG_INFO, true);
                     this.disableVoteButtons();
                     this.confirmationBox.Enabled = true;
-
                 }
 
             }
             else
             {
-                logs.addLog(NetworkLib.Constants.VOTE_ERROR, true, NetworkLib.Constants.LOG_ERROR, true);
+                Utils.Logs.addLog("Client", NetworkLib.Constants.VOTE_ERROR, true, NetworkLib.Constants.LOG_ERROR, true);
             }
 
             //Console.WriteLine(words[0] );
@@ -116,7 +113,7 @@ namespace Voter
             configuration.loadConfiguration(openFileDialog.FileName);
             enableButtonsAfterLoadingConfiguration();
             
-            this.voter = new Voter(this.logs, this.configuration,this, this.confirmation);
+            this.voter = new Voter(this.configuration,this, this.confirmation);
             addFieldsForCandidates(configuration.NumberOfCandidates);
 
         }

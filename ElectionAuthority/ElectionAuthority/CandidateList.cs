@@ -8,11 +8,8 @@ namespace ElectionAuthority
 {
     class CandidateList
     {
-        private Logs logs;
-
-        public CandidateList(Logs logs)
+        public CandidateList()
         {
-            this.logs = logs;
         }
 
         public List<string> loadCanidateList(string path)
@@ -30,7 +27,7 @@ namespace ElectionAuthority
                     candidate.Add(input);
                 }
 
-                logs.addLog(NetworkLib.Constants.CANDIDATE_LIST_SUCCESSFUL, true, NetworkLib.Constants.LOG_INFO, true);
+                Utils.Logs.addLog(NetworkLib.Constants.CANDIDATE_LIST_SUCCESSFUL, true, NetworkLib.Constants.LOG_INFO, true);
                 
             }
             catch (Exception)

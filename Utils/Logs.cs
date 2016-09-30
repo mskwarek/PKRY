@@ -8,24 +8,18 @@ using System.IO;
 
 namespace Utils
 {
-    public class Logs
+    public static class Logs
     {
-        private ListView logsListView;
-        private string voterName;
-        public string VoterName
-        {
-            set { voterName = value; }
-            get { return voterName; }
-        }
+        private static LogsForm logs;
 
-        public Logs(ListView logsListView)
+        public static void addLog(string log_subject, string log, bool time, int flag, bool anotherThread = false)
         {
-            this.logsListView = logsListView;
-            this.voterName = "Voter";
-        }
-
-        public void addLog(string log, bool time, int flag, bool anotherThread = false)
-        {
+            if(logs == null)
+            {
+                logs = new LogsForm();
+                logs.Name = log_subject;
+                logs.Show();
+            }
             ListViewItem item = new ListViewItem();
             item.ForeColor = int_get_log_color(flag);
             item.Text = int_get_log_message(time, log);
@@ -34,23 +28,23 @@ namespace Utils
             int_write_log_to_file(int_get_log_message(time, log));
         }
 
-        private void int_write_log_to_file(string log_line)
+        private static void int_write_log_to_file(string log_line)
         {
             try
             {
-                using (System.IO.StreamWriter file = new StreamWriter(@"Logs\" + voterName + ".txt", true))
-                {
-                    file.Write(log_line + Environment.NewLine);
-                }
+               // using (System.IO.StreamWriter file = new StreamWriter(@"Logs\" + voterName + ".txt", true))
+               // {
+               //     file.Write(log_line + Environment.NewLine);
+               // }
             }
             catch (Exception)
             {
-                Console.WriteLine("You should use bat file to save logs to file");
+               // Console.WriteLine("You should use bat file to save logs to file");
             }
 
         }
 
-        private Color int_get_log_color(int flag)
+        private static Color int_get_log_color(int flag)
         {
             Color r = Color.White;
             switch (flag)
@@ -72,7 +66,7 @@ namespace Utils
             return r;
         }
 
-        private string int_get_log_message(bool time, string log)
+        private static string int_get_log_message(bool time, string log)
         {
             string msg = "";
             if (time)
@@ -84,21 +78,21 @@ namespace Utils
             return msg;
         }
 
-        private void int_add_log_to_ui(bool anotherThread, ListViewItem item)
+        private static void int_add_log_to_ui(bool anotherThread, ListViewItem item)
         {
             if (!anotherThread)
             {
-                logsListView.Items.Add(item);
-                logsListView.Items[logsListView.Items.Count - 1].EnsureVisible();
+                logs.logsListView.Items.Add(item);
+                logs.logsListView.Items[logs.logsListView.Items.Count - 1].EnsureVisible();
             }
             else
             {
                 try
                 {
-                    logsListView.Invoke(new MethodInvoker(delegate ()
+                    logs.logsListView.Invoke(new MethodInvoker(delegate ()
                     {
-                        logsListView.Items.Add(item);
-                        logsListView.Items[logsListView.Items.Count - 1].EnsureVisible();
+                        logs.logsListView.Items.Add(item);
+                        logs.logsListView.Items[logs.logsListView.Items.Count - 1].EnsureVisible();
                     })
                     );
 

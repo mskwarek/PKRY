@@ -8,7 +8,6 @@ namespace Proxy
 {
     class Configuration
     {
-        private Utils.Logs logs;
         private string proxyID;
         public string ProxyID
         {
@@ -45,9 +44,8 @@ namespace Proxy
             get { return numOfCandidates; }
         }
 
-        public Configuration(Utils.Logs logs)
+        public Configuration()
         {
-            this.logs = logs;
         }
 
         private List<String> readConfig(XmlDocument xml)
@@ -92,7 +90,7 @@ namespace Proxy
                 this.numOfCandidates = Convert.ToInt32(conf[5]);
 
                 string[] filePath = path.Split('\\');
-                logs.addLog(NetworkLib.Constants.CONFIGURATION_LOADED_FROM + filePath[filePath.Length - 1], true, NetworkLib.Constants.LOG_INFO);
+                Utils.Logs.addLog("Proxy", NetworkLib.Constants.CONFIGURATION_LOADED_FROM + filePath[filePath.Length - 1], true, NetworkLib.Constants.LOG_INFO);
                 return true;
             }
             catch (Exception exp)

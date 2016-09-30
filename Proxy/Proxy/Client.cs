@@ -11,15 +11,13 @@ namespace Proxy
 {
     class Client
     {
-        private Utils.Logs logs;
         private ParserEA parserEA;
         private NetworkLib.Client client;
         public NetworkLib.Client.NewMsgHandler newMessageHandler { get; set; }
 
-        public Client(Utils.Logs logs, Proxy proxy)
+        public Client(Proxy proxy)
         {
-            this.logs = logs;
-            this.parserEA = new ParserEA(this.logs, proxy);
+            this.parserEA = new ParserEA(proxy);
         }
 
         public bool connect(string ip, string port)
@@ -37,7 +35,7 @@ namespace Proxy
         }
         private void displayMessageReceived(object myObject, MessageArgs myArgs)
         {
-            logs.addLog(Constants.NEW_MSG_RECIVED + " " + myArgs.Message, true, Constants.LOG_INFO, true);
+            Utils.Logs.addLog("Client", Constants.NEW_MSG_RECIVED + " " + myArgs.Message, true, Constants.LOG_INFO, true);
             parserEA.parseMessageFromEA(myArgs.Message);
         }
 

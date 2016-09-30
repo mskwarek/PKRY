@@ -21,15 +21,13 @@ namespace Proxy
         {
             get { return clientSockets; }
         }
-
-        private Utils.Logs logs;
+        
         private ParserClient parserClient;
 
-        public Server(Utils.Logs logs, Proxy proxy)
+        public Server(Proxy proxy)
         {
             clientSockets = new Dictionary<TcpClient, string>();
-            this.logs = logs;
-            this.parserClient = new ParserClient(this.logs, proxy);
+            this.parserClient = new ParserClient(proxy);
         }
 
         public bool startServer(string port)
@@ -48,16 +46,16 @@ namespace Proxy
 
                 if (server.isStarted())
                 {
-                    logs.addLog(NetworkLib.Constants.SERVER_STARTED_CORRECTLY, true, NetworkLib.Constants.LOG_INFO, true);
+                    Utils.Logs.addLog("Proxy", NetworkLib.Constants.SERVER_STARTED_CORRECTLY, true, NetworkLib.Constants.LOG_INFO, true);
                 }
                 else
                 {
-                    logs.addLog(NetworkLib.Constants.SERVER_UNABLE_TO_START, true, NetworkLib.Constants.LOG_ERROR, true);
+                    Utils.Logs.addLog("Proxy", NetworkLib.Constants.SERVER_UNABLE_TO_START, true, NetworkLib.Constants.LOG_ERROR, true);
                 }
             }
             catch
             {
-                logs.addLog(NetworkLib.Constants.SERVER_UNABLE_TO_START, true, NetworkLib.Constants.LOG_ERROR, true);
+                Utils.Logs.addLog("Proxy", NetworkLib.Constants.SERVER_UNABLE_TO_START, true, NetworkLib.Constants.LOG_ERROR, true);
             }
 
             return true;
@@ -65,14 +63,14 @@ namespace Proxy
 
         private void newClientRequest(object a, NetworkLib.ClientArgs e)
         {
-            logs.addLog(NetworkLib.Constants.VOTER_CONNECTED, true, NetworkLib.Constants.LOG_MESSAGE, true);
+            Utils.Logs.addLog("Proxy", NetworkLib.Constants.VOTER_CONNECTED, true, NetworkLib.Constants.LOG_MESSAGE, true);
 
             try
             {
                 updateClientName(e.ID, e.NodeName); //clients as first message send his id
                 string msg = NetworkLib.Constants.CONNECTION_SUCCESSFUL + "&";
                 sendMessage(clientSockets[e.ID], msg);
-                logs.addLog(NetworkLib.Constants.VOTER_CONNECTED, true, NetworkLib.Constants.LOG_MESSAGE, true);
+                Utils.Logs.addLog("Proxy", NetworkLib.Constants.VOTER_CONNECTED, true, NetworkLib.Constants.LOG_MESSAGE, true);
             }
             catch
             {
@@ -83,7 +81,7 @@ namespace Proxy
 
         private void newMessageRecived(object a, NetworkLib.MessageArgs e)
         {
-            logs.addLog(NetworkLib.Constants.VOTER_CONNECTED, true, NetworkLib.Constants.LOG_MESSAGE, true);
+            Utils.Logs.addLog("Proxy", NetworkLib.Constants.VOTER_CONNECTED, true, NetworkLib.Constants.LOG_MESSAGE, true);
 
             try
             {
@@ -92,7 +90,7 @@ namespace Proxy
                     updateClientName(e.ID, e.Message); //clients as first message send his id
                     string msg = NetworkLib.Constants.CONNECTION_SUCCESSFUL + "&";
                     sendMessage(clientSockets[e.ID], msg);
-                    logs.addLog(NetworkLib.Constants.VOTER_CONNECTED, true, NetworkLib.Constants.LOG_MESSAGE, true);
+                    Utils.Logs.addLog("Proxy", NetworkLib.Constants.VOTER_CONNECTED, true, NetworkLib.Constants.LOG_MESSAGE, true);
                 }
             }
     
@@ -101,13 +99,13 @@ namespace Proxy
                 updateClientName(e.ID, e.Message); //clients as first message send his id
                 string msg = NetworkLib.Constants.CONNECTION_SUCCESSFUL + "&";
                 sendMessage(clientSockets[e.ID], msg);
-                logs.addLog(NetworkLib.Constants.VOTER_CONNECTED, true, NetworkLib.Constants.LOG_MESSAGE, true);
+                Utils.Logs.addLog("Proxy", NetworkLib.Constants.VOTER_CONNECTED, true, NetworkLib.Constants.LOG_MESSAGE, true);
 
                 return;
             }     
                
             this.parserClient.parseMessageFromClient(e.Message);
-            logs.addLog(e.Message, true, NetworkLib.Constants.LOG_MESSAGE, true);
+            Utils.Logs.addLog("Proxy", e.Message, true, NetworkLib.Constants.LOG_MESSAGE, true);
             
         }
 

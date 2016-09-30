@@ -6,7 +6,6 @@ namespace Voter
     class Client
     {
         private NetworkLib.Client client;
-        private Utils.Logs logs;
         private string myName;
 
         public NetworkLib.Client.NewMsgHandler newMessageHandler { get; set; }
@@ -19,11 +18,10 @@ namespace Voter
 
         private Parser parser;
 
-        public Client(string name, Utils.Logs logs,  Voter voter)
+        public Client(string name,  Voter voter)
         {
-            this.logs = logs;
             this.myName = name;
-            this.parser = new Parser(this.logs, voter);
+            this.parser = new Parser(voter);
             this.connected = false;
         }
 
@@ -43,7 +41,7 @@ namespace Voter
 
         private void displayMessageReceived(object myObject, MessageArgs myArgs)
         {
-            logs.addLog(Constants.NEW_MSG_RECIVED + " " + myArgs.Message, true, Constants.LOG_INFO, true);
+            Utils.Logs.addLog("Client", Constants.NEW_MSG_RECIVED + " " + myArgs.Message, true, Constants.LOG_INFO, true);
             parser.parseMessage(myArgs.Message);
         }
 

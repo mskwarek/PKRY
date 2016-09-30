@@ -7,13 +7,10 @@ namespace Voter
     class Parser
     {
         private Voter voter;
-        private Utils.Logs logs;
 
-        public Parser(Utils.Logs logs, Voter voter)
+        public Parser(Voter voter)
         {
             this.voter = voter;
-            this.logs = logs;
-
         }
 
         public void parseMessage(string msg)
@@ -69,7 +66,7 @@ namespace Voter
             saveSL(elem[0]);
             saveSR(elem[1]);
 
-            logs.addLog(NetworkLib.Constants.SR_AND_SR_RECEIVED, true, NetworkLib.Constants.LOG_INFO, true);
+            Utils.Logs.addLog("Client", NetworkLib.Constants.SR_AND_SR_RECEIVED, true, NetworkLib.Constants.LOG_INFO, true);
             this.voter.disableSLAndSRButton();
         }
 

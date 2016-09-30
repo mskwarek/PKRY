@@ -14,34 +14,15 @@ namespace ElectionAuthority
         private Thread serverThread;
         private Dictionary<TcpClient, string> clientSockets;
         private ASCIIEncoding encoder;
-
-        /// <summary>
-        /// allows to collect and display logs - information in console
-        /// </summary>
-        private Logs logs;
-
-        /// <summary>
-        /// allows to parse received messages
-        /// </summary>
         private Parser parser;
 
-        /// <summary>
-        /// server which allows to communicate with other processes 
-        /// </summary>
-        /// <param name="logs">allows to collect and display logs - information in console</param>
-        /// <param name="electionAuthority">represents class where is main logic of application</param>
-        public Server(Logs logs, ElectionAuthority electionAuthority)
+        public Server(ElectionAuthority electionAuthority)
         {
             clientSockets = new Dictionary<TcpClient, string>();
             this.encoder = new ASCIIEncoding();
-            this.logs = logs;
-            this.parser = new Parser(this.logs, electionAuthority);
+            this.parser = new Parser(electionAuthority);
         }
-        /// <summary>
-        /// allow to start server
-        /// </summary>
-        /// <param name="port">number of port on which server is running, this information comes from configuration xml file</param>
-        /// <returns>returns true when server started successfully</returns>
+
         public bool startServer(string port)
         {
             int runningPort = Convert.ToInt32(port);
@@ -58,18 +39,16 @@ namespace ElectionAuthority
                 {
                     Console.WriteLine("Exception during starting server -  ElectionAuthority");
                 }
-                logs.addLog(NetworkLib.Constants.SERVER_STARTED_CORRECTLY, true, NetworkLib.Constants.LOG_INFO, true);
+                Utils.Logs.addLog(NetworkLib.Constants.SERVER_STARTED_CORRECTLY, true, NetworkLib.Constants.LOG_INFO, true);
                 return true;
             }
             else
             {
-                logs.addLog(NetworkLib.Constants.SERVER_UNABLE_TO_START, true, NetworkLib.Constants.LOG_ERROR, true);
+                Utils.Logs.addLog(NetworkLib.Constants.SERVER_UNABLE_TO_START, true, NetworkLib.Constants.LOG_ERROR, true);
                 return false;
             }
         }
-        /// <summary>
-        /// listen for comming clients, when request comes it is connected with server (another thread is started)
-        /// </summary>
+
         private void ListenForClients()
         {
             try
@@ -95,10 +74,7 @@ namespace ElectionAuthority
                 }
             }
         }
-        /// <summary>
-        /// displays received message from client 
-        /// </summary>
-        /// <param name="client">name of client, each client has it own name which is loaded from config file</param>
+
         private void displayMessageReceived(object client)
         {
             TcpClient clientSocket = (TcpClient)client;
@@ -132,7 +108,7 @@ namespace ElectionAuthority
                 }
                 else
                 {
-                    logs.addLog(signal, true, NetworkLib.Constants.LOG_MESSAGE, true); //do usuniecia ale narazie widzim co leci w komuniakcji
+                    Utils.Logs.addLog(signal, true, NetworkLib.Constants.LOG_MESSAGE, true); //do usuniecia ale narazie widzim co leci w komuniakcji
                     this.parser.parseMessage(signal);
                 }
             }
@@ -149,13 +125,11 @@ namespace ElectionAuthority
                     Console.WriteLine("Troubles with displaying received message");
                 }
 
-                logs.addLog(NetworkLib.Constants.DISCONNECTED_NODE, true, NetworkLib.Constants.LOG_ERROR, true);
+                Utils.Logs.addLog(NetworkLib.Constants.DISCONNECTED_NODE, true, NetworkLib.Constants.LOG_ERROR, true);
             }
 
         }
-        /// <summary>
-        /// stops server
-        /// </summary>
+
         public void stopServer()
         {
             try
@@ -179,11 +153,7 @@ namespace ElectionAuthority
                 Console.WriteLine("Exception during closing server -  ElectionAuthority");
             }
         }
-        /// <summary>
-        /// sends message to client 
-        /// </summary>
-        /// <param name="name">name of client which we want to send a message</param>
-        /// <param name="msg">message which we want to send</param>
+
         public void sendMessage(string name, string msg)
         {
             if (serverSocket != null)
@@ -218,11 +188,6 @@ namespace ElectionAuthority
             }
         }
 
-        /// <summary>
-        /// updates a client name
-        /// </summary>
-        /// <param name="client">tcp socket which client is connected to</param>
-        /// <param name="signal">client's name</param>
         private void updateClientName(TcpClient client, string signal)
         {
             if (signal.Contains("//NAME// "))

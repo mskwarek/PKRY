@@ -71,7 +71,6 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="Logs.cs" />
     <Compile Include="Parser.cs" />
     <Compile Include="Permutation.cs" />
     <Compile Include="Program.cs" />

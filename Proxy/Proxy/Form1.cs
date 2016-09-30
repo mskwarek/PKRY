@@ -11,15 +11,13 @@ namespace Proxy
 {
     public partial class Form1 : Form
     {
-        private Utils.Logs logs;
         private Configuration configuration;
         private Proxy proxy;
 
         public Form1()
         {
             InitializeComponent();
-            this.logs = new Utils.Logs(this.logsListView);
-            this.configuration = new Configuration(this.logs);
+            this.configuration = new Configuration();
         }
 
         private void configButton_Click(object sender, EventArgs e)
@@ -31,7 +29,7 @@ namespace Proxy
         {
             configuration.loadConfiguration(openFileDialog.FileName);
             enableButtonsAfterConfiguration();
-            this.proxy = new Proxy(this.logs, this.configuration,this);
+            this.proxy = new Proxy(this.configuration,this);
 
         }
         private void connectElectionAuthorityButton_Click(object sender, EventArgs e)

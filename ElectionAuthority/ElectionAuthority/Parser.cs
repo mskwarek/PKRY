@@ -12,12 +12,6 @@ namespace ElectionAuthority
     /// </summary>
     class Parser
     {
-        
-        /// <summary>
-        /// allows to collect and display logs
-        /// </summary>
-        private Logs logs;
-
         /// <summary>
         /// parser connected to election authority
         /// </summary>
@@ -28,9 +22,8 @@ namespace ElectionAuthority
         /// </summary>
         /// <param name="logs">log instance</param>
         /// <param name="electionAuthority">election authority instance</param>
-        public Parser(Logs logs, ElectionAuthority electionAuthority)
+        public Parser(ElectionAuthority electionAuthority)
         {
-            this.logs = logs;
             this.electionAuthority = electionAuthority;
         }
 
@@ -47,7 +40,7 @@ namespace ElectionAuthority
 
             {
                 case NetworkLib.Constants.SL_RECEIVED_SUCCESSFULLY:
-                    this.logs.addLog(NetworkLib.Constants.SL_AND_SR_SENT_SUCCESSFULLY, true, NetworkLib.Constants.LOG_INFO, true);
+                    Utils.Logs.addLog(NetworkLib.Constants.SL_AND_SR_SENT_SUCCESSFULLY, true, NetworkLib.Constants.LOG_INFO, true);
                     this.electionAuthority.disableSendSLTokensAndTokensButton();
                     return true;
                 case NetworkLib.Constants.GET_CANDIDATE_LIST:

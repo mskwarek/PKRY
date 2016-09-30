@@ -8,12 +8,10 @@ namespace Proxy
 {
     class ParserEA
     {
-        Utils.Logs logs;
         Proxy proxy;
 
-        public ParserEA(Utils.Logs logs, Proxy proxy)
+        public ParserEA(Proxy proxy)
         {
-            this.logs = logs;
             this.proxy = proxy;
         }
 
@@ -68,11 +66,11 @@ namespace Proxy
                 case NetworkLib.Constants.SL_TOKENS:
                     if (parseSLTokensDictionaryFromEA(elem[1]))
                         this.proxy.Client.sendMessage(NetworkLib.Constants.SL_RECEIVED_SUCCESSFULLY + "&");
-                    this.logs.addLog(NetworkLib.Constants.SL_RECEIVED, true, NetworkLib.Constants.LOG_INFO, true);
+                    Utils.Logs.addLog("Client", NetworkLib.Constants.SL_RECEIVED, true, NetworkLib.Constants.LOG_INFO, true);
                     break;
                 case NetworkLib.Constants.CONNECTED:
                     this.proxy.disableConnectElectionAuthorityButton();
-                    this.logs.addLog(NetworkLib.Constants.PROXY_CONNECTED_TO_EA, true, NetworkLib.Constants.LOG_INFO, true);
+                    Utils.Logs.addLog("Client", NetworkLib.Constants.PROXY_CONNECTED_TO_EA, true, NetworkLib.Constants.LOG_INFO, true);
                     break;
                 case NetworkLib.Constants.SIGNED_PROXY_BALLOT:
                     this.proxy.saveSignedBallot(elem[1]);
