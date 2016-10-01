@@ -7,7 +7,6 @@ using Org.BouncyCastle.Math;
 
 namespace Voter
 {
-
     class Voter
     {
         private Configuration configuration;
@@ -171,7 +170,7 @@ namespace Voter
 
             Utils.Logs.addLog("Client", NetworkLib.Constants.SIGNED_COLUMNS_TOKEN_RECEIVED, true, NetworkLib.Constants.LOG_INFO, true);
 
-            this.confirm.addConfirm(true);
+            this.confirm.addConfirm();
         }
     }
 }

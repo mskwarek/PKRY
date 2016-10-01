@@ -28,6 +28,11 @@ namespace Utils
             int_write_log_to_file(int_get_log_message(time, log));
         }
 
+        public static int getLogsCounter()
+        {
+            return logs.logsListView.Items.Count;
+        }
+
         private static void int_write_log_to_file(string log_line)
         {
             try

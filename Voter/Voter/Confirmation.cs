@@ -8,7 +8,7 @@ using System.Windows.Forms;
 namespace Voter
 {
 
-    class Confirmation
+    public class Confirmation
     {
         private int numColumn;
         private string column;
@@ -50,45 +50,17 @@ namespace Voter
             get { return numColumn; }
         }
 
-        public void addConfirm( bool anotherThread = false)
+        public void addConfirm()
         {
-            ListViewItem item1 = new ListViewItem();
-            ListViewItem item2 = new ListViewItem();
-            ListViewItem item3 = new ListViewItem();
-            ListViewItem item4 = new ListViewItem();
-            item1.Text = "Column: " + this.numColumn;
-            item2.Text = "Column (your voting): " + this.column;
-            item3.Text = "Token: " + this.token;
-            item4.Text = "Signed Column: " + this.signedColumn;
-
-            if (!anotherThread)
-            {
-                ListView.Items.Add(item1);
-                ListView.Items[ListView.Items.Count - 1].EnsureVisible();
-                ListView.Items.Add(item2);
-                ListView.Items[ListView.Items.Count - 1].EnsureVisible();
-                ListView.Items.Add(item3);
-                ListView.Items[ListView.Items.Count - 1].EnsureVisible();
-                ListView.Items.Add(item4);
-                ListView.Items[ListView.Items.Count - 1].EnsureVisible();
-                
-            }
-            else
-            {
-                ListView.Invoke(new MethodInvoker(delegate()
-                {
-                    ListView.Items.Add(item1);
-                    ListView.Items[ListView.Items.Count - 1].EnsureVisible();
-                    ListView.Items.Add(item2);
-                    ListView.Items[ListView.Items.Count - 1].EnsureVisible();
-                    ListView.Items.Add(item3);
-                    ListView.Items[ListView.Items.Count - 1].EnsureVisible();
-                    ListView.Items.Add(item4);
-                    ListView.Items[ListView.Items.Count - 1].EnsureVisible();
-                })
-                    );
-            }
+            Utils.Logs.addLog("Voter", "Column: " + this.numColumn, true, NetworkLib.Constants.LOG_INFO);
+            Utils.Logs.addLog("Voter", "Column (your voting): " + this.column, true, NetworkLib.Constants.LOG_INFO); ;
+            Utils.Logs.addLog("Voter", "Token: " + this.token, true, NetworkLib.Constants.LOG_INFO); ;
+            Utils.Logs.addLog("Voter", "Signed Column: " + this.signedColumn, true, NetworkLib.Constants.LOG_INFO); ;
         }
 
+        public int getLogsCounter()
+        {
+            return Utils.Logs.getLogsCounter();
+        }
     }
 }
