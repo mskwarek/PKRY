@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Voter.Messages
 {
-    class MessageSignedColumnAndToken : Message
+    public class MessageSignedColumnAndToken : Message
     {
         public MessageSignedColumnAndToken()
         { }

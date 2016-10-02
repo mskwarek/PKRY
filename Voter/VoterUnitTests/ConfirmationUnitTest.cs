@@ -58,6 +58,14 @@ namespace VoterUnitTests
             Assert.AreEqual(4, confirmation.getLogsCounter());
         }
 
+        [TestMethod]
+        public void TestGetIndex()
+        {
+            int testColumn = 1111;
+            confirmation.ColumnNumber = testColumn;
+            Assert.AreEqual(testColumn, confirmation.Index);
+        }
+
 
     }
 }

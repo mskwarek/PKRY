@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Voter.Messages
 {
-    class MessageSLSR : Message
+    public class MessageSLSR : Message
     {
         public MessageSLSR()
         {

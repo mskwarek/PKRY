@@ -7,7 +7,7 @@ using System.Xml;
 namespace Voter
 {
   
-    class Configuration
+    public class Configuration
     {
         private string voterID;
         public string VoterID

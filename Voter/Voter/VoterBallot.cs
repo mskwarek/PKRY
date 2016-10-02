@@ -6,7 +6,7 @@ using Org.BouncyCastle.Math;
 
 namespace Voter
 {
-    class VoterBallot
+    public class VoterBallot
     {
         private int numberOfCandidates;
         private int [,] voted;

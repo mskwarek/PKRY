@@ -3,8 +3,16 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace VoterUnitTests
 {
+    public class VoterBase
+    {
+        Voter.Voter voter;
+        public VoterBase()
+        {
+            //voter = new Voter.Voter();
+        }
+    }
     [TestClass]
-    public class UnitTest1
+    public class VoterUnitTest : VoterBase
     {
         [TestMethod]
         public void TestMethod1()

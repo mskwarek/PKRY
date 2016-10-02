@@ -3,7 +3,7 @@ using Utils;
 
 namespace Voter
 {
-    class Client
+    public class Client
     {
         private NetworkLib.Client client;
         private string myName;

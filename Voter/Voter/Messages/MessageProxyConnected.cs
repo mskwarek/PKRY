@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Voter.Messages
 {
-    class MessageProxyConnected : Message
+    public class MessageProxyConnected : Message
     {
         public MessageProxyConnected()
         { }

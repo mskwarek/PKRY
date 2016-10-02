@@ -7,7 +7,7 @@ using Org.BouncyCastle.Math;
 
 namespace Voter
 {
-    class Voter
+    public class Voter
     {
         private Configuration configuration;
         private Client proxyClient;

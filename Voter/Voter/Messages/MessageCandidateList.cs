@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Voter.Messages
 {
-    class MessageCandidateList : Message
+    public class MessageCandidateList : Message
     {
         public MessageCandidateList()
         { }

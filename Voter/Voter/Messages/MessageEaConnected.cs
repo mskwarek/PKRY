@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Voter.Messages
 {
-    class MessageEaConnected : Message
+    public class MessageEaConnected : Message
     {
         public MessageEaConnected()
         { }
