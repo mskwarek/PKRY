@@ -63,6 +63,12 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Messages\MessageCandidateList.cs" />
+    <Compile Include="Messages\MessageEaConnected.cs" />
+    <Compile Include="Messages\ClientMessageFactory.cs" />
+    <Compile Include="Messages\MessageProxyConnected.cs" />
+    <Compile Include="Messages\MessageSignedColumnAndToken.cs" />
+    <Compile Include="Messages\MessageSLSR.cs" />
     <Compile Include="Parser.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

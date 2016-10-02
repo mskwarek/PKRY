@@ -8,7 +8,6 @@ namespace Voter
 {
     class VoterBallot
     {
-
         private int numberOfCandidates;
         private int [,] voted;
         public int[,] Voted

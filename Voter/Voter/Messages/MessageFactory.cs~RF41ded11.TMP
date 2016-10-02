@@ -1,0 +1,35 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace NetworkLib
+{
+    public static class ClientMessageFactory
+    {
+        Message generateMessage(string message_type)
+        {
+            Message msg;
+            switch (message_type)
+            {
+                case NetworkLib.Constants.SL_AND_SR: //message from Proxy which contains sl and sr number
+                    saveSLAndSR(elem[1]);
+                    break;
+
+                case NetworkLib.Constants.CONNECTION_SUCCESSFUL:
+                    disableConnectionProxyButton();
+                    break;
+                case NetworkLib.Constants.CONNECTED:
+                    disableConnectionEAButton();
+                    break;
+                case NetworkLib.Constants.CANDIDATE_LIST_RESPONSE:
+                    saveCandidateList(elem[1]);
+                    break;
+                case NetworkLib.Constants.SIGNED_COLUMNS_TOKEN:
+                    saveSignedColumnAndToken(elem[1]);
+                    break;
+
+            }
+        }
+    }
+}

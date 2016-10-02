@@ -16,12 +16,9 @@ namespace Voter
             get { return connected; }
         }
 
-        private Parser parser;
-
         public Client(string name,  Voter voter)
         {
             this.myName = name;
-            this.parser = new Parser(voter);
             this.connected = false;
         }
 
@@ -42,7 +39,14 @@ namespace Voter
         private void displayMessageReceived(object myObject, MessageArgs myArgs)
         {
             Utils.Logs.addLog("Client", Constants.NEW_MSG_RECIVED + " " + myArgs.Message, true, Constants.LOG_INFO, true);
-            parser.parseMessage(myArgs.Message);
+            parseMessage(myArgs.Message);
+        }
+
+        private void parseMessage(string msg)
+        {
+            string[] elem = msg.Split('&');
+            Message message = Messages.ClientMessageFactory.generateMessage(elem[0]);
+            message.Parse(this, elem[1]);
         }
 
         public void disconnect(bool error = false)

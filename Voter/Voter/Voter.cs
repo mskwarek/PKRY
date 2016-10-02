@@ -32,7 +32,7 @@ namespace Voter
 
         private Form1 form;
 
-        public Voter(Configuration configuration,Form1 form, Confirmation confirm)
+        public Voter(Configuration configuration, Form1 form, Confirmation confirm)
         {
             this.configuration = configuration;
             this.form = form;
