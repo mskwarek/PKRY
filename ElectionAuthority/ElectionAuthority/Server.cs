@@ -39,12 +39,12 @@ namespace ElectionAuthority
                 {
                     Console.WriteLine("Exception during starting server -  ElectionAuthority");
                 }
-                Utils.Logs.addLog(NetworkLib.Constants.SERVER_STARTED_CORRECTLY, true, NetworkLib.Constants.LOG_INFO, true);
+                Utils.Logs.addLog("EA", NetworkLib.Constants.SERVER_STARTED_CORRECTLY, true, NetworkLib.Constants.LOG_INFO, true);
                 return true;
             }
             else
             {
-                Utils.Logs.addLog(NetworkLib.Constants.SERVER_UNABLE_TO_START, true, NetworkLib.Constants.LOG_ERROR, true);
+                Utils.Logs.addLog("EA", NetworkLib.Constants.SERVER_UNABLE_TO_START, true, NetworkLib.Constants.LOG_ERROR, true);
                 return false;
             }
         }
@@ -108,7 +108,7 @@ namespace ElectionAuthority
                 }
                 else
                 {
-                    Utils.Logs.addLog(signal, true, NetworkLib.Constants.LOG_MESSAGE, true); //do usuniecia ale narazie widzim co leci w komuniakcji
+                    Utils.Logs.addLog("EA", signal, true, NetworkLib.Constants.LOG_MESSAGE, true); //do usuniecia ale narazie widzim co leci w komuniakcji
                     this.parser.parseMessage(signal);
                 }
             }
@@ -125,7 +125,7 @@ namespace ElectionAuthority
                     Console.WriteLine("Troubles with displaying received message");
                 }
 
-                Utils.Logs.addLog(NetworkLib.Constants.DISCONNECTED_NODE, true, NetworkLib.Constants.LOG_ERROR, true);
+                Utils.Logs.addLog("EA", NetworkLib.Constants.DISCONNECTED_NODE, true, NetworkLib.Constants.LOG_ERROR, true);
             }
 
         }

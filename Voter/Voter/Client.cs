@@ -22,11 +22,10 @@ namespace Voter
             this.connected = false;
         }
 
-        public bool connect(string ip, string port, string target)
+        public bool connect(string ip, string port, string target, NetworkLib.Client.NewMsgHandler msgHandler)
         {
             client = new NetworkLib.Client(ip, port);
-            newMessageHandler = new NetworkLib.Client.NewMsgHandler(displayMessageReceived);
-            client.OnNewMessageRecived += newMessageHandler;
+            client.OnNewMessageRecived += msgHandler;
             sendMyName();
             return true;
         }
@@ -34,19 +33,6 @@ namespace Voter
         private void sendMyName()
         {
             client.sendMessage("//NAME// " + myName);  
-        }
-
-        private void displayMessageReceived(object myObject, MessageArgs myArgs)
-        {
-            Utils.Logs.addLog("Client", Constants.NEW_MSG_RECIVED + " " + myArgs.Message, true, Constants.LOG_INFO, true);
-            parseMessage(myArgs.Message);
-        }
-
-        private void parseMessage(string msg)
-        {
-            string[] elem = msg.Split('&');
-            Message message = Messages.ClientMessageFactory.generateMessage(elem[0]);
-            message.Parse(this, elem[1]);
         }
 
         public void disconnect(bool error = false)

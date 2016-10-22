@@ -6,6 +6,24 @@ using System.Reflection;
 
 namespace VoterUnitTests
 {
+    public static class ConfigurationUtils
+    {
+        private static string getFileFromRelatedPath(string relatedPathToFile)
+        {
+            var outPutDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().CodeBase);
+            var iconPath = Path.Combine(outPutDirectory, relatedPathToFile);
+            return new Uri(iconPath).LocalPath;
+        }
+        public static string getProperConfigPath()
+        {
+            return getFileFromRelatedPath("..\\..\\..\\..\\Config\\VoterTest.xml");
+        }
+
+        public static string getNotProperConfigPath()
+        {
+            return getFileFromRelatedPath("..\\..\\..\\Config\\VoterTest.xml");
+        }
+    }
     public class ConfigurationBase
     {
         protected Configuration configuration;
@@ -18,80 +36,66 @@ namespace VoterUnitTests
     [TestClass]
     public class ConfigurationUnitTest : ConfigurationBase
     {
-        private string getFileFromRelatedPath(string relatedPathToFile)
+        [TestMethod]
+        public void NonproperConfigurationTest()
         {
-            var outPutDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().CodeBase);
-            var iconPath = Path.Combine(outPutDirectory, relatedPathToFile);
-            return new Uri(iconPath).LocalPath;
-        }
-        private string getProperConfigPath()
-        {
-            return getFileFromRelatedPath("..\\..\\..\\..\\Config\\Voter0.xml");
-        }
-
-        private string getNotProperConfigPath()
-        {
-            return getFileFromRelatedPath("Config\\VoterTest.xml");
+            Assert.IsFalse(configuration.loadConfiguration(ConfigurationUtils.getNotProperConfigPath()));
         }
 
         [TestMethod]
-        public void ConfigurationTest()
+        public void ProperConfigurationTest()
         {
-            Assert.IsFalse(configuration.loadConfiguration(getNotProperConfigPath()));
-            Assert.IsTrue(configuration.loadConfiguration(getProperConfigPath()));
+            string dupa = (ConfigurationUtils.getProperConfigPath());
+            Assert.IsTrue(configuration.loadConfiguration(ConfigurationUtils.getProperConfigPath()));
         }
 
         [TestMethod]
         public void VoterIDTest()
         {
-            Assert.IsTrue(configuration.loadConfiguration(getProperConfigPath()));
+            Assert.IsTrue(configuration.loadConfiguration(ConfigurationUtils.getProperConfigPath()));
             Assert.AreEqual(configuration.VoterID, "Voter");
         }
 
         [TestMethod]
         public void VoterNameTest()
         {
-            Assert.IsTrue(configuration.loadConfiguration(getProperConfigPath()));
+            Assert.IsTrue(configuration.loadConfiguration(ConfigurationUtils.getProperConfigPath()));
             Assert.AreEqual(configuration.Name, "Voter0");
         }
 
         [TestMethod]
         public void VoterNumberOfCandidatesTest()
         {
-            Assert.IsTrue(configuration.loadConfiguration(getProperConfigPath()));
+            Assert.IsTrue(configuration.loadConfiguration(ConfigurationUtils.getProperConfigPath()));
             Assert.AreEqual(configuration.NumberOfCandidates, 5);
         }
 
         [TestMethod]
         public void VoterProxyIPTest()
         {
-            Assert.IsTrue(configuration.loadConfiguration(getProperConfigPath()));
+            Assert.IsTrue(configuration.loadConfiguration(ConfigurationUtils.getProperConfigPath()));
             Assert.AreEqual(configuration.ProxyIP, "localhost");
         }
 
         [TestMethod]
         public void VoterProxyPortTest()
         {
-            Assert.IsTrue(configuration.loadConfiguration(getProperConfigPath()));
+            Assert.IsTrue(configuration.loadConfiguration(ConfigurationUtils.getProperConfigPath()));
             Assert.AreEqual(configuration.ProxyPort, "16000");
         }
 
         [TestMethod]
         public void VoterEAIPTest()
         {
-            Assert.IsTrue(configuration.loadConfiguration(getProperConfigPath()));
+            Assert.IsTrue(configuration.loadConfiguration(ConfigurationUtils.getProperConfigPath()));
             Assert.AreEqual(configuration.ElectionAuthorityIP, "localhost");
         }
 
         [TestMethod]
         public void VoterEAPortTest()
         {
-            Assert.IsTrue(configuration.loadConfiguration(getProperConfigPath()));
+            Assert.IsTrue(configuration.loadConfiguration(ConfigurationUtils.getProperConfigPath()));
             Assert.AreEqual(configuration.ElectionAuthorityPort, "15000");
         }
-
-
-
-
     }
 }

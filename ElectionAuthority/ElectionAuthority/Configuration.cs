@@ -74,7 +74,7 @@ namespace ElectionAuthority
                 this.numberOfVoters = conf[3];
 
                 string[] filePath = path.Split('\\');
-                Utils.Logs.addLog(NetworkLib.Constants.CONFIGURATION_LOADED_FROM + filePath[filePath.Length - 1], true, NetworkLib.Constants.LOG_INFO);
+                Utils.Logs.addLog("EA", NetworkLib.Constants.CONFIGURATION_LOADED_FROM + filePath[filePath.Length - 1], true, NetworkLib.Constants.LOG_INFO);
                 return true;
             }
             catch (Exception exp)

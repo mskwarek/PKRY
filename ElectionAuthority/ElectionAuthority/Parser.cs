@@ -40,7 +40,7 @@ namespace ElectionAuthority
 
             {
                 case NetworkLib.Constants.SL_RECEIVED_SUCCESSFULLY:
-                    Utils.Logs.addLog(NetworkLib.Constants.SL_AND_SR_SENT_SUCCESSFULLY, true, NetworkLib.Constants.LOG_INFO, true);
+                    Utils.Logs.addLog("EA", NetworkLib.Constants.SL_AND_SR_SENT_SUCCESSFULLY, true, NetworkLib.Constants.LOG_INFO, true);
                     this.electionAuthority.disableSendSLTokensAndTokensButton();
                     return true;
                 case NetworkLib.Constants.GET_CANDIDATE_LIST:

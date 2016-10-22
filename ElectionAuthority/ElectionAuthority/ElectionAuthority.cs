@@ -223,7 +223,7 @@ namespace ElectionAuthority
             generateInversePermutation();
             generatePermutationTokens();
             blindPermutation(permutationsList);              //Send commited permutation to Auditor
-            Utils.Logs.addLog(NetworkLib.Constants.PERMUTATION_GEN_SUCCESSFULLY, true, NetworkLib.Constants.LOG_INFO);
+            Utils.Logs.addLog("EA", NetworkLib.Constants.PERMUTATION_GEN_SUCCESSFULLY, true, NetworkLib.Constants.LOG_INFO);
 
         }
 
@@ -260,7 +260,7 @@ namespace ElectionAuthority
             {
                 this.inversePermutationList.Add(this.permutation.getInversePermutation(this.permutationsList[i]));
             }
-            Utils.Logs.addLog(NetworkLib.Constants.GENERATE_INVERSE_PERMUTATION, true, NetworkLib.Constants.LOG_INFO, true);
+            Utils.Logs.addLog("EA", NetworkLib.Constants.GENERATE_INVERSE_PERMUTATION, true, NetworkLib.Constants.LOG_INFO, true);
             connectSerialNumberAndInversePermutation();
 
         }
@@ -275,7 +275,7 @@ namespace ElectionAuthority
             {
                 dictionarySLInversePermutation.Add(this.serialNumberList[i], this.inversePermutationList[i]);
             }
-            Utils.Logs.addLog(NetworkLib.Constants.SL_CONNECTED_WITH_INVERSE_PERMUTATION, true, NetworkLib.Constants.LOG_INFO, true);
+            Utils.Logs.addLog("EA", NetworkLib.Constants.SL_CONNECTED_WITH_INVERSE_PERMUTATION, true, NetworkLib.Constants.LOG_INFO, true);
         }
 
 
@@ -288,7 +288,7 @@ namespace ElectionAuthority
             serialNumberList = new List<BigInteger>();
             serialNumberList = SerialNumberGenerator.generateListOfSerialNumber(this.numberOfVoters, NetworkLib.Constants.NUMBER_OF_BITS_SL);
 
-            Utils.Logs.addLog(NetworkLib.Constants.SERIAL_NUMBER_GEN_SUCCESSFULLY, true, NetworkLib.Constants.LOG_INFO, true);
+            Utils.Logs.addLog("EA", NetworkLib.Constants.SERIAL_NUMBER_GEN_SUCCESSFULLY, true, NetworkLib.Constants.LOG_INFO, true);
         }
 
         /// <summary>
@@ -324,7 +324,7 @@ namespace ElectionAuthority
             }
 
 
-            Utils.Logs.addLog(NetworkLib.Constants.TOKENS_GENERATED_SUCCESSFULLY, true, NetworkLib.Constants.LOG_INFO, true);
+            Utils.Logs.addLog("EA", NetworkLib.Constants.TOKENS_GENERATED_SUCCESSFULLY, true, NetworkLib.Constants.LOG_INFO, true);
             connectSerialNumberAndTokens();
 
         }
@@ -339,7 +339,7 @@ namespace ElectionAuthority
             {
                 dictionarySLPermuation.Add(this.serialNumberList[i], this.permutationsList[i]);
             }
-            Utils.Logs.addLog(NetworkLib.Constants.SL_CONNECTED_WITH_PERMUTATION, true, NetworkLib.Constants.LOG_INFO);
+            Utils.Logs.addLog("EA", NetworkLib.Constants.SL_CONNECTED_WITH_PERMUTATION, true, NetworkLib.Constants.LOG_INFO);
 
         }
 
@@ -358,7 +358,7 @@ namespace ElectionAuthority
                 this.dictionarySLTokens.Add(this.serialNumberList[i], tokens);
             }
 
-            Utils.Logs.addLog(NetworkLib.Constants.SL_CONNECTED_WITH_TOKENS, true, NetworkLib.Constants.LOG_INFO);
+            Utils.Logs.addLog("EA", NetworkLib.Constants.SL_CONNECTED_WITH_TOKENS, true, NetworkLib.Constants.LOG_INFO);
         }
 
         /// <summary>
@@ -505,7 +505,7 @@ namespace ElectionAuthority
             this.ballots[name].ExponentsList = exponentList;
             this.ballots[name].SignatureFactor = this.dictionarySLTokens[SL][2];
 
-            Utils.Logs.addLog(NetworkLib.Constants.BLIND_PROXY_BALLOT_RECEIVED + name, true, NetworkLib.Constants.LOG_INFO, true);
+            Utils.Logs.addLog("EA", NetworkLib.Constants.BLIND_PROXY_BALLOT_RECEIVED + name, true, NetworkLib.Constants.LOG_INFO, true);
 
             this.signColumn(name);
         }
@@ -530,7 +530,7 @@ namespace ElectionAuthority
 
             string msg = NetworkLib.Constants.SIGNED_PROXY_BALLOT + "&" + name + ";" + signColumns;
             this.serverProxy.sendMessage(NetworkLib.Constants.PROXY, msg);
-            Utils.Logs.addLog(NetworkLib.Constants.SIGNED_BALLOT_MATRIX_SENT, true, NetworkLib.Constants.LOG_INFO, true);
+            Utils.Logs.addLog("EA", NetworkLib.Constants.SIGNED_BALLOT_MATRIX_SENT, true, NetworkLib.Constants.LOG_INFO, true);
         }
 
 
@@ -569,7 +569,7 @@ namespace ElectionAuthority
             }
 
             this.ballots[name].UnblindedBallot = unblindedUnpermuatedBallot;
-            Utils.Logs.addLog(NetworkLib.Constants.UNBLINED_BALLOT_MATRIX_RECEIVED, true, NetworkLib.Constants.LOG_INFO, true);
+            Utils.Logs.addLog("EA", NetworkLib.Constants.UNBLINED_BALLOT_MATRIX_RECEIVED, true, NetworkLib.Constants.LOG_INFO, true);
         }
 
 
@@ -584,10 +584,10 @@ namespace ElectionAuthority
             }
             catch (Exception)
             {
-                Utils.Logs.addLog(NetworkLib.Constants.UNABLE_TO_STOP_VOTING, true, NetworkLib.Constants.LOG_ERROR, true);
+                Utils.Logs.addLog("EA", NetworkLib.Constants.UNABLE_TO_STOP_VOTING, true, NetworkLib.Constants.LOG_ERROR, true);
             }
 
-            Utils.Logs.addLog(NetworkLib.Constants.VOTIGN_STOPPED, true, NetworkLib.Constants.LOG_INFO, true);
+            Utils.Logs.addLog("EA",NetworkLib.Constants.VOTIGN_STOPPED, true, NetworkLib.Constants.LOG_INFO, true);
 
         }
 
@@ -780,11 +780,11 @@ namespace ElectionAuthority
             //checking permutations RSA (auditor checks all of the permutations)
             if (this.auditor.checkPermutation(this.privKey, this.pubKey, toSend))
             {
-                Utils.Logs.addLog(NetworkLib.Constants.BIT_COMMITMENT_OK, true, NetworkLib.Constants.LOG_INFO, true);
+                Utils.Logs.addLog("EA", NetworkLib.Constants.BIT_COMMITMENT_OK, true, NetworkLib.Constants.LOG_INFO, true);
             }
             else
             {
-                Utils.Logs.addLog(NetworkLib.Constants.BIT_COMMITMENT_FAIL, true, NetworkLib.Constants.LOG_ERROR, true);
+                Utils.Logs.addLog("EA", NetworkLib.Constants.BIT_COMMITMENT_FAIL, true, NetworkLib.Constants.LOG_ERROR, true);
             }
         }
     }

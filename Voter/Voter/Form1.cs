@@ -38,7 +38,7 @@ namespace Voter
 
         private void EAConnectButton_Click(object sender, EventArgs e)
         {
-            this.voter.ElectionAuthorityClient.connect(this.configuration.ElectionAuthorityIP, this.configuration.ElectionAuthorityPort, NetworkLib.Constants.ELECTION_AUTHORITY);
+            this.voter.ClientEAConnect();
             this.configButton.Enabled = false;         
         }
 
@@ -63,9 +63,6 @@ namespace Voter
             {
                 Utils.Logs.addLog("Client", NetworkLib.Constants.VOTE_ERROR, true, NetworkLib.Constants.LOG_ERROR, true);
             }
-
-            //Console.WriteLine(words[0] );
-
         }
 
         private void disableVoteButtons()
@@ -88,7 +85,6 @@ namespace Voter
         {
             if (this.voter != null)
             {
-
                 if (this.voter.ElectionAuthorityClient.Connected)
                     this.voter.ElectionAuthorityClient.disconnect();
 
@@ -99,7 +95,7 @@ namespace Voter
 
         private void ProxyConnectButton_Click(object sender, EventArgs e)
         {
-            this.voter.ProxyClient.connect(configuration.ProxyIP, configuration.ProxyPort, NetworkLib.Constants.PROXY);
+            this.voter.ClientConnect();
             this.getSLandSRButton.Enabled = true;
         }
 
@@ -184,7 +180,6 @@ namespace Voter
         public void disableConectionProxyButton()
         {
             this.ProxyConnectButton.Enabled = false;
-
         }
 
         public void disableConnectionEAButton()

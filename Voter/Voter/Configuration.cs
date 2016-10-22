@@ -108,9 +108,7 @@ namespace Voter
             {
                 Console.WriteLine(exp);
                 return false;
-            }
-            
-            
+            }        
         }
 
     }

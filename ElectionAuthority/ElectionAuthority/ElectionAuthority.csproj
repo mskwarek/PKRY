@@ -36,7 +36,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="BouncyCastle.Crypto">
-      <HintPath>..\..\..\..\BouncyCastle.Crypto.dll</HintPath>
+      <HintPath>..\..\Libs\BouncyCastle.Crypto.dll</HintPath>
     </Reference>
     <Reference Include="crypto">
       <HintPath>..\..\..\..\..\..\Desktop\csharp\crypto\bin\Debug\crypto.dll</HintPath>

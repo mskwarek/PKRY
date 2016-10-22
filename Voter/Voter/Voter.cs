@@ -12,6 +12,7 @@ namespace Voter
         private Configuration configuration;
         private Client proxyClient;
         private Confirmation confirm;
+        private List<string> candidate_list;
 
         public Client ProxyClient
         {
@@ -40,6 +41,38 @@ namespace Voter
             this.electionAuthorityClient = new Client(this.configuration.Name, this);
             this.voterBallot = new VoterBallot(this.configuration.NumberOfCandidates);
             this.confirm = confirm;
+        }
+
+        public void ClientConnect()
+        {
+            NetworkLib.Client.NewMsgHandler newMessageHandler = new NetworkLib.Client.NewMsgHandler(displayMessageReceived);
+            this.ProxyClient.connect(configuration.ProxyIP, configuration.ProxyPort, NetworkLib.Constants.PROXY, newMessageHandler);
+        }
+
+        public void ClientEAConnect()
+        {
+            NetworkLib.Client.NewMsgHandler newMessageHandler = new NetworkLib.Client.NewMsgHandler(displayMessageReceived);
+            this.ElectionAuthorityClient.connect(this.configuration.ElectionAuthorityIP, this.configuration.ElectionAuthorityPort, NetworkLib.Constants.ELECTION_AUTHORITY, newMessageHandler);
+
+        }
+
+        private void displayMessageReceived(object myObject, NetworkLib.MessageArgs myArgs)
+        {
+            Utils.Logs.addLog("Client", NetworkLib.Constants.NEW_MSG_RECIVED + " " + myArgs.Message, true, NetworkLib.Constants.LOG_INFO, true);
+            parseMessage(myArgs.Message);
+        }
+
+        private void parseMessage(string msg)
+        {
+            try
+            {
+                string[] elem = msg.Split('&');
+                NetworkLib.Message message = Messages.ClientMessageFactory.generateMessage(elem[0]);
+                message.Parse(this, elem[1]);
+            }
+            catch(Exception e)
+            {
+            }
         }
 
         public void requestForSLandSR()
@@ -82,14 +115,18 @@ namespace Voter
 
         public void saveCandidateList(string msg)
         {
-            string[] list = msg.Split(';');
-            for(int i=0;i<list.Length;i++)
+            this.candidate_list = msg.Split(';').ToList();
+        }
+
+        public void showCandidates()
+        {
+            for (int i = 0; i < this.candidate_list.Count(); i++)
             {
-                this.form.Invoke(new MethodInvoker(delegate()
-                    {
-                        this.form.TextBoxes[i].Text = list[i];
-                        this.form.TextBoxes[i].Enabled = false;
-                    }));
+                this.form.Invoke(new MethodInvoker(delegate ()
+                {
+                    this.form.TextBoxes[i].Text = this.candidate_list[i];
+                    this.form.TextBoxes[i].Enabled = false;
+                }));
             }
             disableGetCandidateListButton();
             enableVotingButtons();

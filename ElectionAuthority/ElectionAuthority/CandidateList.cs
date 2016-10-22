@@ -27,7 +27,7 @@ namespace ElectionAuthority
                     candidate.Add(input);
                 }
 
-                Utils.Logs.addLog(NetworkLib.Constants.CANDIDATE_LIST_SUCCESSFUL, true, NetworkLib.Constants.LOG_INFO, true);
+                Utils.Logs.addLog("EA", NetworkLib.Constants.CANDIDATE_LIST_SUCCESSFUL, true, NetworkLib.Constants.LOG_INFO, true);
                 
             }
             catch (Exception)

@@ -9,7 +9,7 @@ namespace NetworkLib
     {
         public override void Parse(object subject, string msg)
         {
-            throw new NotImplementedException();
+            
         }
     }
 }
