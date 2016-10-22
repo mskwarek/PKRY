@@ -64,14 +64,30 @@ namespace Voter
 
         private void parseMessage(string msg)
         {
+            NetworkLib.Message message = Messages.ClientMessageFactory.generateMessage(this.getMessageHeader(msg));
+            message.Parse(this, this.getMessageBody(msg));
+        }
+
+        private string getMessageHeader(string msg)
+        {
+            return getMessageSection(msg, 0);
+        }
+
+        private string getMessageBody(string msg)
+        {
+            return getMessageSection(msg, 1);
+        }
+
+        private string getMessageSection(string msg, int section)
+        {
             try
             {
-                string[] elem = msg.Split('&');
-                NetworkLib.Message message = Messages.ClientMessageFactory.generateMessage(elem[0]);
-                message.Parse(this, elem[1]);
+                return msg.Split('&')[section];
             }
-            catch(Exception e)
+            catch (Exception e)
             {
+                Utils.Logs.addLog("Voter", "Cannot get message section", true, NetworkLib.Constants.LOG_INFO, true);
+                return "";
             }
         }
 
@@ -137,8 +153,7 @@ namespace Voter
             this.form.Invoke(new MethodInvoker(delegate()
                 {
                     this.form.disableGetCandidateListButton();
-                }));
-                
+                }));            
         }
 
         private void enableVotingButtons()

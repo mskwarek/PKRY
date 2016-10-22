@@ -14,9 +14,7 @@ namespace NetworkLib
         public NetworkStream stream;
         public TcpListener serverSocket;
         public Thread serverThread;
-        //private Dictionary<TcpClient, string> clientSockets = new Dictionary<TcpClient, string>();
         public List<TcpClient> clientSocket;
-
 
         public Server(int port)
         {
@@ -25,7 +23,7 @@ namespace NetworkLib
             if (serverSocket == null && serverThread == null)
             {
                 this.serverSocket = new TcpListener(IPAddress.Any, port);
-                this.serverThread = new Thread(new ThreadStart(ListenForClients));
+                this.serverThread = new Thread(new ThreadStart(StartListeningForClients));
                 this.serverThread.Start();
                 //logs.addLog(Constants.CLOUD_STARTED_CORRECTLY, true, Constants.LOG_INFO, true);        
             }
@@ -36,33 +34,40 @@ namespace NetworkLib
                 throw new Exception("server has been started");
             }
         }
-        public void ListenForClients()
+
+        ~Server()
         {
+            this.stopServer();
+        }
 
-            this.serverSocket.Start();
-            while (true)
+        public void StartListeningForClients()
+        {
+            try
             {
+                this.serverSocket.Start();
+                ListenForClients();
+            }
+            catch (Exception e)
+            {
+                this.stopServer();
+                Console.WriteLine(e.StackTrace);
+            }
+        }
 
-                try
-                {
-                    TcpClient clientSocket = this.serverSocket.AcceptTcpClient();
-                    ClientArgs args = new ClientArgs();
+        private void ListenForClients()
+        {
+            while(true)
+            { 
+                TcpClient clientSocket = this.serverSocket.AcceptTcpClient();
+                ClientArgs args = new ClientArgs();
 
-                    // args.NodeName = networkLibrary.Constants.NEW_CLIENT_LOG;
+                args.ID = clientSocket;
 
-                    args.ID = clientSocket;
+                this.clientSocket.Add(clientSocket);
+                OnNewClientRequest(this, args);
 
-                    this.clientSocket.Add(clientSocket);
-                    OnNewClientRequest(this, args);
-
-                    Thread clientThread = new Thread(new ParameterizedThreadStart(ListenForMessage));
-                    clientThread.Start(clientSocket);
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e.StackTrace);
-                    break;
-                }
+                Thread clientThread = new Thread(new ParameterizedThreadStart(ListenForMessage));
+                clientThread.Start(clientSocket);
             }
         }
 
@@ -81,7 +86,6 @@ namespace NetworkLib
                 try
                 {
                     bytesRead = stream.Read(message, 0, 4096);
-
                 }
                 catch
                 {
@@ -93,24 +97,24 @@ namespace NetworkLib
                     break;
                 }
 
-                string signal = encoder.GetString(message, 0, bytesRead);
-
-                MessageArgs myArgs = new MessageArgs(signal);
-                myArgs.ID = clientSocket;
-                OnNewMessageRecived(this, myArgs);
-
+                notifyListeners(encoder.GetString(message, 0, bytesRead), clientSocket);
             }
             if (serverSocket != null)
             {
                 try
                 {
-                    clientSocket.GetStream().Close();
-                    clientSocket.Close();
+                    endConnection(clientSocket);
                 }
                 catch
                 {
                 }
             }
+        }
+
+        private void notifyListeners(string signal, TcpClient clientSocket)
+        {
+            MessageArgs myArgs = new MessageArgs(signal, clientSocket);
+            OnNewMessageRecived(this, myArgs);
         }
 
         public delegate void NewMsgHandler(object myObject, MessageArgs myArgs);
@@ -126,51 +130,54 @@ namespace NetworkLib
 
         public void endConnection(TcpClient client)
         {
-            try
-            {
-                client.GetStream().Close();
-                client.Close();
-                clientSocket.Remove(client);
-            }
-            catch
-            {
-                Console.WriteLine("Problems with disconnecting clients from cloud");
-            }
+            client.GetStream().Close();
+            client.Close();
+            clientSocket.Remove(client);
         }
 
         public void stopServer()
+        {
+            this.disconnectAllClients();
+
+            if (serverSocket != null)
+            {
+                stopServerThread();
+            }
+
+            serverSocket = null;
+            serverThread = null;
+        }
+
+        private void disconnectAllClients()
         {
             foreach (TcpClient client in clientSocket)
             {
                 try
                 {
-                    client.GetStream().Close();
-                    client.Close();
-                    clientSocket.Remove(client);
+                    endConnection(client);
                 }
                 catch
                 {
                     Console.WriteLine("Problems with disconnecting clients from cloud");
                 }
             }
+        }
 
-            if (serverSocket != null)
+        private void stopServerThread()
+        {
+            try
             {
-                try
-                {
-                    serverSocket.Stop();
+                serverSocket.Stop();
 
-                    if (serverThread.IsAlive)
-                    { serverThread.Abort(); }
-                }
-                catch
+                if (serverThread.IsAlive)
                 {
-                    Console.WriteLine("Unable to stop cloud");
+                    serverThread.Abort();
                 }
             }
-
-            serverSocket = null;
-            serverThread = null;
+            catch
+            {
+                Console.WriteLine("Unable to stop server");
+            }
         }
 
         public void sendMessage(TcpClient client, string msg)
@@ -180,7 +187,6 @@ namespace NetworkLib
                 stream = null;
                 if (client != null)
                 {
-
                     try
                     {
                         stream = client.GetStream();

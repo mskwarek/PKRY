@@ -14,6 +14,11 @@ namespace NetworkLib
         {
             this.message = message;
         }
+        public MessageArgs(string message_, TcpClient ID_)
+        {
+            this.message = message_;
+            this.ID = ID_;
+        }
         public string Message
         {
             get

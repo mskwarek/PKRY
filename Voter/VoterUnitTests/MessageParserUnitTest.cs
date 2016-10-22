@@ -21,6 +21,7 @@ namespace VoterUnitTests
                 NetworkLib.Message msg = Voter.Messages.ClientMessageFactory.generateMessage(message_header.Key);
                 msg.Parse(voter, message_header.Value.Typical_message_to_parse);
             }
+            form.Close();
         }
     }
 }

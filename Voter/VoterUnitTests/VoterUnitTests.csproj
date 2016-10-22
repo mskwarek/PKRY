@@ -62,6 +62,7 @@
     <Compile Include="ConfigurationUnitTest.cs" />
     <Compile Include="MessagesUnitTest.cs" />
     <Compile Include="MessageParserUnitTest.cs" />
+    <Compile Include="NetworkLibServerUnitTest.cs" />
     <Compile Include="VoterUnitTest.cs" />
   </ItemGroup>
   <ItemGroup>
