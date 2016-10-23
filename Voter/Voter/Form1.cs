@@ -110,11 +110,11 @@ namespace Voter
             enableButtonsAfterLoadingConfiguration();
             
             this.voter = new Voter(this.configuration,this, this.confirmation);
-            addFieldsForCandidates(configuration.NumberOfCandidates);
+
 
         }
 
-        private void addFieldsForCandidates(int NumberOfCandidates)
+        public void addFieldsForCandidates(int NumberOfCandidates)
         {
             for (int i = 0; i < NumberOfCandidates; i++)
             {
@@ -150,8 +150,6 @@ namespace Voter
                     this.panel1.Controls.Add(voteButtons[i].ElementAt(j));
                 }
             }
-
-
         }
 
         private void enableButtonsAfterLoadingConfiguration()

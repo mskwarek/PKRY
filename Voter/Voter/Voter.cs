@@ -136,6 +136,8 @@ namespace Voter
 
         public void showCandidates()
         {
+            form.addFieldsForCandidates(this.candidate_list.Count);
+
             for (int i = 0; i < this.candidate_list.Count(); i++)
             {
                 this.form.Invoke(new MethodInvoker(delegate ()

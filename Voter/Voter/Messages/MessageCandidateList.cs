@@ -16,6 +16,7 @@ namespace Voter.Messages
         {
             Voter voter = (Voter)subject;
             voter.saveCandidateList(msg);
+            voter.showCandidates();
         }
     }
 }
