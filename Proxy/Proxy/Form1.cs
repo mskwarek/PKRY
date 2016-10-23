@@ -52,6 +52,17 @@ namespace Proxy
         private void startProxyButton_Click(object sender, EventArgs e)
         {
             this.proxy.Server.startServer(configuration.ProxyPort);
+
+            if (proxy.Server.isStarted())
+            {
+                Utils.Logs.addLog("Proxy", NetworkLib.Constants.SERVER_STARTED_CORRECTLY, true, NetworkLib.Constants.LOG_INFO, true);
+            }
+            else
+            {
+                Utils.Logs.addLog("Proxy", NetworkLib.Constants.SERVER_UNABLE_TO_START, true, NetworkLib.Constants.LOG_ERROR, true);
+            }
+
+
             this.proxy.generateSR();
             this.proxy.generateYesNoPosition();
 

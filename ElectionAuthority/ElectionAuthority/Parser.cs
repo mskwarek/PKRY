@@ -7,37 +7,19 @@ using System.Text;
 
 namespace ElectionAuthority
 {
-    /// <summary>
-    /// parsing messages recived form clients
-    /// </summary>
     class Parser
     {
-        /// <summary>
-        /// parser connected to election authority
-        /// </summary>
         private ElectionAuthority electionAuthority;
 
-        /// <summary>
-        /// parser's constructor
-        /// </summary>
-        /// <param name="logs">log instance</param>
-        /// <param name="electionAuthority">election authority instance</param>
         public Parser(ElectionAuthority electionAuthority)
         {
             this.electionAuthority = electionAuthority;
         }
 
-        /// <summary>
-        /// parses message
-        /// </summary>
-        /// <param name="msg">recived message</param>
-        /// <returns>parsing result</returns>
         public bool parseMessage(string msg)
         {
-
             string[] words = msg.Split('&');
             switch (words[0])
-
             {
                 case NetworkLib.Constants.SL_RECEIVED_SUCCESSFULLY:
                     Utils.Logs.addLog("EA", NetworkLib.Constants.SL_AND_SR_SENT_SUCCESSFULLY, true, NetworkLib.Constants.LOG_INFO, true);
@@ -55,10 +37,9 @@ namespace ElectionAuthority
                 case NetworkLib.Constants.UNBLINED_BALLOT_MATRIX:
                     this.electionAuthority.saveUnblindedBallotMatrix(words[1]);
                     return true;
+                default:
+                    return false;
             }
-
-
-            return false;
         }
     }
 }

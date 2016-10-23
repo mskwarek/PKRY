@@ -12,7 +12,6 @@ namespace ElectionAuthority
     class Auditor
     {
         private BigInteger[] commitedPermutation;
-
         public BigInteger[] CommitedPermatation
         {
             set { commitedPermutation = value; }
@@ -23,19 +22,17 @@ namespace ElectionAuthority
         {
         }
 
-        public bool checkPermutation(RsaKeyParameters privateKey, RsaKeyParameters publicKey, BigInteger[] explicitPermutation)
+        public bool checkPermutation(RsaKeyParameters privateKey, RsaKeyParameters publicKey, List<BigInteger> explicitPermutation)
         {
             int i=0;
             foreach (BigInteger partPermutation in explicitPermutation)
             {
-
                 // verify using RSA formula
                 if (!partPermutation.Equals(commitedPermutation[i].ModPow(privateKey.Exponent, publicKey.Modulus)))
                 {
                     return false;
                 }
-                i++;
-                
+                i++;               
             }
 
             return true;

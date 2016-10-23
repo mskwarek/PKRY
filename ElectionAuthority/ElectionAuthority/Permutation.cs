@@ -8,24 +8,12 @@ using Org.BouncyCastle.Math;
 
 namespace ElectionAuthority
 {
-    /// <summary>
-    /// represents all permutation's method
-    /// </summary>
     class Permutation
     {
-        /// <summary>
-        /// constructor
-        /// </summary>
-        /// <param name="logs">logs instance</param>
         public Permutation()
         {
         }
 
-        /// <summary>
-        /// generate ONE permutation
-        /// </summary>
-        /// <param name="candidateQuantity">quantity of candidates</param>
-        /// <returns></returns>
         public List<BigInteger> generatePermutation(int candidateQuantity)
         {
             List<BigInteger> permutation = new List<BigInteger>();
@@ -38,12 +26,6 @@ namespace ElectionAuthority
             return permutation;
         }
 
-        //we create a permutation matrix in way described on "http://pl.wikipedia.org/wiki/Permutacja"
-        /// <summary>
-        /// Generate permutation martix, using hamming posistion to represent one integer
-        /// </summary>
-        /// <param name="permutation">permutation</param>
-        /// <returns></returns>
         private int[,] generatePermutationMatrix(List<BigInteger> permutation)
         {
             int candidateQuantity = permutation.Count;
@@ -72,25 +54,19 @@ namespace ElectionAuthority
             return tab;
         }
 
-        /// <summary>
-        /// transpose matrix 
-        /// </summary>
-        /// <param name="m">permutation matrix</param>
-        /// <returns>transpone permutation matrix</returns>
         private int[,] transposeMatrix(int[,] m)
         {
             int[,] temp = new int[m.GetLength(0), m.GetLength(1)];
             for (int i = 0; i < m.GetLength(0); i++)
+            {
                 for (int j = 0; j < m.GetLength(0); j++)
+                {
                     temp[j, i] = m[i, j];
+                }
+            }
             return temp;
         }
 
-        /// <summary>
-        /// Find inverse permuatation using a table method
-        /// </summary>
-        /// <param name="permutation">permutation to inverse</param>
-        /// <returns>inverse permutation</returns>
         public List<BigInteger> getInversePermutation(List<BigInteger> permutation)
         {
             int[,] tab = generatePermutationMatrix(permutation);

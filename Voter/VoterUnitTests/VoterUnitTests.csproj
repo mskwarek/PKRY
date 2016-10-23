@@ -63,12 +63,18 @@
     <Compile Include="MessagesUnitTest.cs" />
     <Compile Include="MessageParserUnitTest.cs" />
     <Compile Include="NetworkLibServerUnitTest.cs" />
+    <Compile Include="UtilsExtentionUnitTest.cs" />
+    <Compile Include="UtilsLogsUnitTest.cs" />
     <Compile Include="VoterUnitTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\NetworkLib\NetworkLib\NetworkLib.csproj">
       <Project>{310651c3-a886-452e-81bb-91df565f2718}</Project>
       <Name>NetworkLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Utils\Utils.csproj">
+      <Project>{c3d2c802-4266-4237-a524-630163e7cd96}</Project>
+      <Name>Utils</Name>
     </ProjectReference>
     <ProjectReference Include="..\Voter\Voter.csproj">
       <Project>{89da9306-170e-4707-a1b7-2e08b055d8b6}</Project>

@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
+using System.Net.Sockets;
 
 namespace VoterUnitTests
 {
@@ -39,12 +40,23 @@ namespace VoterUnitTests
         [TestMethod]
         public void MessagesFactoryUnitTest()
         {
-
             foreach (var message_header in MessagesTypes.messages_headers)
             {
                 Assert.IsNotNull(Voter.Messages.ClientMessageFactory.generateMessage(message_header.Key));
                 Assert.AreEqual(Voter.Messages.ClientMessageFactory.generateMessage(message_header.Key).GetType(), message_header.Value.Message.GetType());
             }
+        }
+
+        [TestMethod]
+        public void MessageArgsUnitTest()
+        {
+            NetworkLib.MessageArgs msgArgs = new NetworkLib.MessageArgs("test");
+            Assert.AreEqual(msgArgs.Message, "test");
+
+            TcpClient cl = new TcpClient();
+            NetworkLib.MessageArgs message = new NetworkLib.MessageArgs("test", cl);
+            Assert.AreEqual(message.Message, "test");
+            Assert.AreEqual(message.ID, cl);
         }
     }
 }

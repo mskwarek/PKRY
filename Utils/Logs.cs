@@ -35,17 +35,10 @@ namespace Utils
 
         private static void int_write_log_to_file(string log_line)
         {
-            try
-            {
-               // using (System.IO.StreamWriter file = new StreamWriter(@"Logs\" + voterName + ".txt", true))
-               // {
-               //     file.Write(log_line + Environment.NewLine);
-               // }
-            }
-            catch (Exception)
-            {
-               // Console.WriteLine("You should use bat file to save logs to file");
-            }
+           // using (System.IO.StreamWriter file = new StreamWriter(@"Logs\" + voterName + ".txt", true))
+           // {
+           //     file.Write(log_line + Environment.NewLine);
+           // }
 
         }
 
@@ -92,20 +85,12 @@ namespace Utils
             }
             else
             {
-                try
+                logs.logsListView.Invoke(new MethodInvoker(delegate ()
                 {
-                    logs.logsListView.Invoke(new MethodInvoker(delegate ()
-                    {
-                        logs.logsListView.Items.Add(item);
-                        logs.logsListView.Items[logs.logsListView.Items.Count - 1].EnsureVisible();
-                    })
-                    );
-
-                }
-                catch (Exception exp)
-                {
-                    Console.WriteLine(exp);
-                }
+                    logs.logsListView.Items.Add(item);
+                    logs.logsListView.Items[logs.logsListView.Items.Count - 1].EnsureVisible();
+                })
+                );
             }
         }
     }

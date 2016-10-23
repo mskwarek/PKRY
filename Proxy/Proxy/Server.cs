@@ -15,7 +15,6 @@ namespace Proxy
         NetworkLib.Server.NewClientHandler reqListener;
         NetworkLib.Server.NewMsgHandler msgListener;
 
-
         private Dictionary<TcpClient, string> clientSockets;
         public Dictionary<TcpClient, string> ClientSockets
         {
@@ -30,35 +29,21 @@ namespace Proxy
             this.parserClient = new ParserClient(proxy);
         }
 
-        public bool startServer(string port)
+        public void startServer(string port)
+        { 
+            server = new NetworkLib.Server(Convert.ToInt32(port));
+            sockests = new List<TcpClient>();
+
+            reqListener = new NetworkLib.Server.NewClientHandler(newClientRequest);
+            msgListener = new NetworkLib.Server.NewMsgHandler(newMessageRecived);
+
+            server.OnNewClientRequest += reqListener;
+            server.OnNewMessageRecived += msgListener;
+        }
+
+        public bool isStarted()
         {
-            try
-            {
-                server = new NetworkLib.Server(Convert.ToInt32(port));
-                sockests = new List<TcpClient>();
-
-                reqListener = new NetworkLib.Server.NewClientHandler(newClientRequest);
-                msgListener = new NetworkLib.Server.NewMsgHandler(newMessageRecived);
-
-                server.OnNewClientRequest += reqListener;
-                server.OnNewMessageRecived += msgListener;
-
-
-                if (server.isStarted())
-                {
-                    Utils.Logs.addLog("Proxy", NetworkLib.Constants.SERVER_STARTED_CORRECTLY, true, NetworkLib.Constants.LOG_INFO, true);
-                }
-                else
-                {
-                    Utils.Logs.addLog("Proxy", NetworkLib.Constants.SERVER_UNABLE_TO_START, true, NetworkLib.Constants.LOG_ERROR, true);
-                }
-            }
-            catch
-            {
-                Utils.Logs.addLog("Proxy", NetworkLib.Constants.SERVER_UNABLE_TO_START, true, NetworkLib.Constants.LOG_ERROR, true);
-            }
-
-            return true;
+            return server.isStarted();
         }
 
         private void newClientRequest(object a, NetworkLib.ClientArgs e)
@@ -74,9 +59,7 @@ namespace Proxy
             }
             catch
             {
-
             }
-
         }
 
         private void newMessageRecived(object a, NetworkLib.MessageArgs e)

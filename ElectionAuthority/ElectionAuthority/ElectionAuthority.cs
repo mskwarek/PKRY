@@ -62,7 +62,6 @@ namespace ElectionAuthority
 
         private int[] finalResults;
 
-
         private Auditor auditor;                            
 
         private RsaKeyParameters privKey;                   
@@ -137,7 +136,6 @@ namespace ElectionAuthority
         {
             this.permutationTokensList = new List<BigInteger>();
             this.permutationExponentsList = new List<BigInteger>();
-
 
             for (int i = 0; i < this.numberOfVoters; i++)
             { // we use the same method like to generate serial number, there is another random generator used inside this method
@@ -259,30 +257,37 @@ namespace ElectionAuthority
             string msg = NetworkLib.Constants.SL_TOKENS + "&";
             for (int i = 0; i < this.serialNumberList.Count; i++)
             {
-
                 msg = msg + this.serialNumberList[i].ToString() + "=";
                 for (int j = 0; j < this.tokensList[i].Count; j++)
                 {
                     if (j == this.tokensList[i].Count - 1)
+                    {
                         msg = msg + this.tokensList[i][j].ToString() + ":";
+                    }
 
                     else
+                    {
                         msg = msg + this.tokensList[i][j].ToString() + ",";
+                    }
 
                 }
 
                 for (int j = 0; j < this.exponentsList[i].Count; j++)
                 {
                     if (j == this.exponentsList[i].Count - 1)
+                    {
                         msg += this.exponentsList[i][j].ToString();
-
+                    }
                     else
+                    {
                         msg = msg + this.exponentsList[i][j].ToString() + ",";
-
+                    }
                 }
 
                 if (i != this.serialNumberList.Count - 1)
+                {
                     msg += ";";
+                }
 
             }
             this.serverProxy.sendMessage(NetworkLib.Constants.PROXY, msg);
@@ -315,9 +320,13 @@ namespace ElectionAuthority
             for (int i = 0; i < candidateList.Count; i++)
             {
                 if (i < candidateList.Count - 1)
+                {
                     candidateListString += candidateList[i] + ";";
+                }
                 else
+                {
                     candidateListString += candidateList[i];
+                }
             }
 
             this.serverClient.sendMessage(name, candidateListString);
@@ -382,9 +391,13 @@ namespace ElectionAuthority
             for (int i = 0; i < this.ballots[name].SignedColumn.Length; i++)
             {
                 if (i == this.ballots[name].SignedColumn.Length - 1)
+                {
                     signColumns += this.ballots[name].SignedColumn[i].ToString();
+                }
                 else
+                {
                     signColumns = signColumns + this.ballots[name].SignedColumn[i].ToString() + ",";
+                }
             }
 
             string msg = NetworkLib.Constants.SIGNED_PROXY_BALLOT + "&" + name + ";" + signColumns;
@@ -488,7 +501,6 @@ namespace ElectionAuthority
             {
                 this.form.Invoke(new MethodInvoker(delegate()
                     {
-
                         MessageBox.Show(resultOfVoting + "Winner of the election is: " + winners);
                     }));
 
@@ -497,7 +509,6 @@ namespace ElectionAuthority
             {
                 this.form.Invoke(new MethodInvoker(delegate()
                 {
-
                     MessageBox.Show(resultOfVoting + "There is no one winner. Candidates on first place ex aequo: " + winners);
                 }));
 
@@ -540,8 +551,6 @@ namespace ElectionAuthority
             }
         }
 
-
-
         //Auditor's functions
 
         public void blindPermutation(List<List<BigInteger>> permutationList)
@@ -581,7 +590,7 @@ namespace ElectionAuthority
         public void unblindPermutation(List<List<BigInteger>> permutationList)
         {
             int size = permutationList.Count;
-            BigInteger[] toSend = new BigInteger[size];
+            List<BigInteger> toSend = new List<BigInteger>();
 
             int k = 0;
             string[] strPermuationList = new string[permutationList.Count];
@@ -597,12 +606,10 @@ namespace ElectionAuthority
                 k++;
             }
 
-            int i = 0;
             foreach (string str in strPermuationList)
             {
                 BigInteger b = new BigInteger(str);
-                toSend[i] = b;
-                i++;
+                toSend.Add(b);
             }
 
 

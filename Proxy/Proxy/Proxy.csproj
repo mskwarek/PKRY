@@ -68,6 +68,11 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Messages\ConnectionConfirmation.cs" />
+    <Compile Include="Messages\SignedProxyBallot.cs" />
+    <Compile Include="Messages\SLReceived.cs" />
+    <Compile Include="Messages\SLSRRequest.cs" />
+    <Compile Include="Messages\Vote.cs" />
     <Compile Include="ParserClient.cs" />
     <Compile Include="ParserEA.cs" />
     <Compile Include="Program.cs" />

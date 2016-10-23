@@ -15,10 +15,5 @@ namespace Utils
         {
             InitializeComponent();
         }
-
-        private void logListView_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
     }
 }

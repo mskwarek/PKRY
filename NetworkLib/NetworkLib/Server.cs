@@ -63,11 +63,13 @@ namespace NetworkLib
 
                 args.ID = clientSocket;
 
+                Thread clientThread = new Thread(new ParameterizedThreadStart(ListenForMessage));
+                clientThread.Start(clientSocket);
+
                 this.clientSocket.Add(clientSocket);
                 OnNewClientRequest(this, args);
 
-                Thread clientThread = new Thread(new ParameterizedThreadStart(ListenForMessage));
-                clientThread.Start(clientSocket);
+
             }
         }
 
@@ -138,14 +140,7 @@ namespace NetworkLib
         public void stopServer()
         {
             this.disconnectAllClients();
-
-            if (serverSocket != null)
-            {
-                stopServerThread();
-            }
-
-            serverSocket = null;
-            serverThread = null;
+            stopServerThread();
         }
 
         private void disconnectAllClients()
@@ -168,10 +163,10 @@ namespace NetworkLib
             try
             {
                 serverSocket.Stop();
-
                 if (serverThread.IsAlive)
                 {
                     serverThread.Abort();
+                    serverThread.Join();
                 }
             }
             catch
@@ -194,9 +189,9 @@ namespace NetworkLib
                         stream.Write(buffer, 0, buffer.Length);
                         stream.Flush();
                     }
-                    catch
+                    catch(Exception e)
                     {
-
+                        Console.WriteLine(e.StackTrace);
                     }
                 }
             }

@@ -41,7 +41,6 @@
             this.logsListView.TabIndex = 0;
             this.logsListView.UseCompatibleStateImageBehavior = false;
             this.logsListView.View = System.Windows.Forms.View.List;
-            this.logsListView.SelectedIndexChanged += new System.EventHandler(this.logListView_SelectedIndexChanged);
             // 
             // LogsForm
             // 

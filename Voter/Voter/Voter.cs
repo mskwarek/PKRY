@@ -84,7 +84,7 @@ namespace Voter
             {
                 return msg.Split('&')[section];
             }
-            catch (Exception e)
+            catch
             {
                 Utils.Logs.addLog("Voter", "Cannot get message section", true, NetworkLib.Constants.LOG_INFO, true);
                 return "";
@@ -197,7 +197,6 @@ namespace Voter
             message = message + ";" + confirm.Index.ToString();
             
             this.proxyClient.sendMessage(message);
-
         }
 
         public void setConfirm(int column)
