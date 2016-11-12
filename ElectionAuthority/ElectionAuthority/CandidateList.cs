@@ -36,20 +36,5 @@ namespace ElectionAuthority
             }
             return candidate;
         }
-
-        public string getPathToCandidateList(string path)
-        {
-            string[] split = path.Split('\\');
-            split[split.Length-1] = NetworkLib.Constants.CANDIDATE_LIST;
-            string pathToCandidateList = "";
-            for (int i = 0; i < split.Length; i++)
-            {
-                if (i == split.Length -1)
-                    pathToCandidateList += split[i];
-                else
-                    pathToCandidateList = pathToCandidateList + split[i] + "\\";
-            }               
-            return pathToCandidateList;
-        }
     }
 }

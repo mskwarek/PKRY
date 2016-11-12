@@ -15,5 +15,10 @@ namespace Utils
         {
             InitializeComponent();
         }
+
+        public void DisposeCheck()
+        {
+            this.Dispose(true);
+        }
     }
 }

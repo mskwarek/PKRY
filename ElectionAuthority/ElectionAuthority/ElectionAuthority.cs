@@ -12,7 +12,7 @@ using Org.BouncyCastle.Crypto.Generators;
 
 namespace ElectionAuthority
 {
-    class ElectionAuthority
+    public class ElectionAuthority
     {
         ASCIIEncoding encoder;
         private Form1 form;
@@ -104,15 +104,18 @@ namespace ElectionAuthority
             pubKey = (RsaKeyParameters)keypair.Public;
         }
 
+        public void startServices()
+        {
+            this.serverClient.startServer(configuration.ElectionAuthorityPortClient);
+            this.serverProxy.startServer(configuration.ElectionAuthorityPortProxy);
+        }
+
         public void loadCandidateList(string pathToElectionAuthorityConfig)
         {
-            //pathToElectionAuthorityConfig it's a path to file which contains ElectionAuthority config
-            //we have to rewrite one to be suitiable for list candidate xml
             candidateDefaultList = new List<String>();
             candidateList = new CandidateList();
-
-            string pathToCandidateList = candidateList.getPathToCandidateList(pathToElectionAuthorityConfig);
-            candidateDefaultList = candidateList.loadCanidateList(pathToCandidateList);
+            
+            candidateDefaultList = candidateList.loadCanidateList(pathToElectionAuthorityConfig);
         }
 
         private void generatePermutation()
@@ -555,7 +558,6 @@ namespace ElectionAuthority
 
         public void blindPermutation(List<List<BigInteger>> permutationList)
         {
-
             int size = permutationList.Count;
             BigInteger[] toSend = new BigInteger[size];
 
@@ -564,7 +566,7 @@ namespace ElectionAuthority
             string[] strPermuationList = new string[permutationList.Count];
             foreach (List<BigInteger> list in permutationList)
             {
-                string str = null;
+                string str = "";
                 foreach (BigInteger big in list)
                 {
                     str += big.ToString();

@@ -116,7 +116,7 @@ namespace NetworkLib
         private void notifyListeners(string signal, TcpClient clientSocket)
         {
             MessageArgs myArgs = new MessageArgs(signal, clientSocket);
-            OnNewMessageRecived(this, myArgs);
+            OnNewMessageRecived?.Invoke(this, myArgs);
         }
 
         public delegate void NewMsgHandler(object myObject, MessageArgs myArgs);
@@ -134,7 +134,6 @@ namespace NetworkLib
         {
             client.GetStream().Close();
             client.Close();
-            clientSocket.Remove(client);
         }
 
         public void stopServer()
@@ -156,6 +155,7 @@ namespace NetworkLib
                     Console.WriteLine("Problems with disconnecting clients from cloud");
                 }
             }
+            clientSocket.Clear();
         }
 
         private void stopServerThread()

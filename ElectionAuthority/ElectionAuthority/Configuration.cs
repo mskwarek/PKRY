@@ -6,7 +6,7 @@ using System.Xml;
 
 namespace ElectionAuthority
 {
-    class Configuration
+    public class Configuration
     {
 
         private string electionAuthorityID;

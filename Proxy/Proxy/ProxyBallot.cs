@@ -14,7 +14,8 @@ using Org.BouncyCastle.Crypto.Digests;
 namespace Proxy
 {
     class ProxyBallot
-    {                                 
+    {
+        private AsymmetricCipherKeyPair keypair;
         private RsaKeyParameters pubKey;                                
         private RsaKeyParameters privKey;                             
         private BigInteger[] r;    
@@ -77,16 +78,17 @@ namespace Proxy
             this.tokensList = new List<BigInteger>();
             this.exponentsList = new List<BigInteger>();
 
+            this.generateKeyPair();
+            this.privKey = (RsaKeyParameters)this.keypair.Private;
+            this.pubKey = (RsaKeyParameters)this.keypair.Public;
+        }
+
+        private void generateKeyPair()
+        {
             KeyGenerationParameters para = new KeyGenerationParameters(new SecureRandom(), 1024);
             RsaKeyPairGenerator keyGen = new RsaKeyPairGenerator();
             keyGen.Init(para);
-            r = null;
-            
-            //generate key pair and get keys
-            AsymmetricCipherKeyPair keypair = keyGen.GenerateKeyPair();
-            privKey = (RsaKeyParameters)keypair.Private;
-            pubKey = (RsaKeyParameters)keypair.Public;
-
+            this.keypair = keyGen.GenerateKeyPair();
         }
 
         public BigInteger[] prepareDataToSend()
@@ -94,71 +96,77 @@ namespace Proxy
             BigInteger[] toSend = new BigInteger[NetworkLib.Constants.BALLOT_SIZE];
             r = new BigInteger[NetworkLib.Constants.BALLOT_SIZE];
             //blinding columns, prepare to signature
-
-            int i=0;
+            int i = 0;
             foreach (string column in columns)
             {
-                BigInteger toBlind = new BigInteger(column);
-                BigInteger e = pubKey.Exponent;
-                BigInteger d = privKey.Exponent;
-
-                SecureRandom random = new SecureRandom();
-                byte[] randomBytes = new byte[10];
-                
-                //BigInteger n = pubKey.Modulus;
-                BigInteger n = tokensList[i];
-                BigInteger gcd = null;
-                BigInteger one = new BigInteger("1");
-
-                //check that gcd(r,n) = 1 && r < n && r > 1
-                do
-                {
-                    random.NextBytes(randomBytes);
-                    r[i] = new BigInteger(1, randomBytes);
-                    gcd = r[i].Gcd(n);
-                    Console.WriteLine("gcd: " + gcd);
-                }
-                while (!gcd.Equals(one) || r[i].CompareTo(n) >= 0 || r[i].CompareTo(one) <= 0);
-
-                //********************* BLIND ************************************
-                BigInteger b = ((r[i].ModPow(e, n)).Multiply(toBlind)).Mod(n);
-                toSend[i] = b;
-
+                toSend[i] = blindColumn(column, tokensList[i], r[i]);
                 i++;
             }
+
             return toSend;
+        }
+
+        private BigInteger blindColumn(string column, BigInteger token, BigInteger r)
+        {
+            BigInteger toBlind = new BigInteger(column);
+            BigInteger e = pubKey.Exponent;
+            BigInteger d = privKey.Exponent;
+
+            SecureRandom random = new SecureRandom();
+            byte[] randomBytes = new byte[10];
+
+            //BigInteger n = pubKey.Modulus;
+            BigInteger n = token;
+            BigInteger gcd = null;
+            BigInteger one = new BigInteger("1");
+
+            //check that gcd(r,n) = 1 && r < n && r > 1
+            do
+            {
+                random.NextBytes(randomBytes);
+                r = new BigInteger(1, randomBytes);
+                gcd = r.Gcd(n);
+                Console.WriteLine("gcd: " + gcd);
+            }
+            while (!gcd.Equals(one) || r.CompareTo(n) >= 0 || r.CompareTo(one) <= 0);
+
+            //********************* BLIND ************************************
+            return ((r.ModPow(e, n)).Multiply(toBlind)).Mod(n);
         }
 
         public string[] unblindSignedData(BigInteger[] signedData)
         {
             string[] unblinded = new string[NetworkLib.Constants.BALLOT_SIZE];
 
-            for (int i = 0; i < signedData.Length; i++)
+            for (int i = 0; i < signedData.Length; ++i)
             {
                 BigInteger explicitData = new BigInteger(columns[i]);
                 BigInteger n = tokensList[i];
                 BigInteger e = exponentsList[i];
 
                 BigInteger signed = ((r[i].ModInverse(n)).Multiply(signedData[i])).Mod(n);
-                
-                
+                   
                 BigInteger check = signed.ModPow(e, n);
                 int correctUnblindedColumns = 0; //used to now if all columns are unblinded correctly
-                if(explicitData.Equals(check))
+                if (explicitData.Equals(check))
                 {
                     correctUnblindedColumns += 1;
                     String str = check.ToString();
-                    String correctString =  checkZeros(str);
+                    String correctString = checkZeros(str);
                     unblinded[i] = correctString;
 
                     //WYSŁAć NORMALNA KOLUMNE, BO WIEMY ZE NIE OSZUKA
                     if (correctUnblindedColumns == NetworkLib.Constants.BALLOT_SIZE)
+                    {
                         Utils.Logs.addLog("Proxy", NetworkLib.Constants.ALL_COLUMNS_UNBLINDED_CORRECTLY, true, NetworkLib.Constants.LOG_INFO, true);
+                    }
                     else
+                    {
                         Utils.Logs.addLog("Proxy", NetworkLib.Constants.CORRECT_SIGNATURE, true, NetworkLib.Constants.LOG_INFO, true);
-
+                    }
                 }
-                else{
+                else
+                {
                     Utils.Logs.addLog("Proxy", NetworkLib.Constants.WRONG_SIGNATURE, true, NetworkLib.Constants.LOG_ERROR, true);
                 }
             }
@@ -168,7 +176,9 @@ namespace Proxy
         private string checkZeros(string str)
         {
             if (str.Length == this.vote.GetLength(0))
+            {
                 return str;
+            }
             else
             {
                 int neccessaryZeros = this.vote.GetLength(0) - str.Length;
@@ -185,7 +195,6 @@ namespace Proxy
 
         public void generateAndSplitBallotMatrix()
         {
-            
             string[] position = this.yesNoPos.Split(':');
             this.ballotMatrix = new int[this.vote.GetLength(0), this.vote.GetLength(1)];
             this.columns = new List<string>();

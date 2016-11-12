@@ -8,7 +8,7 @@ using System.Net;
 
 namespace ElectionAuthority
 {
-    class Server
+    public class Server
     {
         private TcpListener serverSocket;
         private Thread serverThread;

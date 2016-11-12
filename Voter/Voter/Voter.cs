@@ -46,6 +46,7 @@ namespace Voter
         public void ClientConnect()
         {
             NetworkLib.Client.NewMsgHandler newMessageHandler = new NetworkLib.Client.NewMsgHandler(displayMessageReceived);
+            proxyClient.newMessageHandler += newMessageHandler;
             this.ProxyClient.connect(configuration.ProxyIP, configuration.ProxyPort, NetworkLib.Constants.PROXY, newMessageHandler);
         }
 
@@ -117,7 +118,6 @@ namespace Voter
             this.form.Invoke(new MethodInvoker(delegate()
                 {
                     this.form.disableConectionProxyButton();
-
                 }));
         }
 

@@ -19,9 +19,24 @@ namespace VoterUnitTests
             return getFileFromRelatedPath("..\\..\\..\\..\\Config\\VoterTest.xml");
         }
 
+        public static string getProperEAConfigPath()
+        {
+            return getFileFromRelatedPath("..\\..\\..\\..\\Config\\ElectionAuthority.xml");
+        }
+
         public static string getNotProperConfigPath()
         {
             return getFileFromRelatedPath("..\\..\\..\\Config\\VoterTest.xml");
+        }
+
+        public static string getProperEACandidateList()
+        {
+            return getFileFromRelatedPath("..\\..\\..\\..\\Config\\CandidateList.xml");
+        }
+
+        public static string getProperProxyConfigPath()
+        {
+            return getFileFromRelatedPath("..\\..\\..\\..\\Config\\Proxy.xml");
         }
     }
     public class ConfigurationBase

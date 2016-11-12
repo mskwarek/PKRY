@@ -68,9 +68,17 @@
     <Compile Include="VoterUnitTest.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\ElectionAuthority\ElectionAuthority\ElectionAuthority.csproj">
+      <Project>{4d9b4d50-5379-498c-b4a5-0b65d51653c6}</Project>
+      <Name>ElectionAuthority</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\NetworkLib\NetworkLib\NetworkLib.csproj">
       <Project>{310651c3-a886-452e-81bb-91df565f2718}</Project>
       <Name>NetworkLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Proxy\Proxy\Proxy.csproj">
+      <Project>{b380a7d6-c85e-4c71-969f-8c26e9185e20}</Project>
+      <Name>Proxy</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Utils\Utils.csproj">
       <Project>{c3d2c802-4266-4237-a524-630163e7cd96}</Project>
