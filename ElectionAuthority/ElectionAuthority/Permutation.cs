@@ -21,7 +21,6 @@ namespace ElectionAuthority
             {
                 permutation.Add(new BigInteger(i.ToString()));
             }
-            //shuffle BigInt List
             Utils.Extentions.Shuffle(permutation);
             return permutation;
         }

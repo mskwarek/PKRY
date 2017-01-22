@@ -228,7 +228,6 @@ namespace ElectionAuthority
                 dictionarySLPermuation.Add(this.serialNumberList[i], this.permutationsList[i]);
             }
             Utils.Logs.addLog("EA", NetworkLib.Constants.SL_CONNECTED_WITH_PERMUTATION, true, NetworkLib.Constants.LOG_INFO);
-
         }
 
         private void connectSerialNumberAndTokens()
@@ -320,17 +319,11 @@ namespace ElectionAuthority
 
             string candidateListString = NetworkLib.Constants.CANDIDATE_LIST_RESPONSE + "&";
 
-            for (int i = 0; i < candidateList.Count; i++)
+            for (int i = 0; i < candidateList.Count - 1; i++)
             {
-                if (i < candidateList.Count - 1)
-                {
-                    candidateListString += candidateList[i] + ";";
-                }
-                else
-                {
-                    candidateListString += candidateList[i];
-                }
+                candidateListString += candidateList[i] + ";";
             }
+            candidateListString += candidateList[candidateList.Count - 1];
 
             this.serverClient.sendMessage(name, candidateListString);
 
@@ -461,8 +454,6 @@ namespace ElectionAuthority
 
         public void countVotes()
         {
-            //counting votes
-
             /*ublindPermutation - EA send to voter unblinded permutation (and then private key) so Audiotr
                 can check RSA formula*/
             unblindPermutation(permutationsList);
@@ -514,9 +505,7 @@ namespace ElectionAuthority
                 {
                     MessageBox.Show(resultOfVoting + "There is no one winner. Candidates on first place ex aequo: " + winners);
                 }));
-
             }
-
         }
 
         private int checkVote(int voterNumber)
