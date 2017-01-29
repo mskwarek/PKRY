@@ -31,7 +31,7 @@ namespace Proxy
         public Dictionary<BigInteger, List<List<BigInteger>>> SerialNumberTokens
         {
             get { return this.serialNumberTokens; }
-            set {this.serialNumberTokens = value;}
+            set { this.serialNumberTokens = value;}
         }
         private Dictionary<BigInteger, BigInteger> serialNumberAndSR;
         private static int numOfSentSLandSR = 0;
@@ -43,7 +43,6 @@ namespace Proxy
             this.form = form;
             this.server = new Server(this);
             this.client = new Client(this);
-
 
 
             this.serialNumberTokens = new Dictionary<BigInteger, List<List<BigInteger>>>();
@@ -94,7 +93,8 @@ namespace Proxy
                 this.proxyBallots[name].ExponentsList = exponentesList;
 
 
-                //there we will save YES-NO positions - previously it was saved when user send a request but we chaged a idea of our app
+                //there we will save YES-NO positions - previously it was saved when user send 
+                //a request but we chaged a idea of our app
                 string position = this.yesNoPosition.ElementAt(numOfSentSLandSR);
                 this.proxyBallots[name].YesNoPos = position;
 
@@ -122,13 +122,11 @@ namespace Proxy
 
         private void saveYesNoPositionToFile()
         {
-            try {
-                if (this.yesNoPosition != null)
-                {
-                    string[] yesNoPositionStrTable = this.yesNoPosition.ToArray();
-                    System.IO.File.WriteAllLines(@"Logs\yesPositions.txt", yesNoPositionStrTable);
-                }
-            }
+            try
+            {
+                string[] yesNoPositionStrTable = this.yesNoPosition.ToArray();
+                System.IO.File.WriteAllLines(@"Logs\yesPositions.txt", yesNoPositionStrTable);
+                        }
             catch { }
         }
 
@@ -171,34 +169,35 @@ namespace Proxy
             for (int i = 0; i < blindProxyBallot.Length; i++)
             {
                 if (i != blindProxyBallot.Length - 1)
+                {
                     columns = columns + blindProxyBallot[i].ToString() + ",";
+                }
                 else
+                {
                     columns += blindProxyBallot[i].ToString();
+                }
             }
 
             return columns;
         }
 
-        private string prepareTokens(BigInteger SL)
+        private string listToMessage(List<BigInteger> tokenList)
         {
             string tokens = null;
-            List<BigInteger> tokenList = this.serialNumberTokens[SL][0];
-            for (int i = 0; i < tokenList.Count; i++)
+            for (int i = 0; i < tokenList.Count - 1; i++)
             {
-                if (i != tokenList.Count - 1)
                     tokens = tokens + tokenList[i].ToString() + ",";
-                else
-                    tokens = tokens + tokenList[i].ToString() + ";";
             }
+            return (tokens + tokenList[tokenList.Count - 1].ToString() + ";");
+        }
+
+        private string prepareTokens(BigInteger SL)
+        {
+            List<BigInteger> tokenList = this.serialNumberTokens[SL][0];
+            string tokens = listToMessage(tokenList);
 
             List<BigInteger> exponentsList = this.serialNumberTokens[SL][1];
-            for (int i = 0; i < exponentsList.Count; i++)
-            {
-                if (i != exponentsList.Count - 1)
-                    tokens = tokens + exponentsList[i].ToString() + ",";
-                else
-                    tokens = tokens + exponentsList[i].ToString() + ";";
-            }
+            tokens += listToMessage(exponentsList);
 
             return tokens;
         }
@@ -251,12 +250,15 @@ namespace Proxy
             for (int i =0; i<strUnblindedBallotMatrix.Length;i++)
             {
                 Console.WriteLine(strUnblindedBallotMatrix[i]);
-                if (i!= strUnblindedBallotMatrix.Length -1)
+                if (i != strUnblindedBallotMatrix.Length - 1)
+                {
                     unblinedColumns = unblinedColumns + strUnblindedBallotMatrix[i] + ",";
+                }
                 else
+                {
                     unblinedColumns += strUnblindedBallotMatrix[i];
+                }
             }
-
 
             string message = NetworkLib.Constants.UNBLINED_BALLOT_MATRIX + "&" + name + ";" + unblinedColumns;
 

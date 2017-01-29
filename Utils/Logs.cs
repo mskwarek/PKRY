@@ -64,6 +64,11 @@ namespace Utils
             return r;
         }
 
+        private static string int_get_log_with_time(string log)
+        {
+            return int_get_log_message(true, log);
+        }
+
         private static string int_get_log_message(bool time, string log)
         {
             string msg = "";
@@ -71,9 +76,8 @@ namespace Utils
             {
                 msg += "[" + DateTime.Now.ToString("HH:mm:ss") + "] ";
             }
-            msg += log;
 
-            return msg;
+            return msg += log;
         }
 
         private static void int_add_log_to_ui(bool anotherThread, ListViewItem item)
